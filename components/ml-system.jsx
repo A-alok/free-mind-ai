@@ -12,11 +12,13 @@ import { motion } from "framer-motion"
 import {
     AlertCircle,
     ArrowLeft,
+    ArrowRight,
     ArrowUp,
     BarChart,
     BarChart3,
     Box,
     BrainCircuit,
+    CheckCircle,
     Cpu,
     Database,
     Download,
@@ -28,10 +30,12 @@ import {
     LineChart,
     MessageSquare,
     PieChart,
+    Plus,
     Rocket,
     Search,
     Sparkles,
     Table,
+    Upload,
     X,
     Zap,
 } from "lucide-react"
@@ -59,7 +63,53 @@ const taskTypeColors = {
   object_detection: "bg-rose-500/10 text-rose-500 border-rose-500/20",
 }
 
+const taskTypeOptions = [
+  {
+    id: 'classification',
+    name: 'Classification',
+    description: 'Categorize data into different classes',
+    icon: <PieChart className="w-6 h-6" />,
+    color: 'from-blue-500 to-indigo-600'
+  },
+  {
+    id: 'regression',
+    name: 'Regression',
+    description: 'Predict continuous numerical values',
+    icon: <LineChart className="w-6 h-6" />,
+    color: 'from-green-500 to-emerald-600'
+  },
+  {
+    id: 'nlp',
+    name: 'Natural Language Processing',
+    description: 'Process and analyze text data',
+    icon: <MessageSquare className="w-6 h-6" />,
+    color: 'from-purple-500 to-violet-600'
+  },
+  {
+    id: 'image_classification',
+    name: 'Image Classification',
+    description: 'Classify images into categories',
+    icon: <Image className="w-6 h-6" />,
+    color: 'from-orange-500 to-red-600'
+  },
+  {
+    id: 'object_detection',
+    name: 'Object Detection',
+    description: 'Detect and locate objects in images',
+    icon: <Box className="w-6 h-6" />,
+    color: 'from-pink-500 to-rose-600'
+  }
+];
+
 export default function MLSystem() {
+  // Project Configuration states
+  const [configurationStep, setConfigurationStep] = useState(1)
+  const [isConfigured, setIsConfigured] = useState(false)
+  const [projectName, setProjectName] = useState('')
+  const [hasDataset, setHasDataset] = useState(null)
+  const [dataDescription, setDataDescription] = useState('')
+  
+  // Original ML system states
   const [file, setFile] = useState(null)
   const [folderZip, setFolderZip] = useState(null)
   const [textPrompt, setTextPrompt] = useState("")
@@ -78,6 +128,73 @@ export default function MLSystem() {
   const fileInputRef = useRef(null)
   const folderInputRef = useRef(null)
   const router = useRouter()
+
+  // Project Configuration handlers
+  const handleDatasetChoice = (choice) => {
+    setHasDataset(choice)
+    // Move directly to step 2 for both choices
+  }
+
+  const handleImageTaskTypeSelection = (selectedTaskType) => {
+    setTaskType(selectedTaskType)
+    completeConfiguration() // Complete configuration
+  }
+
+  const handleCSVUpload = (event) => {
+    const uploadedFile = event.target.files[0]
+    if (uploadedFile) {
+      setFile(uploadedFile)
+      // Auto-detect task type for CSV/structured data
+      setTaskType('classification') // Default, will be auto-detected by backend
+      completeConfiguration() // Complete configuration
+    }
+  }
+
+  const handleZipUpload = (event) => {
+    const uploadedFile = event.target.files[0]
+    if (uploadedFile) {
+      setFolderZip(uploadedFile)
+      // For image data, we need to ask user about classification vs detection
+      setConfigurationStep(2.5) // Go to image task selection
+    }
+  }
+
+  const handleDataDescription = () => {
+    if (dataDescription.trim()) {
+      setTextPrompt(dataDescription)
+      setTaskType('classification') // Default for generated data
+      completeConfiguration() // Complete configuration
+    }
+  }
+
+  const completeConfiguration = () => {
+    // Set default project name if not provided
+    if (!projectName.trim()) {
+      const taskName = taskTypeOptions.find(t => t.id === taskType)?.name || 'ML'
+      setProjectName(`${taskName} Project`)
+    }
+    setIsConfigured(true)
+  }
+
+  const resetConfiguration = () => {
+    setConfigurationStep(1)
+    setIsConfigured(false)
+    setProjectName('')
+    setHasDataset(null)
+    setDataDescription('')
+    setFile(null)
+    setFolderZip(null)
+    setTextPrompt('')
+    setTaskType('classification')
+    setResult(null)
+    setDataPreview(null)
+    setModelInfo(null)
+    setVisualizations(null)
+    setDatasetInfo("")
+    setDownloadUrl("")
+    setDetectedTaskType(null)
+    setTaskTypeChanged(false)
+  }
 
   // Navigation handlers
   const navigateToChatbot = () => {
@@ -448,6 +565,289 @@ export default function MLSystem() {
       "bg-amber-500/20 text-amber-400 border-amber-500/50 shadow-[0_0_10px_rgba(245,158,11,0.3)] text-xs",
   }
 
+  // Show Project Configuration if not configured yet
+  if (!isConfigured) {
+    return (
+      <div className="min-h-screen bg-black text-white relative overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full filter blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-blue-500/10 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
+        </div>
+
+        <div className="relative z-10 container mx-auto px-6 py-12">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <motion.h1 
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent"
+            >
+              Project Configuration
+            </motion.h1>
+            <motion.p 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-gray-400 text-lg"
+            >
+              Configure your machine learning project
+            </motion.p>
+          </div>
+
+          {/* Progress Indicator */}
+          <div className="flex justify-center mb-12">
+            <div className="flex items-center space-x-4">
+              {[1, 2, 3].map((step) => (
+                <div key={step} className="flex items-center">
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 ${
+                    configurationStep >= step 
+                      ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white' 
+                      : 'bg-gray-700 text-gray-400'
+                  }`}>
+                    {configurationStep > step ? <CheckCircle className="w-5 h-5" /> : step}
+                  </div>
+                  {step < 3 && (
+                    <div className={`w-12 h-1 mx-2 rounded-full transition-all duration-300 ${
+                      configurationStep > step ? 'bg-gradient-to-r from-purple-500 to-blue-500' : 'bg-gray-700'
+                    }`} />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Configuration Steps */}
+          <div className="max-w-4xl mx-auto">
+            {/* Step 1: Dataset Choice */}
+            {configurationStep === 1 && (
+              <motion.div
+                key="step1"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="text-center"
+              >
+                <h2 className="text-2xl font-semibold mb-6">Do you have a dataset?</h2>
+                <p className="text-gray-400 mb-8">Choose whether you already have data or need help finding/generating it</p>
+                
+                <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => {
+                      setHasDataset(true)
+                      setConfigurationStep(2)
+                    }}
+                    className="p-8 bg-black/40 backdrop-blur-md border border-purple-500/20 rounded-xl cursor-pointer hover:border-purple-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10"
+                  >
+                    <Database className="w-12 h-12 text-green-400 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold mb-2 text-green-400">Yes, I have data</h3>
+                    <p className="text-gray-400">Upload your existing dataset to get started with training</p>
+                  </motion.div>
+                  
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => {
+                      setHasDataset(false)
+                      setConfigurationStep(2)
+                    }}
+                    className="p-8 bg-black/40 backdrop-blur-md border border-purple-500/20 rounded-xl cursor-pointer hover:border-purple-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10"
+                  >
+                    <Search className="w-12 h-12 text-blue-400 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold mb-2 text-blue-400">No, I need data</h3>
+                    <p className="text-gray-400">Describe what you want to build and we'll help find or generate data</p>
+                  </motion.div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Step 2: Upload Data or Describe Requirements */}
+            {configurationStep === 2 && hasDataset && (
+              <motion.div
+                key="step2-upload"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="text-center"
+              >
+                <h2 className="text-2xl font-semibold mb-6">Upload Your Dataset</h2>
+                <p className="text-gray-400 mb-8">Upload your data - we'll automatically detect the task type</p>
+                
+                <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                  {/* CSV/XML Upload */}
+                  <div className="p-6 bg-black/40 backdrop-blur-md border border-purple-500/20 rounded-xl">
+                    <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                      <FileText className="w-6 h-6 text-blue-400" />
+                      Structured Data
+                    </h3>
+                    <div className="border-2 border-dashed border-blue-500/30 rounded-lg p-8 hover:border-blue-500/50 transition-colors">
+                      <Upload className="w-12 h-12 text-blue-400 mx-auto mb-4" />
+                      <p className="text-sm text-gray-400 mb-4">CSV, Excel, or XML files</p>
+                      <input
+                        type="file"
+                        onChange={handleCSVUpload}
+                        className="hidden"
+                        id="csv-upload"
+                        accept=".csv,.xlsx,.xml,.json"
+                      />
+                      <label
+                        htmlFor="csv-upload"
+                        className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg cursor-pointer hover:opacity-90 transition-opacity inline-block text-sm"
+                      >
+                        Choose File
+                      </label>
+                      <p className="text-xs text-blue-300 mt-3">
+                        ✨ Auto-detects: Classification, Regression, or NLP
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* ZIP Upload */}
+                  <div className="p-6 bg-black/40 backdrop-blur-md border border-purple-500/20 rounded-xl">
+                    <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                      <Image className="w-6 h-6 text-orange-400" />
+                      Image Data
+                    </h3>
+                    <div className="border-2 border-dashed border-orange-500/30 rounded-lg p-8 hover:border-orange-500/50 transition-colors">
+                      <Upload className="w-12 h-12 text-orange-400 mx-auto mb-4" />
+                      <p className="text-sm text-gray-400 mb-4">ZIP with organized folders</p>
+                      <input
+                        type="file"
+                        onChange={handleZipUpload}
+                        className="hidden"
+                        id="zip-upload"
+                        accept=".zip"
+                      />
+                      <label
+                        htmlFor="zip-upload"
+                        className="bg-gradient-to-r from-orange-600 to-red-600 text-white px-4 py-2 rounded-lg cursor-pointer hover:opacity-90 transition-opacity inline-block text-sm"
+                      >
+                        Choose ZIP
+                      </label>
+                      <p className="text-xs text-orange-300 mt-3">
+                        📋 Will ask: Classification or Detection
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex justify-center mt-8">
+                  <button
+                    onClick={() => setConfigurationStep(1)}
+                    className="flex items-center gap-2 px-6 py-2 text-gray-400 hover:text-white transition-colors"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    Back
+                  </button>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Step 2: Describe Data Requirements (for users without data) */}
+            {configurationStep === 2 && !hasDataset && (
+              <motion.div
+                key="step2-describe"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="text-center"
+              >
+                <h2 className="text-2xl font-semibold mb-6">Describe Your Data Needs</h2>
+                <p className="text-gray-400 mb-8">Tell us what you want to build and we'll find or generate the data</p>
+                
+                <div className="max-w-2xl mx-auto">
+                  <div className="bg-black/40 backdrop-blur-md border border-purple-500/20 rounded-xl p-6">
+                    <textarea
+                      value={dataDescription}
+                      onChange={(e) => setDataDescription(e.target.value)}
+                      placeholder="Describe your project. For example:\n- Predict house prices based on location and size\n- Classify customer reviews as positive/negative\n- Detect objects in retail store images\n- Analyze sentiment in social media posts"
+                      className="w-full h-40 bg-black/60 border border-purple-500/30 rounded-lg p-4 text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none resize-none"
+                    />
+                  </div>
+                  
+                  <div className="flex justify-center gap-4 mt-8">
+                    <button
+                      onClick={() => setConfigurationStep(1)}
+                      className="flex items-center gap-2 px-6 py-2 text-gray-400 hover:text-white transition-colors"
+                    >
+                      <ArrowLeft className="w-4 h-4" />
+                      Back
+                    </button>
+                    <button
+                      onClick={handleDataDescription}
+                      disabled={!dataDescription.trim()}
+                      className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      Continue
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Step 2.5: Image Task Type Selection (only for ZIP uploads) */}
+            {configurationStep === 2.5 && (
+              <motion.div
+                key="step2-5-image-task"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="text-center"
+              >
+                <h2 className="text-2xl font-semibold mb-6">Select Image Task Type</h2>
+                <p className="text-gray-400 mb-8">What do you want to do with your images?</p>
+                
+                <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => handleImageTaskTypeSelection('image_classification')}
+                    className="p-8 bg-black/40 backdrop-blur-md border border-purple-500/20 rounded-xl cursor-pointer hover:border-purple-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10"
+                  >
+                    <Image className="w-12 h-12 text-amber-400 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold mb-2 text-amber-400">Image Classification</h3>
+                    <p className="text-gray-400">Single label per image (e.g., cat vs dog, product categories)</p>
+                  </motion.div>
+                  
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => handleImageTaskTypeSelection('object_detection')}
+                    className="p-8 bg-black/40 backdrop-blur-md border border-purple-500/20 rounded-xl cursor-pointer hover:border-purple-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10"
+                  >
+                    <Box className="w-12 h-12 text-rose-400 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold mb-2 text-rose-400">Object Detection</h3>
+                    <p className="text-gray-400">Multiple objects per image with bounding boxes</p>
+                  </motion.div>
+                </div>
+                
+                <div className="flex justify-center mt-8">
+                  <button
+                    onClick={() => setConfigurationStep(2)}
+                    className="flex items-center gap-2 px-6 py-2 text-gray-400 hover:text-white transition-colors"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    Back
+                  </button>
+                </div>
+              </motion.div>
+            )}
+
+          </div>
+          
+          {/* Reset Button */}
+          <div className="text-center mt-12">
+            <button
+              onClick={resetConfiguration}
+              className="text-gray-500 hover:text-gray-400 text-sm transition-colors"
+            >
+              Start Over
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.gradient}></div>
@@ -457,7 +857,22 @@ export default function MLSystem() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-          ></motion.div>
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h1 className="text-3xl font-bold text-white mb-2">
+                  {projectName || `${taskTypeOptions.find(t => t.id === taskType)?.name} Project`}
+                </h1>
+                <p className="text-purple-300">Task: {taskTypeOptions.find(t => t.id === taskType)?.name}</p>
+              </div>
+              <button
+                onClick={resetConfiguration}
+                className="text-purple-400 hover:text-purple-300 transition-colors text-sm"
+              >
+                Reconfigure Project
+              </button>
+            </div>
+          </motion.div>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -471,10 +886,10 @@ export default function MLSystem() {
               <CardHeader className={styles.configHeader} style={{ marginTop: 0, paddingTop: "1rem" }}>
                 <CardTitle className={styles.configTitle}>
                   <Cpu className="h-5 w-5 text-purple-400 filter drop-shadow-[0_0_5px_rgba(147,51,234,0.5)]" />
-                  Project Configuration
+                  Build ML Model
                 </CardTitle>
                 <CardDescription className={styles.configDescription}>
-                  Configure your machine learning project
+                  Configure and train your {taskTypeOptions.find(t => t.id === taskType)?.name.toLowerCase()} model
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -489,114 +904,122 @@ export default function MLSystem() {
                   </Alert>
                 )}
 
-                <div>
-                  <label className="block text-sm font-medium mb-2 text-purple-100">Upload CSV File (optional)</label>
-                  <div className={styles.uploadArea} onClick={() => fileInputRef.current?.click()}>
-                    <ArrowUp className={styles.uploadIcon} />
-                    <p className={styles.uploadText}>Click to upload CSV</p>
-                    {file && (
-                      <div className="mt-2 flex items-center justify-center">
-                        <Badge variant="outline" className={styles.uploadBadge}>
-                          {file.name}
-                        </Badge>
+                {/* Project Configuration Summary */}
+                <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-4">
+                  <h3 className="text-sm font-semibold text-purple-300 mb-3 flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4" />
+                    Project Configuration
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div>
+                      <span className="text-gray-400">Task Type:</span>
+                      <div className="flex items-center gap-2 mt-1">
+                        {taskTypeIcons[taskType]}
+                        <span className="text-white font-medium">{taskTypeOptions.find(t => t.id === taskType)?.name}</span>
                       </div>
-                    )}
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept=".csv"
-                      className="hidden"
-                      onChange={handleFileChange}
-                    />
-                  </div>
-                  <p className="mt-2 text-xs text-purple-300">
-                    <Badge className={styles.autoDetectionBadge}>Auto-detection</Badge>
-                    <span className="ml-2">
-                      Task type (classification/regression/NLP) will be automatically detected from CSV data
-                    </span>
-                  </p>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2 text-purple-100">Upload Dataset Folder (.zip)</label>
-                  <div className={styles.uploadArea} onClick={() => folderInputRef.current?.click()}>
-                    <ArrowUp className={styles.uploadIcon} />
-                    <p className={styles.uploadText}>Click to upload ZIP</p>
-                    {folderZip && (
-                      <div className="mt-2 flex items-center justify-center">
-                        <Badge variant="outline" className={styles.uploadBadge}>
-                          {folderZip.name}
-                        </Badge>
+                    </div>
+                    <div>
+                      <span className="text-gray-400">Dataset:</span>
+                      <div className="text-white font-medium mt-1">
+                        {hasDataset ? (file ? file.name : 'User provided') : 'AI Generated'}
                       </div>
-                    )}
-                    <input
-                      ref={folderInputRef}
-                      type="file"
-                      accept=".zip"
-                      className="hidden"
-                      onChange={handleFolderChange}
-                    />
+                    </div>
                   </div>
-                  <p className="mt-2 text-xs text-purple-300">
-                    For image datasets, upload a zip with class folders.
-                    <br />
-                    For object detection, upload a zip with YOLO format.
-                  </p>
+                  {!hasDataset && textPrompt && (
+                    <div className="mt-3 pt-3 border-t border-purple-500/20">
+                      <span className="text-gray-400 text-xs">Requirements:</span>
+                      <p className="text-white text-xs mt-1 bg-black/30 p-2 rounded">
+                        {textPrompt.length > 100 ? `${textPrompt.substring(0, 100)}...` : textPrompt}
+                      </p>
+                    </div>
+                  )}
                 </div>
 
-                <div>
-                  <label htmlFor="text-prompt" className="block text-sm font-medium mb-2 text-purple-100">
-                    Describe your project requirements:
-                  </label>
-                  <div className={styles.textareaWrapper}>
-                    <Search className={styles.textareaIcon} />
-                    <textarea
-                      id="text-prompt"
-                      rows={5}
-                      className={styles.textarea}
-                      placeholder="E.g., Predict house prices based on location, size, and amenities"
-                      value={textPrompt}
-                      onChange={(e) => setTextPrompt(e.target.value)}
-                    ></textarea>
+                {/* Conditional Upload Section */}
+                {hasDataset && !file && (
+                  <div>
+                    <label className="block text-sm font-medium mb-2 text-purple-100">
+                      {taskType.includes('image') ? 'Upload Dataset (.zip)' : 'Upload Dataset File'}
+                    </label>
+                    <div className={styles.uploadArea} onClick={() => {
+                      if (taskType.includes('image')) {
+                        folderInputRef.current?.click()
+                      } else {
+                        fileInputRef.current?.click()
+                      }
+                    }}>
+                      <Upload className={styles.uploadIcon} />
+                      <p className={styles.uploadText}>
+                        Click to upload {taskType.includes('image') ? 'ZIP file' : 'CSV/dataset file'}
+                      </p>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept=".csv,.txt,.json"
+                        className="hidden"
+                        onChange={handleFileChange}
+                      />
+                      <input
+                        ref={folderInputRef}
+                        type="file"
+                        accept=".zip"
+                        className="hidden"
+                        onChange={handleFolderChange}
+                      />
+                    </div>
+                    <p className="mt-2 text-xs text-purple-300">
+                      {taskType.includes('image') 
+                        ? 'Upload a zip file with organized class folders or YOLO format'
+                        : 'Upload your dataset in CSV, TXT, or JSON format'
+                      }
+                    </p>
                   </div>
-                </div>
+                )}
 
-                <div>
-                  <label htmlFor="task-type" className="block text-sm font-medium mb-2 text-purple-100">
-                    Select Image Task Type
-                  </label>
-                  {/* Only show Image Classification and Object Detection options */}
-                  <div className="grid grid-cols-1 gap-2">
-                    {/* Only display image classification and object detection options */}
-                    <Button
-                      variant={taskType === "image_classification" ? "default" : "outline"}
-                      className={`justify-start ${
-                        taskType === "image_classification"
-                          ? styles.taskTypeButton.active
-                          : styles.taskTypeButton.inactive
-                      } py-2 px-4 rounded-md flex items-center gap-2 transition-all duration-200`}
-                      onClick={() => setTaskType("image_classification")}
-                    >
-                      {taskTypeIcons.image_classification}
-                      <span className="ml-1 capitalize">Image Classification</span>
-                    </Button>
-
-                    <Button
-                      variant={taskType === "object_detection" ? "default" : "outline"}
-                      className={`justify-start ${
-                        taskType === "object_detection" ? styles.taskTypeButton.active : styles.taskTypeButton.inactive
-                      } py-2 px-4 rounded-md flex items-center gap-2 transition-all duration-200`}
-                      onClick={() => setTaskType("object_detection")}
-                    >
-                      {taskTypeIcons.object_detection}
-                      <span className="ml-1 capitalize">Object Detection</span>
-                    </Button>
+                {/* Data Requirements (for non-dataset users) */}
+                {!hasDataset && (
+                  <div>
+                    <label className="block text-sm font-medium mb-2 text-purple-100">
+                      Data Requirements (Configured)
+                    </label>
+                    <div className="bg-black/40 border border-purple-500/30 rounded-lg p-4">
+                      <div className="flex items-start gap-3">
+                        <Search className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
+                        <div>
+                          <p className="text-sm text-white mb-2">The system will search/generate data based on:</p>
+                          <p className="text-sm text-purple-200 bg-black/60 p-3 rounded border border-purple-500/20">
+                            {textPrompt || 'Your project requirements'}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+                )}
 
-                  <p className="mt-2 text-xs text-purple-300">
-                    <span className="text-amber-400">Note:</span> For CSV data, the system will automatically detect if
-                    it's Classification, Regression, or NLP.
-                  </p>
+                {/* Advanced Options */}
+                <div className="border-t border-purple-500/20 pt-4">
+                  <details className="group">
+                    <summary className="cursor-pointer text-sm font-medium text-purple-300 hover:text-purple-200 flex items-center gap-2 mb-3">
+                      <Plus className="w-4 h-4 group-open:rotate-45 transition-transform" />
+                      Advanced Configuration
+                    </summary>
+                    <div className="space-y-3 pl-6">
+                      {!hasDataset && (
+                        <div>
+                          <label className="block text-sm font-medium mb-2 text-purple-100">
+                            Additional Requirements (Optional)
+                          </label>
+                          <textarea
+                            rows={3}
+                            className="w-full rounded-lg bg-black/60 border border-purple-500/30 text-white p-3 text-sm focus:border-purple-500 focus:outline-none resize-none"
+                            placeholder="Add any specific constraints or additional requirements..."
+                            value={textPrompt}
+                            onChange={(e) => setTextPrompt(e.target.value)}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </details>
                 </div>
               </CardContent>
               <CardFooter className="flex flex-col space-y-4 p-6">
@@ -604,12 +1027,12 @@ export default function MLSystem() {
                   {isLoading ? (
                     <>
                       <ArrowLeft className="animate-spin h-5 w-5 mr-2" />
-                      Processing...
+                      Training Model...
                     </>
                   ) : (
                     <>
                       <Sparkles className="h-5 w-5 mr-2" />
-                      Build ML Project
+                      {hasDataset ? 'Train Model' : 'Generate Data & Train Model'}
                     </>
                   )}
                 </Button>
