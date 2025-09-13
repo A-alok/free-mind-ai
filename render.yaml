@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: freemindai-frontend
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    branch: main
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "18"
+      - key: FLASK_API_URL
+        value: "http://localhost:5004"  # Update this to your Flask backend URL

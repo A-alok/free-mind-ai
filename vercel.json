@@ -1,0 +1,9 @@
+{
+  "functions": {
+    "app/api/process/route.js": {
+      "maxDuration": 7200
+    }
+  },
+  "regions": ["iad1"],
+  "crons": []
+}
