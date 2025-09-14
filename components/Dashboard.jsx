@@ -14,65 +14,44 @@ export default function Dashboard() {
     const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
     const [toast, setToast] = useState(null);
 
-    // Mock data - replace with actual API calls
+    // Load projects from API
     useEffect(() => {
-        // Simulate loading projects
-        const mockProjects = [
-            {
-                id: 1,
-                name: "AI Image Classifier",
-                thumbnail: null,
-                createdAt: "2024-01-15",
-                lastModified: "2024-01-20",
-                status: "active"
-            },
-            {
-                id: 2,
-                name: "Neural Network Trainer",
-                thumbnail: null,
-                createdAt: "2024-01-10",
-                lastModified: "2024-01-18",
-                status: "active"
-            },
-            {
-                id: 3,
-                name: "Data Preprocessing Pipeline",
-                thumbnail: null,
-                createdAt: "2024-01-08",
-                lastModified: "2024-01-16",
-                status: "draft"
-            },
-            {
-                id: 4,
-                name: "Computer Vision Model",
-                thumbnail: null,
-                createdAt: "2024-01-12",
-                lastModified: "2024-01-19",
-                status: "active"
-            },
-            {
-                id: 5,
-                name: "Natural Language Processing Bot",
-                thumbnail: null,
-                createdAt: "2024-01-05",
-                lastModified: "2024-01-14",
-                status: "archived"
-            }
-        ];
-        setProjects(mockProjects);
+        fetchProjects();
     }, []);
 
+    const fetchProjects = async () => {
+        try {
+            const response = await fetch('/api/projects');
+            const data = await response.json();
+            
+            if (data.success) {
+                // Map API response to match ProjectCard expected format
+                const mappedProjects = (data.projects || []).map(project => ({
+                    ...project,
+                    lastModified: project.updatedAt || project.createdAt
+                }));
+                setProjects(mappedProjects);
+            } else {
+                console.error('Failed to fetch projects:', data.error);
+                setToast({
+                    type: 'error',
+                    message: 'Failed to load projects',
+                    duration: 3000
+                });
+            }
+        } catch (error) {
+            console.error('Error fetching projects:', error);
+            setToast({
+                type: 'error',
+                message: 'Failed to load projects. Please try again.',
+                duration: 3000
+            });
+        }
+    };
+
     const handleCreateProject = (projectData) => {
-        const newProject = {
-            id: Date.now(),
-            name: projectData.name,
-            thumbnail: projectData.photo,
-            createdAt: new Date().toISOString().split('T')[0],
-            lastModified: new Date().toISOString().split('T')[0],
-            status: "draft"
-        };
-        
-        setProjects(prev => [newProject, ...prev]);
+        // Add the new project to the list
+        setProjects(prev => [projectData, ...prev]);
         setIsModalOpen(false);
         
         // Show success toast
@@ -88,13 +67,35 @@ export default function Dashboard() {
         }, 1000);
     };
 
-    const handleDeleteProject = (projectId) => {
-        setProjects(prev => prev.filter(p => p.id !== projectId));
-        setToast({
-            type: 'success',
-            message: 'Project deleted successfully',
-            duration: 3000
-        });
+    const handleDeleteProject = async (projectId) => {
+        try {
+            const response = await fetch(`/api/projects/${projectId}`, {
+                method: 'DELETE',
+            });
+            const data = await response.json();
+            
+            if (data.success) {
+                setProjects(prev => prev.filter(p => p.id !== projectId));
+                setToast({
+                    type: 'success',
+                    message: 'Project deleted successfully',
+                    duration: 3000
+                });
+            } else {
+                setToast({
+                    type: 'error',
+                    message: data.error || 'Failed to delete project',
+                    duration: 3000
+                });
+            }
+        } catch (error) {
+            console.error('Error deleting project:', error);
+            setToast({
+                type: 'error',
+                message: 'Failed to delete project. Please try again.',
+                duration: 3000
+            });
+        }
     };
 
     const handleEditProject = (projectId) => {
@@ -108,7 +109,7 @@ export default function Dashboard() {
     };
 
     return (
-        <div className="min-h-screen bg-black relative overflow-hidden">
+        <div className="min-h-screen bg-black relative overflow-hidden pt-16">
             {/* Glassmorphism Background */}
             <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-black">
                 <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>

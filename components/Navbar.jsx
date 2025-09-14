@@ -17,9 +17,11 @@ export default function Navbar() {
   
   // Navigation items with their respective paths
   const navItems = [
-    { name: "Home", path: "/main" },
-    
-   
+    { name: "Dashboard", path: "/main" },
+    { name: "Data Analysis", path: "/analysis" },
+    { name: "Chatbot", path: "/chatbot" },
+    { name: "Alter and Expand", path: "/alter_expand" },
+    { name: "Deploy", path: "/deploy" }
   ]
   
   // Handle scroll effect

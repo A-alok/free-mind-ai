@@ -3,3 +3,24 @@
  * Running on http://127.0.0.1:5000
  * Running on http://192.168.0.106:5000
 2025-09-14 01:00:23,839 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-09-14 03:18:37,992 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.106:5000
+2025-09-14 03:18:37,992 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-09-14 03:19:09,000 - __main__ - INFO - Processing request - Task Type: classification
+2025-09-14 03:19:09,000 - __main__ - INFO - Processing request - Task Type: classification
+2025-09-14 03:19:09,112 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-09-14 03:19:09,112 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-09-14 03:21:08,072 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 03:21:08] "POST /process HTTP/1.1" 200 -
+2025-09-14 03:21:23,834 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 03:21:23] "GET /api/download/project_ff6bc9a8-dbbd-48ba-b218-4d0382e37dad.zip HTTP/1.1" 200 -
+2025-09-14 17:18:05,786 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.106:5000
+2025-09-14 17:18:05,787 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-09-14 18:13:50,885 - __main__ - INFO - Processing request - Task Type: classification
+2025-09-14 18:13:50,885 - __main__ - INFO - Processing request - Task Type: classification
+2025-09-14 18:13:51,067 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-09-14 18:13:51,067 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-09-14 18:14:49,839 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 18:14:49] "POST /process HTTP/1.1" 200 -

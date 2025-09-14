@@ -31,7 +31,6 @@ import {
     MessageSquare,
     PieChart,
     Plus,
-    Rocket,
     Search,
     Sparkles,
     Table,
@@ -40,7 +39,6 @@ import {
     Zap,
 } from "lucide-react"
 import dynamic from "next/dynamic"
-import { useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 
 // Dynamically import Plotly to avoid SSR issues
@@ -127,7 +125,6 @@ export default function MLSystem() {
   const [taskTypeChanged, setTaskTypeChanged] = useState(false)
   const fileInputRef = useRef(null)
   const folderInputRef = useRef(null)
-  const router = useRouter()
 
   // Project Configuration handlers
   const handleDatasetChoice = (choice) => {
@@ -196,22 +193,6 @@ export default function MLSystem() {
     setTaskTypeChanged(false)
   }
 
-  // Navigation handlers
-  const navigateToChatbot = () => {
-    router.push("/chatbot")
-  }
-
-  const navigateToDataAnalysis = () => {
-    router.push("/analysis")
-  }
-
-  const navigateToGenerate = () => {
-    router.push("/alter_expand")
-  }
-
-  const navigateToDeploy = () => {
-    router.push("/deploy")
-  }
 
   // Clear task type change notification when user manually changes task type
   useEffect(() => {
@@ -454,7 +435,7 @@ export default function MLSystem() {
 
   // Define custom styles for the component
   const styles = {
-    container: "min-h-screen bg-black text-white mt-18",
+    container: "min-h-screen bg-black text-white pt-16",
     gradient:
       "absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(120,30,255,0.2),transparent_50%),radial-gradient(circle_at_bottom_left,rgba(70,0,150,0.15),transparent_50%)] pointer-events-none",
     content: "container mx-auto px-4 py-4 relative z-10",
@@ -1037,51 +1018,6 @@ export default function MLSystem() {
                   )}
                 </Button>
 
-                <div className="grid grid-cols-2 gap-3 w-full">
-                  <Button
-                    variant="outline"
-                    className="border-purple-500/50 hover:bg-purple-900/30 rounded-md backdrop-blur-sm transition-all duration-300 hover:shadow-[0_5px_15px_-5px_rgba(147,51,234,0.3)]"
-                    onClick={navigateToDataAnalysis}
-                  >
-                    <div className="flex items-center">
-                      <BarChart className="h-5 w-5 mr-2" />
-                      Data Analysis
-                    </div>
-                  </Button>
-
-                  <Button
-                    variant="outline"
-                    className="border-purple-500/50 hover:bg-purple-900/30 rounded-md backdrop-blur-sm transition-all duration-300 hover:shadow-[0_5px_15px_-5px_rgba(147,51,234,0.3)]"
-                    onClick={navigateToChatbot}
-                  >
-                    <div className="flex items-center">
-                      <MessageSquare className="h-5 w-5 mr-2" />
-                      Chatbot
-                    </div>
-                  </Button>
-
-                  <Button
-                    variant="outline"
-                    className="border-purple-500/50 hover:bg-purple-900/30 rounded-md backdrop-blur-sm transition-all duration-300 hover:shadow-[0_5px_15px_-5px_rgba(147,51,234,0.3)]"
-                    onClick={navigateToGenerate}
-                  >
-                    <div className="flex items-center">
-                      <MessageSquare className="h-5 w-5 mr-2" />
-                      Alter and Expand
-                    </div>
-                  </Button>
-
-                  <Button
-                    variant="outline"
-                    className="border-purple-500/50 hover:bg-purple-900/30 rounded-md backdrop-blur-sm transition-all duration-300 hover:shadow-[0_5px_15px_-5px_rgba(147,51,234,0.3)]"
-                    onClick={navigateToDeploy}
-                  >
-                    <div className="flex items-center">
-                      <Rocket className="h-5 w-5 mr-2" />
-                      Deploy
-                    </div>
-                  </Button>
-                </div>
               </CardFooter>
             </Card>
           </motion.div>

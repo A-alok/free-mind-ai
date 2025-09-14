@@ -1,18 +1,23 @@
 "use client";
 
 import { useState, useRef } from 'react';
-import { X, Upload, ArrowLeft, ArrowRight, Check } from 'lucide-react';
+import { X, Upload, ArrowLeft, ArrowRight, Check, FileText, Loader } from 'lucide-react';
 
 export default function CreateProjectModal({ isOpen, onClose, onSubmit }) {
     const [currentStep, setCurrentStep] = useState(1);
     const [projectName, setProjectName] = useState('');
+    const [projectDescription, setProjectDescription] = useState('');
     const [projectPhoto, setProjectPhoto] = useState(null);
     const [photoPreview, setPhotoPreview] = useState(null);
+    const [datasetFile, setDatasetFile] = useState(null);
     const [isDragging, setIsDragging] = useState(false);
     const [nameError, setNameError] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState('');
     const fileInputRef = useRef(null);
+    const datasetInputRef = useRef(null);
 
-    const totalSteps = 2;
+    const totalSteps = 3;
 
     // Handle backdrop click
     const handleBackdropClick = (e) => {
@@ -41,6 +46,9 @@ export default function CreateProjectModal({ isOpen, onClose, onSubmit }) {
             if (validateProjectName(projectName)) {
                 setCurrentStep(2);
             }
+        } else if (currentStep === 2) {
+            // Description step - can proceed without validation as it's optional
+            setCurrentStep(3);
         }
     };
 
@@ -90,20 +98,96 @@ export default function CreateProjectModal({ isOpen, onClose, onSubmit }) {
         }
     };
 
-    // Handle form submission
-    const handleSubmit = () => {
-        if (validateProjectName(projectName)) {
-            onSubmit({
-                name: projectName.trim(),
-                photo: photoPreview
-            });
-            // Reset form
-            setCurrentStep(1);
-            setProjectName('');
-            setProjectPhoto(null);
-            setPhotoPreview(null);
-            setNameError('');
+    // Handle dataset file upload
+    const handleDatasetUpload = (file) => {
+        const allowedTypes = [
+            'text/csv',
+            'application/vnd.ms-excel',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/json',
+            'text/plain',
+            'application/zip'
+        ];
+        
+        if (file && allowedTypes.includes(file.type)) {
+            setDatasetFile(file);
+        } else {
+            alert('Please upload a valid dataset file (CSV, Excel, JSON, TXT, or ZIP)');
         }
+    };
+
+    // Handle dataset file input change
+    const handleDatasetInputChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            handleDatasetUpload(file);
+        }
+    };
+
+    // Format file size
+    const formatFileSize = (bytes) => {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    };
+
+    // Handle form submission
+    const handleSubmit = async () => {
+        if (!validateProjectName(projectName)) return;
+        
+        setIsSubmitting(true);
+        setSubmitError('');
+        
+        try {
+            const formData = new FormData();
+            formData.append('name', projectName.trim());
+            if (projectDescription.trim()) {
+                formData.append('description', projectDescription.trim());
+            }
+            if (projectPhoto) {
+                formData.append('photo', projectPhoto);
+            }
+            if (datasetFile) {
+                formData.append('dataset', datasetFile);
+            }
+            
+            const response = await fetch('/api/projects', {
+                method: 'POST',
+                body: formData,
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // Call parent onSubmit with the created project
+                onSubmit(result.project);
+                
+                // Reset form
+                resetForm();
+            } else {
+                setSubmitError(result.error || 'Failed to create project');
+            }
+        } catch (error) {
+            console.error('Project creation error:', error);
+            setSubmitError('Network error. Please try again.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+    
+    // Reset form function
+    const resetForm = () => {
+        setCurrentStep(1);
+        setProjectName('');
+        setProjectDescription('');
+        setProjectPhoto(null);
+        setPhotoPreview(null);
+        setDatasetFile(null);
+        setNameError('');
+        setSubmitError('');
+        setIsSubmitting(false);
     };
 
     if (!isOpen) return null;
@@ -208,80 +292,168 @@ export default function CreateProjectModal({ isOpen, onClose, onSubmit }) {
                     {currentStep === 2 && (
                         <div className="space-y-6">
                             <div>
-                                <h3 className="text-lg font-semibold text-white mb-2">Project Photo</h3>
+                                <h3 className="text-lg font-semibold text-white mb-2">Project Description</h3>
                                 <p className="text-gray-400 text-sm mb-6">
-                                    Add a custom photo to make your project stand out (optional).
+                                    Describe your project to help you remember its purpose (optional).
+                                </p>
+                            </div>
+
+                            {/* Description Input */}
+                            <div className="relative">
+                                <textarea
+                                    value={projectDescription}
+                                    onChange={(e) => setProjectDescription(e.target.value)}
+                                    className="w-full px-4 py-3 rounded-lg bg-black/60 border-2 border-purple-500/30 focus:border-purple-500 text-white placeholder-gray-400 focus:outline-none transition-all duration-300 resize-none h-32"
+                                    placeholder="Describe your project goals, dataset, or methodology..."
+                                    id="projectDescription"
+                                />
+                            </div>
+                        </div>
+                    )}
+
+                    {currentStep === 3 && (
+                        <div className="space-y-6">
+                            <div>
+                                <h3 className="text-lg font-semibold text-white mb-2">Project Photo & Dataset</h3>
+                                <p className="text-gray-400 text-sm mb-6">
+                                    Add a custom photo and dataset to your project (optional).
                                 </p>
                             </div>
 
                             {/* Photo Upload Area */}
-                            <div
-                                className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-all duration-300 cursor-pointer ${
-                                    isDragging 
-                                        ? 'border-purple-500 bg-purple-500/10' 
-                                        : photoPreview 
+                            <div className="space-y-4">
+                                <h4 className="text-md font-medium text-white">Project Photo</h4>
+                                <div
+                                    className={`relative border-2 border-dashed rounded-lg p-6 text-center transition-all duration-300 cursor-pointer ${
+                                        isDragging 
+                                            ? 'border-purple-500 bg-purple-500/10' 
+                                            : photoPreview 
+                                                ? 'border-green-500/50 bg-green-500/5' 
+                                                : 'border-purple-500/30 hover:border-purple-500/50 hover:bg-purple-500/5'
+                                    }`}
+                                    onDragOver={handleDragOver}
+                                    onDragLeave={handleDragLeave}
+                                    onDrop={handleDrop}
+                                    onClick={() => fileInputRef.current?.click()}
+                                >
+                                    {photoPreview ? (
+                                        <div className="space-y-3">
+                                            <img 
+                                                src={photoPreview} 
+                                                alt="Preview" 
+                                                className="w-20 h-20 object-cover rounded-lg mx-auto border-2 border-green-500/30"
+                                            />
+                                            <div className="text-green-400">
+                                                <Check className="w-5 h-5 mx-auto mb-1" />
+                                                <p className="text-sm">Photo uploaded</p>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                className="text-purple-400 hover:text-purple-300 text-sm underline"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setPhotoPreview(null);
+                                                    setProjectPhoto(null);
+                                                }}
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-2">
+                                            <Upload className="w-8 h-8 text-purple-400 mx-auto" />
+                                            <div>
+                                                <p className="text-white font-medium text-sm mb-1">
+                                                    Drop photo here or click to browse
+                                                </p>
+                                                <p className="text-gray-400 text-xs">
+                                                    PNG, JPG, GIF up to 10MB
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    <input
+                                        ref={fileInputRef}
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleFileInputChange}
+                                        className="hidden"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Dataset Upload Area */}
+                            <div className="space-y-4">
+                                <h4 className="text-md font-medium text-white">Dataset File</h4>
+                                <div
+                                    className={`relative border-2 border-dashed rounded-lg p-6 text-center transition-all duration-300 cursor-pointer ${
+                                        datasetFile 
                                             ? 'border-green-500/50 bg-green-500/5' 
                                             : 'border-purple-500/30 hover:border-purple-500/50 hover:bg-purple-500/5'
-                                }`}
-                                onDragOver={handleDragOver}
-                                onDragLeave={handleDragLeave}
-                                onDrop={handleDrop}
-                                onClick={() => fileInputRef.current?.click()}
-                            >
-                                {photoPreview ? (
-                                    <div className="space-y-4">
-                                        <img 
-                                            src={photoPreview} 
-                                            alt="Preview" 
-                                            className="w-24 h-24 object-cover rounded-lg mx-auto border-2 border-green-500/30"
-                                        />
-                                        <div className="text-green-400">
-                                            <Check className="w-6 h-6 mx-auto mb-2" />
-                                            <p className="text-sm">Photo uploaded successfully</p>
+                                    }`}
+                                    onClick={() => datasetInputRef.current?.click()}
+                                >
+                                    {datasetFile ? (
+                                        <div className="space-y-3">
+                                            <FileText className="w-8 h-8 text-green-400 mx-auto" />
+                                            <div className="text-green-400">
+                                                <p className="text-sm font-medium">{datasetFile.name}</p>
+                                                <p className="text-xs text-gray-400">{formatFileSize(datasetFile.size)}</p>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                className="text-purple-400 hover:text-purple-300 text-sm underline"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setDatasetFile(null);
+                                                }}
+                                            >
+                                                Remove
+                                            </button>
                                         </div>
-                                        <button
-                                            type="button"
-                                            className="text-purple-400 hover:text-purple-300 text-sm underline"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                setPhotoPreview(null);
-                                                setProjectPhoto(null);
-                                            }}
-                                        >
-                                            Remove photo
-                                        </button>
-                                    </div>
-                                ) : (
-                                    <div className="space-y-4">
-                                        <Upload className="w-12 h-12 text-purple-400 mx-auto" />
-                                        <div>
-                                            <p className="text-white font-medium mb-2">
-                                                Drop your photo here, or click to browse
-                                            </p>
-                                            <p className="text-gray-400 text-sm">
-                                                Supports PNG, JPG, GIF up to 10MB
-                                            </p>
+                                    ) : (
+                                        <div className="space-y-2">
+                                            <FileText className="w-8 h-8 text-purple-400 mx-auto" />
+                                            <div>
+                                                <p className="text-white font-medium text-sm mb-1">
+                                                    Upload dataset file
+                                                </p>
+                                                <p className="text-gray-400 text-xs">
+                                                    CSV, Excel, JSON, TXT, ZIP up to 50MB
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
+                                    )}
 
-                                <input
-                                    ref={fileInputRef}
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleFileInputChange}
-                                    className="hidden"
-                                />
+                                    <input
+                                        ref={datasetInputRef}
+                                        type="file"
+                                        accept=".csv,.xlsx,.xls,.json,.txt,.zip"
+                                        onChange={handleDatasetInputChange}
+                                        className="hidden"
+                                    />
+                                </div>
                             </div>
                         </div>
                     )}
                 </div>
 
+                {/* Error Display */}
+                {submitError && (
+                    <div className="px-6">
+                        <div className="bg-red-900/30 border border-red-500/50 rounded-lg p-4 text-red-400 text-sm">
+                            {submitError}
+                        </div>
+                    </div>
+                )}
+
                 {/* Footer */}
                 <div className="flex items-center justify-between p-6 border-t border-purple-500/20 bg-purple-500/5">
                     <button
                         onClick={currentStep === 1 ? onClose : handlePrevious}
-                        className="px-6 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-600/30 transition-all duration-200 flex items-center gap-2"
+                        disabled={isSubmitting}
+                        className="px-6 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-600/30 transition-all duration-200 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {currentStep === 1 ? (
                             <>
@@ -298,10 +470,15 @@ export default function CreateProjectModal({ isOpen, onClose, onSubmit }) {
 
                     <button
                         onClick={currentStep === totalSteps ? handleSubmit : handleNext}
-                        disabled={currentStep === 1 && !projectName.trim()}
+                        disabled={(currentStep === 1 && !projectName.trim()) || isSubmitting}
                         className="px-6 py-2 rounded-lg bg-gradient-to-r from-purple-600 via-purple-500 to-blue-600 hover:from-purple-700 hover:via-purple-600 hover:to-blue-700 text-white font-medium transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
                     >
-                        {currentStep === totalSteps ? (
+                        {isSubmitting ? (
+                            <>
+                                <Loader className="w-4 h-4 animate-spin" />
+                                Creating...
+                            </>
+                        ) : currentStep === totalSteps ? (
                             <>
                                 <Check size={16} />
                                 Create Project

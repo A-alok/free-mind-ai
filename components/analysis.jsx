@@ -173,7 +173,7 @@ export default function CsvAnalysis() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-black">
+    <div className="flex flex-col min-h-screen bg-black pt-16">
       {/* Page Header */}
       <header className="bg-black border-b border-[#3A005A] py-6">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

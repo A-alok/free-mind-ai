@@ -178,7 +178,7 @@ export default function Deploy() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+    <div className="min-h-screen bg-black text-white relative overflow-hidden pt-16">
       {/* Stars background */}
       {stars.map((star) => (
         <div
