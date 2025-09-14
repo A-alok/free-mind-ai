@@ -41,23 +41,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# Database files
-*.db
-ml_system.db
-
-# Log files
-*.log
-data_processing.log
-
-# Python cache
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# ML system directories
-/ml_system/
-/models/
-/datasets/
-/downloads/
+"ml_system.db" 
+"*.db" 
+"*.db" 
+"ml_system.db" 
+"*.db" 
+"ml_system.db" 
+"*.db" 
+"ml_system.db" 
