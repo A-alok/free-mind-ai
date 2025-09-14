@@ -9,13 +9,11 @@ export default function CreateProjectModal({ isOpen, onClose, onSubmit }) {
     const [projectDescription, setProjectDescription] = useState('');
     const [projectPhoto, setProjectPhoto] = useState(null);
     const [photoPreview, setPhotoPreview] = useState(null);
-    const [datasetFile, setDatasetFile] = useState(null);
     const [isDragging, setIsDragging] = useState(false);
     const [nameError, setNameError] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState('');
     const fileInputRef = useRef(null);
-    const datasetInputRef = useRef(null);
 
     const totalSteps = 3;
 
@@ -98,31 +96,6 @@ export default function CreateProjectModal({ isOpen, onClose, onSubmit }) {
         }
     };
 
-    // Handle dataset file upload
-    const handleDatasetUpload = (file) => {
-        const allowedTypes = [
-            'text/csv',
-            'application/vnd.ms-excel',
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'application/json',
-            'text/plain',
-            'application/zip'
-        ];
-        
-        if (file && allowedTypes.includes(file.type)) {
-            setDatasetFile(file);
-        } else {
-            alert('Please upload a valid dataset file (CSV, Excel, JSON, TXT, or ZIP)');
-        }
-    };
-
-    // Handle dataset file input change
-    const handleDatasetInputChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            handleDatasetUpload(file);
-        }
-    };
 
     // Format file size
     const formatFileSize = (bytes) => {
@@ -148,9 +121,6 @@ export default function CreateProjectModal({ isOpen, onClose, onSubmit }) {
             }
             if (projectPhoto) {
                 formData.append('photo', projectPhoto);
-            }
-            if (datasetFile) {
-                formData.append('dataset', datasetFile);
             }
             
             const response = await fetch('/api/projects', {
@@ -184,7 +154,6 @@ export default function CreateProjectModal({ isOpen, onClose, onSubmit }) {
         setProjectDescription('');
         setProjectPhoto(null);
         setPhotoPreview(null);
-        setDatasetFile(null);
         setNameError('');
         setSubmitError('');
         setIsSubmitting(false);
@@ -314,17 +283,16 @@ export default function CreateProjectModal({ isOpen, onClose, onSubmit }) {
                     {currentStep === 3 && (
                         <div className="space-y-6">
                             <div>
-                                <h3 className="text-lg font-semibold text-white mb-2">Project Photo & Dataset</h3>
+                                <h3 className="text-lg font-semibold text-white mb-2">Project Photo</h3>
                                 <p className="text-gray-400 text-sm mb-6">
-                                    Add a custom photo and dataset to your project (optional).
+                                    Add a custom photo to your project (optional). You'll be able to upload datasets later.
                                 </p>
                             </div>
 
                             {/* Photo Upload Area */}
                             <div className="space-y-4">
-                                <h4 className="text-md font-medium text-white">Project Photo</h4>
                                 <div
-                                    className={`relative border-2 border-dashed rounded-lg p-6 text-center transition-all duration-300 cursor-pointer ${
+                                    className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-all duration-300 cursor-pointer ${
                                         isDragging 
                                             ? 'border-purple-500 bg-purple-500/10' 
                                             : photoPreview 
@@ -337,36 +305,36 @@ export default function CreateProjectModal({ isOpen, onClose, onSubmit }) {
                                     onClick={() => fileInputRef.current?.click()}
                                 >
                                     {photoPreview ? (
-                                        <div className="space-y-3">
+                                        <div className="space-y-4">
                                             <img 
                                                 src={photoPreview} 
                                                 alt="Preview" 
-                                                className="w-20 h-20 object-cover rounded-lg mx-auto border-2 border-green-500/30"
+                                                className="w-24 h-24 object-cover rounded-xl mx-auto border-2 border-green-500/30"
                                             />
                                             <div className="text-green-400">
-                                                <Check className="w-5 h-5 mx-auto mb-1" />
-                                                <p className="text-sm">Photo uploaded</p>
+                                                <Check className="w-6 h-6 mx-auto mb-2" />
+                                                <p className="text-sm font-medium">Photo uploaded successfully</p>
                                             </div>
                                             <button
                                                 type="button"
-                                                className="text-purple-400 hover:text-purple-300 text-sm underline"
+                                                className="text-purple-400 hover:text-purple-300 text-sm underline transition-colors"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     setPhotoPreview(null);
                                                     setProjectPhoto(null);
                                                 }}
                                             >
-                                                Remove
+                                                Remove Photo
                                             </button>
                                         </div>
                                     ) : (
-                                        <div className="space-y-2">
-                                            <Upload className="w-8 h-8 text-purple-400 mx-auto" />
+                                        <div className="space-y-3">
+                                            <Upload className="w-12 h-12 text-purple-400 mx-auto" />
                                             <div>
-                                                <p className="text-white font-medium text-sm mb-1">
+                                                <p className="text-white font-medium text-base mb-1">
                                                     Drop photo here or click to browse
                                                 </p>
-                                                <p className="text-gray-400 text-xs">
+                                                <p className="text-gray-400 text-sm">
                                                     PNG, JPG, GIF up to 10MB
                                                 </p>
                                             </div>
@@ -382,57 +350,19 @@ export default function CreateProjectModal({ isOpen, onClose, onSubmit }) {
                                     />
                                 </div>
                             </div>
-
-                            {/* Dataset Upload Area */}
-                            <div className="space-y-4">
-                                <h4 className="text-md font-medium text-white">Dataset File</h4>
-                                <div
-                                    className={`relative border-2 border-dashed rounded-lg p-6 text-center transition-all duration-300 cursor-pointer ${
-                                        datasetFile 
-                                            ? 'border-green-500/50 bg-green-500/5' 
-                                            : 'border-purple-500/30 hover:border-purple-500/50 hover:bg-purple-500/5'
-                                    }`}
-                                    onClick={() => datasetInputRef.current?.click()}
-                                >
-                                    {datasetFile ? (
-                                        <div className="space-y-3">
-                                            <FileText className="w-8 h-8 text-green-400 mx-auto" />
-                                            <div className="text-green-400">
-                                                <p className="text-sm font-medium">{datasetFile.name}</p>
-                                                <p className="text-xs text-gray-400">{formatFileSize(datasetFile.size)}</p>
-                                            </div>
-                                            <button
-                                                type="button"
-                                                className="text-purple-400 hover:text-purple-300 text-sm underline"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setDatasetFile(null);
-                                                }}
-                                            >
-                                                Remove
-                                            </button>
-                                        </div>
-                                    ) : (
-                                        <div className="space-y-2">
-                                            <FileText className="w-8 h-8 text-purple-400 mx-auto" />
-                                            <div>
-                                                <p className="text-white font-medium text-sm mb-1">
-                                                    Upload dataset file
-                                                </p>
-                                                <p className="text-gray-400 text-xs">
-                                                    CSV, Excel, JSON, TXT, ZIP up to 50MB
-                                                </p>
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    <input
-                                        ref={datasetInputRef}
-                                        type="file"
-                                        accept=".csv,.xlsx,.xls,.json,.txt,.zip"
-                                        onChange={handleDatasetInputChange}
-                                        className="hidden"
-                                    />
+                            
+                            {/* Info about dataset upload */}
+                            <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-4">
+                                <div className="flex items-start space-x-3">
+                                    <div className="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <FileText className="w-3 h-3 text-purple-400" />
+                                    </div>
+                                    <div>
+                                        <p className="text-purple-300 font-medium text-sm mb-1">Dataset Upload</p>
+                                        <p className="text-gray-400 text-xs leading-relaxed">
+                                            You'll be able to upload and manage datasets after creating your project in the ML workspace.
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>

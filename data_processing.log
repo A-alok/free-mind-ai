@@ -24,3 +24,34 @@
 2025-09-14 18:13:51,067 - __main__ - INFO - Auto-detected task type for uploaded file: classification
 2025-09-14 18:13:51,067 - __main__ - INFO - Auto-detected task type for uploaded file: classification
 2025-09-14 18:14:49,839 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 18:14:49] "POST /process HTTP/1.1" 200 -
+2025-09-14 18:29:17,171 - __main__ - INFO - Processing request - Task Type: classification
+2025-09-14 18:29:17,171 - __main__ - INFO - Processing request - Task Type: classification
+2025-09-14 18:29:17,210 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-09-14 18:29:17,210 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-09-14 18:30:28,880 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 18:30:28] "POST /process HTTP/1.1" 200 -
+2025-09-14 18:42:59,241 - __main__ - INFO - Processing request - Task Type: classification
+2025-09-14 18:42:59,241 - __main__ - INFO - Processing request - Task Type: classification
+2025-09-14 18:42:59,316 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-09-14 18:42:59,316 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-09-14 18:44:06,923 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 18:44:06] "POST /process HTTP/1.1" 200 -
+2025-09-14 18:59:01,526 - __main__ - INFO - Processing request - Task Type: classification
+2025-09-14 18:59:01,526 - __main__ - INFO - Processing request - Task Type: classification
+2025-09-14 18:59:05,696 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-09-14 18:59:05,697 - root - INFO - Auto-detected task type: classification
+2025-09-14 18:59:05,708 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-09-14 18:59:05,708 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-09-14 18:59:05,709 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-09-14 18:59:05,709 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-09-14 19:00:12,018 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 19:00:12] "POST /process HTTP/1.1" 200 -
+2025-09-14 19:02:34,796 - __main__ - INFO - Processing request - Task Type: classification
+2025-09-14 19:02:34,796 - __main__ - INFO - Processing request - Task Type: classification
+2025-09-14 19:02:34,860 - __main__ - INFO - Auto-detected task type for uploaded file: nlp
+2025-09-14 19:02:34,860 - __main__ - INFO - Auto-detected task type for uploaded file: nlp
+2025-09-14 19:02:34,860 - __main__ - INFO - Changing task type from classification to nlp based on file analysis
+2025-09-14 19:02:34,860 - __main__ - INFO - Changing task type from classification to nlp based on file analysis
+2025-09-14 19:02:36,849 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 19:02:36] "POST /process HTTP/1.1" 200 -
+2025-09-14 19:02:53,729 - __main__ - INFO - Processing request - Task Type: classification
+2025-09-14 19:02:53,729 - __main__ - INFO - Processing request - Task Type: classification
+2025-09-14 19:02:53,791 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-09-14 19:02:53,791 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-09-14 19:04:04,700 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 19:04:04] "POST /process HTTP/1.1" 200 -
