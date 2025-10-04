@@ -1,17 +1,17 @@
-import Dashboard from "@/components/Dashboard"
-import Navbar from "@/components/Navbar"
-import Footer from "@/components/Footer"
-import ProtectedRoute from "@/components/ProtectedRoute"
+import ProtectedRoute from "@/components/ProtectedRoute";
+import LandingHeader from "@/components/LandingHeader";
+import Footer from "@/components/Footer";
+import MainOverview from "@/components/MainOverview";
 
 export default function Home() {
-  return(
+  return (
     <ProtectedRoute>
-      <div>
-        <Navbar />
-        <Dashboard />
+      <>
+        <LandingHeader mode="logout" />
+        <MainOverview />
         <Footer />
-      </div>
+      </>
     </ProtectedRoute>
-  ); 
+  );
 }
 

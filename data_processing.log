@@ -1033,3 +1033,4 @@
  * Running on http://127.0.0.1:5000
  * Running on http://10.0.142.97:5000
 2025-10-04 23:09:41,949 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 00:36:20,859 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 00:36:20] "[33mOPTIONS /api/auth/admin/login HTTP/1.1[0m" 404 -

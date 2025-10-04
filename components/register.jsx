@@ -3,21 +3,21 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-import { Code, Brain, Users } from 'lucide-react';
+import { Code, Database, Rocket, ArrowLeft } from 'lucide-react';
 
 const Input = ({ label, type, placeholder, value, onChange, error }) => (
     <div className="w-full">
-        <label className="block text-sm font-medium text-[#9340FF] mb-1">{label}</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
         <input
             type={type}
-            className={`w-full px-3 sm:px-4 py-2 rounded border bg-black/60 text-white ${
-                error ? 'border-red-500' : 'border-[#9340FF]/30'
-            } focus:outline-none focus:ring-2 focus:ring-[#9340FF] focus:border-transparent text-sm sm:text-base placeholder-gray-500`}
+            className={`w-full px-3 sm:px-4 py-2 rounded border bg-white text-gray-900 ${
+                error ? 'border-red-500' : 'border-gray-300'
+            } focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent text-sm sm:text-base placeholder-gray-400`}
             placeholder={placeholder}
             value={value}
             onChange={onChange}
         />
-        {error && <p className="mt-1 text-sm text-red-400">{error}</p>}
+        {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
     </div>
 );
 
@@ -41,12 +41,12 @@ const Button = ({ children, variant = "primary", onClick, type = "button", disab
 };
 
 const FeatureCard = ({ icon, title, description }) => (
-    <div className="flex flex-col items-center text-center p-5 bg-black/40 rounded-lg border border-[#9340FF]/20 transform hover:scale-105 transition-all duration-300 hover:border-[#9340FF]/40 hover:shadow-lg hover:shadow-[#9340FF]/10">
-        <div className="bg-[#9340FF]/30 p-3 rounded-full mb-4 text-[#9340FF]">
+    <div className="flex flex-col items-center text-center p-4 md:p-5 bg-white rounded-xl border border-gray-200 shadow-sm hover:border-violet-300 transition-colors">
+        <div className="bg-violet-50 text-violet-600 mb-3 flex items-center justify-center rounded-full h-10 w-10">
             {icon}
         </div>
-        <h3 className="text-white font-semibold mb-2">{title}</h3>
-        <p className="text-gray-400 text-sm">{description}</p>
+        <h3 className="text-gray-900 font-semibold text-base md:text-lg mb-1">{title}</h3>
+        <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">{description}</p>
     </div>
 );
 
@@ -233,67 +233,53 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="flex flex-col min-h-screen bg-black" ref={containerRef}>
-            {/* Particle Animation Background */}
-            <canvas ref={canvasRef} className="absolute inset-0 z-0 pointer-events-none" />
-            
-            {/* Gradient Overlay */}
-            <div
-                className="absolute inset-0 bg-gradient-to-b from-black to-black/60 z-0"
-                style={{
-                    backgroundImage: `radial-gradient(circle at center, rgba(147,64,255,0.15) 0%, rgba(0,0,0,0) 70%)`,
-                    transform: `translate(${mousePosition.x}px, ${mousePosition.y}px)`,
-                }}
-            />
+        <div className="flex flex-col min-h-screen bg-white text-gray-900" ref={containerRef}>
             
             <section className="flex-grow relative py-12 z-10">
                 <div className="container mx-auto px-4 sm:px-6 relative">
                    
-                    
+                    {/* Local back button (no header) */}
                     <div className="max-w-5xl mx-auto">
+                        <button
+                            onClick={() => router.push('/')}
+                            className="mb-4 inline-flex items-center gap-2 text-gray-600 hover:text-violet-700"
+                            aria-label="Back to home"
+                        >
+                            <ArrowLeft className="h-5 w-5" />
+                            Back
+                        </button>
                         <div className="grid md:grid-cols-5 gap-8">
                             {/* Left side - Benefits */}
-                            <div className="md:col-span-2 bg-black/40 backdrop-blur-md p-6 rounded-xl shadow-2xl border border-[#9340FF]/20 shadow-[#9340FF]/5 hidden md:block">
+                            <div className="md:col-span-2 bg-white backdrop-blur-md p-6 rounded-xl shadow-2xl border border-gray-200 shadow-[#9340FF]/5 hidden md:block">
                                 <div className="mb-6">
-                                    <h2 className="text-2xl font-bold text-white mb-4">Join FreeMindAi</h2>
-                                    <p className="text-gray-400">
-                                        Create an account to access AI/ML learning resources and join our community:
-                                    </p>
+                                    <h2 className="text-2xl font-bold text-gray-900 mb-2">What you get</h2>
+                                    <p className="text-gray-600 text-sm md:text-base">Build, analyze, and deploy ML projects — all in one place.</p>
                                 </div>
                                 
-                                <div className="space-y-6">
+                                <div className="space-y-5">
                                     <FeatureCard 
-                                        icon={<Code className="h-6 w-6" />}
-                                        title="Hands-on Projects"
-                                        description="Work on real-world AI and ML projects with guidance from experienced members and mentors."
+                                        icon={<Code className="h-5 w-5" />}
+                                        title="Projects & ML Builder"
+                                        description="Create projects and auto‑train models from CSVs or images."
                                     />
                                     <FeatureCard 
-                                        icon={<Brain className="h-6 w-6" />}
-                                        title="Learning Resources"
-                                        description="Access exclusive workshops, tutorials and materials to accelerate your AI/ML journey."
+                                        icon={<Database className="h-5 w-5" />}
+                                        title="CSV Analysis"
+                                        description="Upload CSVs and ask questions for instant insights."
                                     />
                                     <FeatureCard 
-                                        icon={<Users className="h-6 w-6" />}
-                                        title="Community Network"
-                                        description="Connect with like-minded peers and industry professionals in the field of AI and ML."
+                                        icon={<Rocket className="h-5 w-5" />}
+                                        title="One‑click Deploy"
+                                        description="Push to GitHub and auto‑deploy to Render."
                                     />
-                                </div>
-                                
-                                <div className="mt-8 p-4 bg-[#9340FF]/20 border border-[#9340FF]/20 rounded-lg">
-                                    <p className="text-gray-300 text-sm italic">
-                                        "Joining FreeMindAi was the best decision I made during my college years. The skills and connections I gained were invaluable for my career!"
-                                    </p>
-                                    <p className="text-right text-[#9340FF] font-semibold text-sm mt-2">
-                                        — Alumni Member
-                                    </p>
                                 </div>
                             </div>
                             
                             {/* Right side - Registration form */}
-                            <div className="md:col-span-3 bg-black/40 backdrop-blur-md p-6 sm:p-8 rounded-xl shadow-2xl border border-[#9340FF]/20 shadow-[#9340FF]/5">
+                            <div className="md:col-span-3 bg-white backdrop-blur-md p-6 sm:p-8 rounded-xl shadow-2xl border border-gray-200 shadow-[#9340FF]/5">
                                 <div className="text-center mb-6">
-                                    <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">Create Your Account</h2>
-                                    <p className="text-gray-400">Get started with FreeMindAi</p>
+                                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Create Your Account</h2>
+                                    <p className="text-gray-600">Get started with FreeMindAi</p>
                                 </div>
                                 
                                 <form className="space-y-4" onSubmit={handleSubmit}>
@@ -338,9 +324,9 @@ export default function RegisterPage() {
                                             id="terms"
                                             name="terms"
                                             type="checkbox"
-                                            className="h-4 w-4 text-[#9340FF] focus:ring-[#9340FF] border-gray-700 bg-black/60 rounded mt-1"
+                                            className="h-4 w-4 text-violet-600 focus:ring-violet-600 border-gray-300 bg-white rounded mt-1"
                                         />
-                                        <label htmlFor="terms" className="ml-2 block text-sm text-gray-300">
+                                        <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
                                             I agree to the{' '}
                                             <a href="#" className="text-[#9340FF] hover:underline">
                                                 Terms of Service
@@ -365,9 +351,9 @@ export default function RegisterPage() {
                                     </div>
                                 </form>
                                 
-                                <p className="mt-6 text-center text-sm text-gray-400">
+                                <p className="mt-6 text-center text-sm text-gray-600">
                                     Already have an account?{' '}
-                                    <Link href="/login" className="font-semibold text-[#9340FF] hover:text-[#7d35d9]">
+                                    <Link href="/login" className="font-semibold text-violet-700 hover:text-violet-800">
                                         Sign in
                                     </Link>
                                 </p>
