@@ -9,6 +9,9 @@ import { Mic, PhoneOff, Loader, AlertCircle, Volume2, ArrowLeft, Trash2 } from "
 import Navbar from "@/components/Navbar" // Adjust path to your navbar
 import Footer from "@/components/Footer" // Adjust path to your footer
 
+// Debug VAPI token
+console.log("VAPI Token:", process.env.NEXT_PUBLIC_VAPI_WEB_TOKEN ? "Token exists" : "Token missing")
+
 const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_WEB_TOKEN)
 
 // FreeMindAi Stars Effect
@@ -255,7 +258,20 @@ export default function FreeMindAiVoiceAgent() {
 
     const onError = (error) => {
       console.error("VAPI Error:", error)
-      setError("FreeMindAi voice agent error occurred")
+      console.error("VAPI Error details:", JSON.stringify(error))
+      console.error("Error type:", typeof error)
+      console.error("Error keys:", Object.keys(error))
+      
+      let errorMessage = "FreeMindAi voice agent error occurred"
+      if (error.message) {
+        errorMessage = `VAPI Error: ${error.message}`
+      } else if (error.error) {
+        errorMessage = `VAPI Error: ${error.error}`
+      } else if (typeof error === 'string') {
+        errorMessage = `VAPI Error: ${error}`
+      }
+      
+      setError(errorMessage)
       setCallStatus("inactive")
       setIsSpeaking(false)
       setIsListening(false)
@@ -417,16 +433,39 @@ Remember: You're FreeMindAi, speaking with ${user.name}. Make learning enjoyable
     setError("")
 
     try {
+      // Check if VAPI token exists
+      if (!process.env.NEXT_PUBLIC_VAPI_WEB_TOKEN) {
+        throw new Error("VAPI_WEB_TOKEN is not configured")
+      }
+      
       const assistant = createFreeMindAiAssistant()
       if (!assistant) {
         throw new Error("Failed to create FreeMindAi assistant configuration")
       }
 
       console.log("Starting FreeMindAi call with assistant:", assistant)
+      console.log("VAPI instance:", vapi)
+      
       await vapi.start(assistant)
     } catch (error) {
       console.error("Failed to start FreeMindAi call:", error)
-      setError("Failed to start FreeMindAi voice. Please check your microphone permissions and try again.")
+      console.error("Error details:", JSON.stringify(error))
+      
+      let errorMessage = "Failed to start FreeMindAi voice."
+      
+      if (error.message) {
+        if (error.message.includes("token") || error.message.includes("authentication")) {
+          errorMessage = "VAPI authentication failed. Please check your API token."
+        } else if (error.message.includes("microphone") || error.message.includes("permission")) {
+          errorMessage = "Microphone permission required. Please allow microphone access and try again."
+        } else if (error.message.includes("network") || error.message.includes("connection")) {
+          errorMessage = "Network connection failed. Please check your internet connection."
+        } else {
+          errorMessage = `Failed to start voice: ${error.message}`
+        }
+      }
+      
+      setError(errorMessage)
       setCallStatus("inactive")
     }
   }
