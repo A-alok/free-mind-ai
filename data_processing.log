@@ -1093,3 +1093,55 @@
 2025-10-05 02:13:03,125 - __main__ - INFO - Changing task type from classification to regression based on file analysis
 2025-10-05 02:13:03,125 - __main__ - INFO - Changing task type from classification to regression based on file analysis
 2025-10-05 02:13:13,985 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 02:13:13] "POST /process HTTP/1.1" 200 -
+2025-10-05 02:56:43,066 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.142.97:5000
+2025-10-05 02:56:43,067 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 03:00:51,323 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.142.97:5000
+2025-10-05 03:00:51,324 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 03:02:20,186 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:02:20] "[33mPOST /upload HTTP/1.1[0m" 404 -
+2025-10-05 03:02:38,140 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:02:38] "[33mGET /health HTTP/1.1[0m" 404 -
+2025-10-05 03:02:38,458 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:02:38] "[33mGET /health HTTP/1.1[0m" 404 -
+2025-10-05 03:02:41,527 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:02:41] "[33mPOST /upload HTTP/1.1[0m" 404 -
+2025-10-05 03:03:27,238 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:03:27] "[33mPOST /upload HTTP/1.1[0m" 404 -
+2025-10-05 03:03:29,083 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:03:29] "[33mGET /health HTTP/1.1[0m" 404 -
+2025-10-05 03:03:45,590 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:03:45] "[33mHEAD /upload HTTP/1.1[0m" 404 -
+2025-10-05 03:03:51,510 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:03:51] "[33mGET / HTTP/1.1[0m" 404 -
+2025-10-05 03:04:03,773 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:04:03] "[33mPOST /upload HTTP/1.1[0m" 404 -
+2025-10-05 03:04:07,202 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:04:07] "[33mPOST /upload HTTP/1.1[0m" 404 -
+2025-10-05 03:05:01,710 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:05:01] "[33mGET /health HTTP/1.1[0m" 404 -
+2025-10-05 03:05:02,026 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:05:02] "[33mGET /health HTTP/1.1[0m" 404 -
+2025-10-05 03:05:02,028 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:05:02] "[33mHEAD /upload HTTP/1.1[0m" 404 -
+2025-10-05 03:05:02,282 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:05:02] "[33mHEAD /upload HTTP/1.1[0m" 404 -
+2025-10-05 03:05:04,704 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:05:04] "[33mPOST /upload HTTP/1.1[0m" 404 -
+2025-10-05 03:05:35,640 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:05:35] "[33mGET /health HTTP/1.1[0m" 404 -
+2025-10-05 03:05:53,043 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:05:53] "[33mPOST /upload HTTP/1.1[0m" 404 -
+2025-10-05 03:06:40,593 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:06:40] "[33mGET /health HTTP/1.1[0m" 404 -
+2025-10-05 03:06:40,853 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:06:40] "[33mGET /health HTTP/1.1[0m" 404 -
+2025-10-05 03:06:40,907 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:06:40] "[33mHEAD /upload HTTP/1.1[0m" 404 -
+2025-10-05 03:06:40,909 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:06:40] "[33mHEAD /upload HTTP/1.1[0m" 404 -
+2025-10-05 03:06:44,094 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:06:44] "[33mPOST /upload HTTP/1.1[0m" 404 -
+2025-10-05 03:07:18,597 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:07:18] "[33mGET /health HTTP/1.1[0m" 404 -
+2025-10-05 03:07:18,852 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:07:18] "[33mGET /health HTTP/1.1[0m" 404 -
+2025-10-05 03:07:18,915 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:07:18] "[33mHEAD /upload HTTP/1.1[0m" 404 -
+2025-10-05 03:07:18,916 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:07:18] "[33mHEAD /upload HTTP/1.1[0m" 404 -
+2025-10-05 03:07:21,821 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:07:21] "[33mPOST /upload HTTP/1.1[0m" 404 -
+2025-10-05 03:07:30,194 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:07:30] "[33mGET /health HTTP/1.1[0m" 404 -
+2025-10-05 03:07:38,105 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:07:38] "[33mPOST /upload HTTP/1.1[0m" 404 -
+2025-10-05 03:07:49,268 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:07:49] "[33mPOST /upload HTTP/1.1[0m" 404 -
+2025-10-05 03:09:08,378 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.142.97:5000
+2025-10-05 03:09:08,379 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 03:09:53,101 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:09:53] "GET /health HTTP/1.1" 200 -
+2025-10-05 03:09:53,352 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:09:53] "GET /health HTTP/1.1" 200 -
+2025-10-05 03:10:01,140 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:10:01] "POST /upload HTTP/1.1" 200 -
+2025-10-05 03:10:50,841 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:10:50] "POST /upload HTTP/1.1" 200 -
+2025-10-05 03:11:02,741 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:11:02] "GET /health HTTP/1.1" 200 -
+2025-10-05 03:11:03,057 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:11:03] "GET /health HTTP/1.1" 200 -
+2025-10-05 03:11:05,858 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:11:05] "POST /upload HTTP/1.1" 200 -

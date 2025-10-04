@@ -1,48 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Upload, FileText, Database, AlertCircle } from "lucide-react";
+import { Upload, FileText, Database, AlertCircle, Brain, BarChart3, TrendingUp, Loader2, ArrowLeft, Home } from "lucide-react";
+import Link from 'next/link';
 
 // Update API base URL to match backend port
-const API_BASE_URL = 'http://localhost:5002';
-
-// Stars effect component (reused from the FreeMindAi chatbot)
-function StarsEffect() {
-  const [stars, setStars] = useState([]);
-  
-  useEffect(() => {
-    // Generate stars only on the client side
-    const newStars = Array.from({ length: 50 }).map((_, i) => ({
-      id: i,
-      width: Math.random() * 3 + 1,
-      height: Math.random() * 3 + 1,
-      top: Math.random() * 100,
-      left: Math.random() * 100,
-      glow: Math.random() * 10 + 5,
-      duration: Math.random() * 5 + 3
-    }));
-    setStars(newStars);
-  }, []);
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
-      {stars.map((star) => (
-        <div 
-          key={star.id}
-          className="absolute rounded-full bg-white" 
-          style={{
-            width: `${star.width}px`,
-            height: `${star.height}px`,
-            top: `${star.top}%`,
-            left: `${star.left}%`,
-            boxShadow: `0 0 ${star.glow}px rgba(255,255,255,0.8)`,
-            animation: `twinkle ${star.duration}s infinite ease-in-out`
-          }}
-        />
-      ))}
-    </div>
-  );
-}
+const API_BASE_URL = 'http://localhost:5000';
 
 export default function CsvAnalysis() {
   // State management
@@ -53,6 +16,49 @@ export default function CsvAnalysis() {
   const [error, setError] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState('');
   const [filePreview, setFilePreview] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [backendConnected, setBackendConnected] = useState(null);
+
+  // Test backend connection on component mount
+  useEffect(() => {
+    const testBackendConnection = async () => {
+      try {
+        // Try multiple endpoints to test connection
+        let connected = false;
+        
+        // First try the health endpoint
+        try {
+          const healthResponse = await fetch(`${API_BASE_URL}/health`, {
+            method: 'GET',
+          });
+          if (healthResponse.ok) {
+            connected = true;
+          }
+        } catch (healthErr) {
+          console.log('Health endpoint not available, trying upload endpoint...');
+          
+          // If health fails, try a simple HEAD request to upload endpoint
+          try {
+            const uploadResponse = await fetch(`${API_BASE_URL}/upload`, {
+              method: 'HEAD',
+            });
+            // Even if it returns an error, if we get a response it means server is running
+            connected = true;
+          } catch (uploadErr) {
+            console.log('Upload endpoint also not responding');
+            connected = false;
+          }
+        }
+        
+        setBackendConnected(connected);
+      } catch (err) {
+        setBackendConnected(false);
+        console.error('Backend connection test failed:', err);
+      }
+    };
+    
+    testBackendConnection();
+  }, []);
 
   // Handle file upload
   const handleFileUpload = async (e) => {
@@ -62,6 +68,9 @@ export default function CsvAnalysis() {
     try {
       setLoading(true);
       setError(null);
+      
+      console.log('Attempting to upload files:', uploadedFiles.map(f => f.name));
+      console.log('API URL:', `${API_BASE_URL}/upload`);
       
       const formData = new FormData();
       uploadedFiles.forEach(file => {
@@ -73,11 +82,16 @@ export default function CsvAnalysis() {
         body: formData,
       });
       
+      console.log('Response status:', response.status);
+      
       if (!response.ok) {
-        throw new Error('Failed to upload files');
+        const errorText = await response.text();
+        console.error('Upload failed:', errorText);
+        throw new Error(`Failed to upload files: ${response.status} ${response.statusText}`);
       }
       
       const data = await response.json();
+      console.log('Upload response:', data);
       
       if (data.success) {
         // Update available files
@@ -97,7 +111,14 @@ export default function CsvAnalysis() {
       }
     } catch (err) {
       console.error('Error uploading files:', err);
-      setError(err.message);
+      let errorMessage = err.message;
+      
+      // Handle network errors more gracefully
+      if (err.message.includes('Failed to fetch') || err.name === 'TypeError') {
+        errorMessage = 'Unable to connect to the analysis server. Please make sure the backend server is running on port 5000.';
+      }
+      
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -173,62 +194,131 @@ export default function CsvAnalysis() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-black pt-16">
-      {/* Page Header */}
-      <header className="bg-black border-b border-[#3A005A] py-6">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-white text-gray-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header Section */}
+        <div className="mb-12">
+          {/* Back Navigation */}
+          <div className="flex justify-start mb-6">
+            <Link 
+              href="/main" 
+              className="inline-flex items-center text-gray-600 hover:text-violet-600 transition-colors duration-200"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              <span>Back to Dashboard</span>
+            </Link>
+          </div>
+          
           <div className="text-center">
-            <h1 className="text-4xl font-bold mb-2">
-              <span className="bg-gradient-to-r from-[#FF5C41] via-[#F39C12] via-[#E67E22] via-[#BB8FCE] to-[#9B59B6] text-transparent bg-clip-text">FreeMindAi CSV Analysis</span>
-            </h1>
-            <p className="text-gray-400">Your cosmic data analysis companion</p>
-            <div className="h-1 w-32 bg-gradient-to-r from-[#A277FF] via-[#E056FD] to-[#6153CC] rounded-full mt-4 mx-auto shadow-[0_0_15px_5px_rgba(162,119,255,0.3)]"></div>
+            <div className="flex items-center justify-center mb-4">
+              <Brain className="w-8 h-8 text-violet-600 mr-3" />
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
+                CSV Data <span className="text-violet-600">Analysis</span>
+              </h1>
+            </div>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-4">
+              Upload your CSV files and ask questions about your data using natural language.
+            </p>
+            
+            {/* Backend Connection Status */}
+            {backendConnected !== null && (
+              <div className="flex items-center justify-center">
+                <div className={`flex items-center px-3 py-1 rounded-full text-sm ${
+                  backendConnected 
+                    ? 'bg-green-100 text-green-800 border border-green-200' 
+                    : 'bg-red-100 text-red-800 border border-red-200'
+                }`}>
+                  <div className={`w-2 h-2 rounded-full mr-2 ${
+                    backendConnected ? 'bg-green-500' : 'bg-red-500'
+                  }`}></div>
+                      {backendConnected 
+                    ? 'Analysis server connected on port 5000' 
+                    : (
+                        <span>
+                          Analysis server offline - 
+                          <span className="font-semibold"> Run: python analysis.py (port 5000)</span>
+                        </span>
+                      )
+                  }
+                </div>
+              </div>
+            )}
           </div>
         </div>
-      </header>
 
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex flex-col md:flex-row gap-6">
-          {/* Sidebar */}
-          <div className="w-full md:w-1/4">
-            <div className="bg-black rounded-lg shadow-[0_0_30px_rgba(162,119,255,0.2)] border border-[#3A005A] p-6 relative overflow-hidden">
-              <StarsEffect />
-                
-              {/* Glowing border effect */}
-              <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute inset-0 border border-[#A277FF] rounded-lg opacity-50 blur-[2px]"></div>
+        {/* Backend Offline Warning */}
+        {backendConnected === false && (
+          <div className="mb-8 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+            <div className="flex items-start">
+              <AlertCircle className="w-5 h-5 text-yellow-600 mr-3 mt-0.5" />
+              <div>
+                <h3 className="text-sm font-medium text-yellow-900 mb-1">Backend Server Required</h3>
+                <p className="text-sm text-yellow-700 mb-2">
+                  The analysis functionality requires a Python backend server. Please run the following command in your terminal:
+                </p>
+                <div className="bg-gray-800 text-green-400 p-2 rounded text-sm font-mono">
+                  python analysis.py
+                </div>
+                <p className="text-xs text-yellow-600 mt-2">
+                  Make sure you have installed the required dependencies: flask, pandas, google-generativeai, flask-cors
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Upload Section */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-lg p-6 hover:shadow-xl transition-all duration-200">
+              <div className="flex items-center mb-6">
+                <Upload className="w-6 h-6 text-violet-600 mr-2" />
+                <h2 className="text-xl font-semibold text-gray-900">Upload Data</h2>
               </div>
               
-              <h2 className="text-xl font-semibold text-[#A277FF] mb-6 relative z-10">Upload CSV Files</h2>
-              
-              <div className="mb-8 relative z-10">
-                <label className="block text-gray-300 mb-2 text-sm">Select CSV files</label>
-                <div className="border border-[#3A005A] bg-black/60 rounded-md p-2 hover:border-[#A277FF] transition-colors duration-200 cursor-pointer">
+              {/* File Upload */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Select CSV Files
+                </label>
+                <div className="relative">
                   <input
                     type="file"
                     accept=".csv"
                     multiple
                     onChange={handleFileUpload}
-                    className="w-full text-gray-300 focus:outline-none opacity-0 absolute inset-0 cursor-pointer"
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    disabled={loading}
                   />
-                  <div className="flex items-center justify-center gap-2 py-2">
-                    <Upload size={18} className="text-[#A277FF]" />
-                    <span className="text-gray-300 text-sm">Click to upload CSV files</span>
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-violet-400 transition-colors duration-200 bg-gray-50 hover:bg-gray-100">
+                    {loading ? (
+                      <div className="flex flex-col items-center">
+                        <Loader2 className="w-8 h-8 text-violet-600 animate-spin mb-2" />
+                        <p className="text-sm text-gray-600">Uploading...</p>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center">
+                        <Upload className="w-8 h-8 text-gray-400 mb-2" />
+                        <p className="text-sm text-gray-600">Click to upload CSV files</p>
+                        <p className="text-xs text-gray-500 mt-1">Support for multiple files</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
               
               {/* Available Files */}
-              {availableFiles && availableFiles.length > 0 && (
-                <div className="mb-8 relative z-10">
-                  <h2 className="text-xl font-semibold text-[#A277FF] mb-4">Available Datasets</h2>
-                  <label className="block text-gray-300 mb-2 text-sm">Select dataset</label>
+              {availableFiles.length > 0 && (
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Available Datasets ({availableFiles.length})
+                  </label>
                   <select
                     value={selectedFileName}
                     onChange={(e) => handleFileSelect(e.target.value)}
-                    className="w-full p-3 bg-black/60 border border-[#3A005A] rounded-md focus:outline-none focus:border-[#A277FF] text-white text-sm"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent"
                   >
-                    <option value="" disabled>Select a dataset</option>
+                    <option value="">Select a dataset</option>
                     {availableFiles.map((file, index) => (
                       <option key={index} value={file.filename}>
                         {file.filename}
@@ -238,170 +328,153 @@ export default function CsvAnalysis() {
                 </div>
               )}
               
-              {/* Help Section */}
-              <div className="mt-8 p-4 border border-[#3A005A] rounded-md relative z-10 bg-black/40">
-                <h3 className="font-semibold text-[#A277FF] mb-3 text-sm">Query Tips</h3>
-                <ul className="text-xs space-y-3 text-gray-300">
-                  <li className="flex items-start gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#A277FF] mt-1.5"></div>
-                    <span>Ask specific questions about your data</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#A277FF] mt-1.5"></div>
-                    <span>Try "Calculate average of [column]"</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#A277FF] mt-1.5"></div>
-                    <span>Ask for correlations between columns</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#A277FF] mt-1.5"></div>
-                    <span>Request data summaries and statistics</span>
-                  </li>
+              {/* Tips */}
+              <div className="bg-violet-50 border border-violet-200 rounded-lg p-4">
+                <h3 className="font-medium text-violet-900 mb-2 text-sm">💡 Query Tips</h3>
+                <ul className="text-xs space-y-1 text-violet-700">
+                  <li>• "What's the average of [column]?"</li>
+                  <li>• "Show correlation between columns"</li>
+                  <li>• "Find outliers in the data"</li>
+                  <li>• "Summarize the dataset"</li>
                 </ul>
               </div>
             </div>
           </div>
 
           {/* Main Content */}
-          <div className="w-full md:w-3/4 flex flex-col gap-6">
-            {/* Selected File Display */}
-            {selectedFileName && (
-              <div className="bg-black border border-[#3A005A] p-3 rounded-lg shadow-[0_0_15px_rgba(162,119,255,0.1)] relative overflow-hidden">
-                <StarsEffect />
-                <div className="relative z-10 flex items-center">
-                  <div className="w-3 h-3 bg-[#A277FF] rounded-full mr-2 shadow-[0_0_10px_rgba(162,119,255,0.7)]"></div>
-                  <p className="text-gray-300">
-                    Working with: <span className="text-[#A277FF] font-medium">{selectedFileName}</span>
-                  </p>
+          <div className="lg:col-span-2">
+            <div className="space-y-6">
+              {/* Selected File Indicator */}
+              {selectedFileName && (
+                <div className="bg-violet-50 border border-violet-200 rounded-lg p-4">
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-violet-600 rounded-full mr-3"></div>
+                    <p className="text-sm text-violet-900">
+                      Working with: <span className="font-medium">{selectedFileName}</span>
+                    </p>
+                  </div>
                 </div>
-              </div>
-            )}
-            
-            {/* CSV Preview */}
-            {filePreview && (
-              <div className="bg-black rounded-lg shadow-[0_0_30px_rgba(162,119,255,0.2)] border border-[#3A005A] p-6 relative overflow-hidden">
-                <StarsEffect />
-                
-                {/* Glowing border effect */}
-                <div className="absolute inset-0 pointer-events-none">
-                  <div className="absolute inset-0 border border-[#A277FF] rounded-lg opacity-50 blur-[2px]"></div>
-                </div>
-                
-                <div className="flex items-center mb-4 relative z-10">
-                  <FileText className="text-[#A277FF] mr-2" size={20} />
-                  <h2 className="text-xl font-semibold text-[#A277FF]">CSV Preview</h2>
-                </div>
-                
-                <div className="overflow-x-auto relative z-10">
-                  <table className="min-w-full">
-                    <thead>
-                      <tr className="border-b border-[#3A005A]">
-                        {filePreview.columns && filePreview.columns.map((col, i) => (
-                          <th key={i} className="py-3 px-4 text-left text-[#E056FD] font-medium text-sm border-r last:border-r-0 border-[#3A005A]">
-                            {col}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filePreview.data && Array.isArray(filePreview.data) && filePreview.data.map((row, rowIndex) => (
-                        <tr key={rowIndex} className="border-b border-[#3A005A]">
-                          {filePreview.columns && filePreview.columns.map((col, cellIndex) => (
-                            <td key={cellIndex} className="py-2.5 px-4 text-gray-300 text-sm border-r last:border-r-0 border-[#3A005A]">
-                              {row[col] !== undefined ? String(row[col]) : ''}
-                            </td>
+              )}
+              
+              {/* CSV Preview */}
+              {filePreview && (
+                <div className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden">
+                  <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                    <div className="flex items-center">
+                      <FileText className="w-5 h-5 text-gray-600 mr-2" />
+                      <h3 className="text-lg font-semibold text-gray-900">Data Preview</h3>
+                    </div>
+                  </div>
+                  
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          {filePreview.columns && filePreview.columns.map((col, i) => (
+                            <th key={i} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              {col}
+                            </th>
                           ))}
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {filePreview.data && Array.isArray(filePreview.data) && filePreview.data.slice(0, 5).map((row, rowIndex) => (
+                          <tr key={rowIndex} className="hover:bg-gray-50">
+                            {filePreview.columns && filePreview.columns.map((col, cellIndex) => (
+                              <td key={cellIndex} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {row[col] !== undefined ? String(row[col]) : ''}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    {filePreview.data && filePreview.data.length > 5 && (
+                      <div className="px-6 py-3 bg-gray-50 text-xs text-gray-500 text-center">
+                        Showing first 5 rows of {filePreview.data.length} total rows
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Query Input */}
-            <div className="bg-black rounded-lg shadow-[0_0_30px_rgba(162,119,255,0.2)] border border-[#3A005A] p-6 relative overflow-hidden">
-              <StarsEffect />
-              
-              {/* Glowing border effect */}
-              <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute inset-0 border border-[#A277FF] rounded-lg opacity-50 blur-[2px]"></div>
-              </div>
-              
-              <div className="flex items-center mb-4 relative z-10">
-                <Database className="text-[#A277FF] mr-2" size={20} />
-                <h2 className="text-xl font-semibold text-[#A277FF]">Ask About Your Data</h2>
-              </div>
-              
-              <form onSubmit={handleQuerySubmit} className="relative z-10">
-                <div className="mb-4">
-                  <textarea
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Enter your query about the data..."
-                    className="w-full p-4 bg-black/60 border border-[#3A005A] rounded-md focus:outline-none focus:border-[#A277FF] focus:ring-1 focus:ring-[#A277FF] min-h-32 text-white transition-all duration-200"
-                  />
+              {/* Query Section */}
+              <div className="bg-white rounded-2xl border border-gray-200 shadow-lg p-6">
+                <div className="flex items-center mb-4">
+                  <Database className="w-5 h-5 text-violet-600 mr-2" />
+                  <h3 className="text-lg font-semibold text-gray-900">Ask About Your Data</h3>
                 </div>
-                <button
-                  type="submit"
-                  disabled={loading || !selectedFileName}
-                  className={`
-                    bg-gradient-to-r from-[#A277FF] to-[#6153CC] text-white rounded-md px-6 py-3 font-medium
-                    focus:outline-none focus:ring-2 focus:ring-[#A277FF] focus:ring-offset-2 focus:ring-offset-black
-                    shadow-[0_0_15px_rgba(162,119,255,0.5)] transition-all duration-200
-                    ${loading || !selectedFileName ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-90'}
-                  `}
-                >
-                  {loading ? 'Processing...' : 'Analyze Data'}
-                </button>
-              </form>
+                
+                <form onSubmit={handleQuerySubmit} className="space-y-4">
+                  <div>
+                    <textarea
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                      placeholder="What would you like to know about your data? Ask in plain English..."
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent resize-none"
+                      rows={4}
+                      disabled={loading}
+                    />
+                  </div>
+                  <div className="flex justify-end">
+                    <button
+                      type="submit"
+                      disabled={loading || !selectedFileName || !query.trim()}
+                      className="inline-flex items-center px-6 py-3 bg-violet-600 text-white rounded-lg font-medium hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                    >
+                      {loading ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Processing...
+                        </>
+                      ) : (
+                        <>
+                          <BarChart3 className="w-4 h-4 mr-2" />
+                          Analyze Data
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              {/* Results */}
+              {result && (
+                <div className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden">
+                  <div className="bg-green-50 px-6 py-4 border-b border-green-200">
+                    <div className="flex items-center">
+                      <TrendingUp className="w-5 h-5 text-green-600 mr-2" />
+                      <h3 className="text-lg font-semibold text-green-900">Analysis Results</h3>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <div className="prose max-w-none">
+                      <pre className="whitespace-pre-wrap text-sm text-gray-700 bg-gray-50 rounded-lg p-4 border">
+                        {result}
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Error Display */}
+              {error && (
+                <div className="bg-white rounded-2xl border border-red-200 shadow-lg overflow-hidden">
+                  <div className="bg-red-50 px-6 py-4 border-b border-red-200">
+                    <div className="flex items-center">
+                      <AlertCircle className="w-5 h-5 text-red-600 mr-2" />
+                      <h3 className="text-lg font-semibold text-red-900">Error</h3>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <p className="text-red-700">{error}</p>
+                  </div>
+                </div>
+              )}
             </div>
-
-            {/* Results */}
-            {result && (
-              <div className="bg-black rounded-lg shadow-[0_0_30px_rgba(162,119,255,0.2)] border border-[#3A005A] p-6 relative overflow-hidden">
-                <StarsEffect />
-                
-                {/* Glowing border effect */}
-                <div className="absolute inset-0 pointer-events-none">
-                  <div className="absolute inset-0 border border-[#A277FF] rounded-lg opacity-50 blur-[2px]"></div>
-                </div>
-                
-                <h2 className="text-xl font-semibold text-[#A277FF] mb-4 relative z-10">Results</h2>
-                <div className="p-4 border border-[#3A005A] rounded-md whitespace-pre-wrap text-gray-300 relative z-10 bg-black/40">
-                  {result}
-                </div>
-              </div>
-            )}
-
-            {/* Error Display */}
-            {error && (
-              <div className="bg-black rounded-lg shadow-[0_0_30px_rgba(255,92,65,0.2)] border border-[#FF5C41] p-6 relative overflow-hidden">
-                <div className="flex items-center mb-4 relative z-10">
-                  <AlertCircle className="text-[#FF5C41] mr-2" size={20} />
-                  <h2 className="text-xl font-semibold text-[#FF5C41]">Error</h2>
-                </div>
-                <div className="text-gray-300 relative z-10">
-                  {error}
-                </div>
-              </div>
-            )}
           </div>
         </div>
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-black border-t border-[#3A005A] p-4 text-center">
-        <p className="text-[#A277FF]">FreeMindAi CSV Analysis â€¢ Powered by Local LLM</p>
-      </footer>
-      
-      <style jsx global>{`
-        @keyframes twinkle {
-          0%, 100% { opacity: 0.3; }
-          50% { opacity: 1; }
-        }
-      `}</style>
+      </div>
     </div>
   );
 }

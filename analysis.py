@@ -27,7 +27,7 @@ genai.configure(api_key=api_key)
 
 @app.route('/health', methods=['GET'])
 def health_check():
-    return jsonify({"success": True, "message": "Analysis server is running", "port": 5002})
+    return jsonify({"success": True, "message": "Analysis server is running", "port": 5000})
 
 def chat_with_csv(df, query):
     """
@@ -145,4 +145,4 @@ def query_csv():
 
 
 if __name__ == '__main__':
-    app.run(debug=False, port=5002, host='0.0.0.0')
+    app.run(debug=False, port=5000, host='0.0.0.0')

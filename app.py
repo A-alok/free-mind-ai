@@ -15,11 +15,26 @@ from visualization_cnn import create_cnn_visualization  # Import the CNN visuali
 from visualization_object import create_object_detection_visualization  # Import the object detection visualization module
 from utils import generate_loading_code, write_requirements_file, create_project_zip
 from db_system_integration import apply_patches
+import google.generativeai as genai
+from flask_cors import CORS
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv('.env.local')
 
 # Initialize Flask app
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 db_fs = apply_patches()
+
+# Configure Gemini API
+api_key = os.getenv("GOOGLE_API_KEY")
+if api_key:
+    genai.configure(api_key=api_key)
+    print(f"Gemini API configured successfully")
+else:
+    print("Warning: GOOGLE_API_KEY not found in environment variables")
 
 # Create directories in the specified path
 BASE_DIR = "ml_system"
@@ -36,6 +51,10 @@ os.makedirs(MODELS_DIR, exist_ok=True)
 # Create a directory for storing downloads
 DOWNLOADS_DIR = os.path.join(BASE_DIR, 'downloads')
 os.makedirs(DOWNLOADS_DIR, exist_ok=True)
+
+# Create a directory for CSV analysis files
+CSV_ANALYSIS_DIR = os.path.join(BASE_DIR, 'csv_analysis')
+os.makedirs(CSV_ANALYSIS_DIR, exist_ok=True)
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -399,6 +418,170 @@ def download(filename):
     except Exception as e:
         logger.error(f"Download error: {str(e)}")
         return jsonify({'error': f'Error downloading file: {str(e)}'}), 500
+
+# ===== CSV ANALYSIS ROUTES =====
+
+# Storage for uploaded CSV files
+uploaded_csv_files = {}
+
+def chat_with_csv(df, query):
+    """
+    Chat with CSV data using Gemini
+    """
+    try:
+        # Get DataFrame info
+        df_info = df.describe().to_string()
+        df_head = df.head(5).to_string()
+        df_columns = ', '.join(df.columns.tolist())
+        
+        # Create prompt for Gemini
+        prompt = f"""
+        I have a CSV dataset with the following columns: {df_columns}
+        
+        Here's a sample of the data:
+        {df_head}
+        
+        Here's a statistical summary:
+        {df_info}
+        
+        Based on this data, please answer the following question:
+        {query}
+        
+        Provide a direct and concise answer. If calculations are needed, explain your approach.
+        """
+        
+        # Initialize Gemini model
+        model = genai.GenerativeModel('gemini-2.0-flash-exp')
+        
+        # Get response from Gemini
+        response = model.generate_content(prompt)
+        
+        return response.text
+    
+    except Exception as e:
+        return f"An error occurred: {str(e)}"
+
+@app.route('/health', methods=['GET'])
+def health_check():
+    """Health check endpoint for CSV analysis"""
+    return jsonify({
+        "success": True, 
+        "message": "Analysis server is running", 
+        "port": 5000,
+        "gemini_configured": bool(api_key),
+        "csv_analysis_dir": os.path.exists(CSV_ANALYSIS_DIR),
+        "uploaded_files_count": len(uploaded_csv_files),
+        "database_connected": db_fs is not None
+    })
+
+@app.route('/upload', methods=['POST'])
+def upload_csv_file():
+    """Upload CSV files for analysis"""
+    if 'files' not in request.files:
+        return jsonify({"success": False, "error": "No file part"})
+    
+    files = request.files.getlist('files')
+    
+    if not files or files[0].filename == '':
+        return jsonify({"success": False, "error": "No files selected"})
+    
+    file_info = []
+    
+    for file in files:
+        if file and file.filename.endswith('.csv'):
+            filename = file.filename
+            
+            try:
+                # Read file content directly
+                file.seek(0)
+                file_content = file.read()
+                
+                # Ensure the csv_analysis directory exists in database
+                try:
+                    if not hasattr(db_fs, 'ensure_directory_exists'):
+                        # Fallback: try to create a dummy file to ensure directory exists
+                        dummy_content = b"directory_marker"
+                        db_fs.save_file_content(dummy_content, ".directory_marker", 'csv_analysis')
+                except Exception as dir_error:
+                    logger.info(f"Directory creation attempt: {str(dir_error)}")
+                
+                # Save to database storage using file content
+                try:
+                    db_fs.save_file_content(file_content, filename, 'csv_analysis')
+                    storage_location = 'database'
+                except Exception as db_error:
+                    # Fallback to filesystem storage
+                    logger.info(f"Database storage failed, using filesystem: {str(db_error)}")
+                    file_path = os.path.join(CSV_ANALYSIS_DIR, filename)
+                    with open(file_path, 'wb') as f:
+                        f.write(file_content)
+                    storage_location = 'filesystem'
+                
+                # Store filename and storage location for later use
+                uploaded_csv_files[filename] = {
+                    'filename': filename,
+                    'storage': storage_location
+                }
+                
+                # Create DataFrame from content for preview
+                df = pd.read_csv(io.BytesIO(file_content))
+                
+                preview = df.head(3).to_dict('records')
+                columns = df.columns.tolist()
+                file_info.append({
+                    "filename": filename,
+                    "preview": preview,
+                    "columns": columns
+                })
+            except Exception as e:
+                return jsonify({"success": False, "error": f"Error processing CSV: {str(e)}"})
+    
+    return jsonify({"success": True, "files": file_info})
+
+@app.route('/query', methods=['POST'])
+def query_csv():
+    """Query CSV data using natural language"""
+    data = request.json
+    
+    if not data or 'filename' not in data or 'query' not in data:
+        return jsonify({"success": False, "error": "Missing filename or query"})
+    
+    filename = data['filename']
+    query = data['query']
+    
+    # Check if file was uploaded
+    if filename not in uploaded_csv_files:
+        return jsonify({"success": False, "error": "File not found. Please upload the file first."})
+    
+    try:
+        # Get file content based on storage method
+        file_info = uploaded_csv_files[filename]
+        
+        if isinstance(file_info, dict) and file_info.get('storage') == 'filesystem':
+            # Read from filesystem
+            file_path = os.path.join(CSV_ANALYSIS_DIR, filename)
+            if not os.path.exists(file_path):
+                return jsonify({"success": False, "error": "File not found in filesystem"})
+            df = pd.read_csv(file_path)
+        else:
+            # Try database first
+            try:
+                file_content = db_fs.get_file(filename, 'csv_analysis')
+                df = pd.read_csv(io.BytesIO(file_content))
+            except Exception as db_error:
+                # Fallback to filesystem
+                file_path = os.path.join(CSV_ANALYSIS_DIR, filename)
+                if os.path.exists(file_path):
+                    df = pd.read_csv(file_path)
+                else:
+                    return jsonify({"success": False, "error": f"File not found in any storage: {str(db_error)}"})
+        
+        # Use the chat_with_csv function with Gemini
+        result = chat_with_csv(df, query)
+        
+        return jsonify({"success": True, "result": result})
+    except Exception as e:
+        return jsonify({"success": False, "error": f"An error occurred: {str(e)}"})
 
     
 if __name__ == '__main__':
