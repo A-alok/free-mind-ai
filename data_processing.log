@@ -1071,3 +1071,25 @@
 2025-10-05 02:05:01,758 - __main__ - INFO - Auto-detected task type for uploaded file: regression
 2025-10-05 02:05:01,759 - __main__ - INFO - Changing task type from classification to regression based on file analysis
 2025-10-05 02:05:01,759 - __main__ - INFO - Changing task type from classification to regression based on file analysis
+2025-10-05 02:05:19,925 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 02:05:19] "POST /process HTTP/1.1" 200 -
+2025-10-05 02:08:42,880 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 02:08:42,880 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 02:08:42,914 - __main__ - INFO - Auto-detected task type for uploaded file: regression
+2025-10-05 02:08:42,914 - __main__ - INFO - Auto-detected task type for uploaded file: regression
+2025-10-05 02:08:42,914 - __main__ - INFO - Changing task type from classification to regression based on file analysis
+2025-10-05 02:08:42,914 - __main__ - INFO - Changing task type from classification to regression based on file analysis
+2025-10-05 02:08:57,655 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 02:08:57] "POST /process HTTP/1.1" 200 -
+2025-10-05 02:10:28,641 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 02:10:28,641 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 02:10:28,673 - __main__ - INFO - Auto-detected task type for uploaded file: regression
+2025-10-05 02:10:28,673 - __main__ - INFO - Auto-detected task type for uploaded file: regression
+2025-10-05 02:10:28,674 - __main__ - INFO - Changing task type from classification to regression based on file analysis
+2025-10-05 02:10:28,674 - __main__ - INFO - Changing task type from classification to regression based on file analysis
+2025-10-05 02:10:38,698 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 02:10:38] "POST /process HTTP/1.1" 200 -
+2025-10-05 02:13:03,089 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 02:13:03,089 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 02:13:03,124 - __main__ - INFO - Auto-detected task type for uploaded file: regression
+2025-10-05 02:13:03,124 - __main__ - INFO - Auto-detected task type for uploaded file: regression
+2025-10-05 02:13:03,125 - __main__ - INFO - Changing task type from classification to regression based on file analysis
+2025-10-05 02:13:03,125 - __main__ - INFO - Changing task type from classification to regression based on file analysis
+2025-10-05 02:13:13,985 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 02:13:13] "POST /process HTTP/1.1" 200 -

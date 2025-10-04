@@ -1,16 +1,14 @@
 import Chatbot from '@/components/chatbot';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import FloatingControls from '@/components/FloatingControls';
 
-export default function chatbot() {
-    return (
-        <ProtectedRoute>
-            <div>
-                <Navbar />
-                <Chatbot />
-                <Footer />
-            </div>
-        </ProtectedRoute>
-    );
+export default function ChatbotPage() {
+  return (
+    <ProtectedRoute>
+      <>
+        <FloatingControls backHref="/main" />
+        <Chatbot />
+      </>
+    </ProtectedRoute>
+  );
 }

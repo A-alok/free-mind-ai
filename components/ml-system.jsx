@@ -20,6 +20,7 @@ import {
     BrainCircuit,
     CheckCircle,
     Cpu,
+    Loader2,
     Database,
     Download,
     Eye,
@@ -124,6 +125,7 @@ export default function MLSystem() {
   const [activeSection, setActiveSection] = useState(null)
   const [detectedTaskType, setDetectedTaskType] = useState(null)
   const [taskTypeChanged, setTaskTypeChanged] = useState(false)
+  const [resultsTab, setResultsTab] = useState('summary')
   const fileInputRef = useRef(null)
   const folderInputRef = useRef(null)
 
@@ -472,14 +474,14 @@ dashboardHeader: "border-b border-gray-200",
 dashboardTitle: "flex items-center gap-2 text-gray-900",
 dashboardDescription: "text-gray-600",
     loadingContainer: "flex flex-col items-center justify-center py-16 space-y-6",
-    loadingIcon: "h-12 w-12 text-purple-400 filter drop-shadow-[0_0_8px_rgba(147,51,234,0.5)]",
+    loadingIcon: "h-12 w-12 text-gray-700",
     progressContainer: "w-full max-w-md space-y-2",
 progressText: "flex justify-between text-sm text-gray-600",
 progressBar: "h-2 bg-gray-200 rounded-full overflow-hidden",
 progressFill:
-      "h-full bg-gradient-to-r from-violet-500 to-violet-600 rounded-full transition-all duration-500",
-    loadingTitle: "text-lg font-medium text-purple-200 drop-shadow-sm",
-    loadingSubtitle: "text-sm text-purple-300",
+      "h-full bg-black rounded-full transition-all duration-500",
+    loadingTitle: "text-lg font-medium text-gray-900",
+    loadingSubtitle: "text-sm text-gray-600",
     emptyStateContainer: "flex flex-col items-center justify-center py-16 space-y-6 text-center",
     emptyStateIcon: "p-6 rounded-full bg-gray-100",
     emptyStateTitle: "text-xl font-semibold mb-2 text-gray-900",
@@ -986,7 +988,7 @@ tableCell: "px-3 py-2 whitespace-nowrap text-sm text-gray-800 border-r border-gr
                 <Button onClick={handleSubmit} disabled={isLoading} className={styles.buildButton} size="lg">
                   {isLoading ? (
                     <>
-                      <ArrowLeft className="animate-spin h-5 w-5 mr-2" />
+                      <Loader2 className="animate-spin h-5 w-5 mr-2" />
                       Training Model...
                     </>
                   ) : (
@@ -1047,7 +1049,7 @@ tableCell: "px-3 py-2 whitespace-nowrap text-sm text-gray-800 border-r border-gr
                   <div className={styles.loadingContainer}>
                     <div className="relative w-24 h-24">
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <BrainCircuit className={styles.loadingIcon} />
+                        <Cpu className={styles.loadingIcon} />
                       </div>
                       <svg
                         className="animate-spin absolute inset-0 h-full w-full"
@@ -1055,7 +1057,7 @@ tableCell: "px-3 py-2 whitespace-nowrap text-sm text-gray-800 border-r border-gr
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <circle
-                          className="opacity-25 stroke-purple-500"
+                          className="opacity-25 stroke-gray-300"
                           cx="50"
                           cy="50"
                           r="45"
@@ -1063,7 +1065,7 @@ tableCell: "px-3 py-2 whitespace-nowrap text-sm text-gray-800 border-r border-gr
                           strokeWidth="8"
                         />
                         <circle
-                          className="opacity-75 stroke-purple-600"
+                          className="opacity-90 stroke-black"
                           cx="50"
                           cy="50"
                           r="45"
@@ -1085,7 +1087,7 @@ tableCell: "px-3 py-2 whitespace-nowrap text-sm text-gray-800 border-r border-gr
                       </Progress>
                     </div>
                     <div className="text-center space-y-1">
-                      <p className={styles.loadingTitle}>Building Your ML Project</p>
+                      <p className={styles.loadingTitle}>Building your ML project</p>
                       <p className={styles.loadingSubtitle}>This may take a few moments</p>
                     </div>
                   </div>
@@ -1098,230 +1100,197 @@ tableCell: "px-3 py-2 whitespace-nowrap text-sm text-gray-800 border-r border-gr
                       <p className="text-sm text-gray-600">Check settings on the left, upload data if needed, then start training.</p>
                     </div>
                     <div className="flex flex-wrap gap-3 justify-center">
-                      <button className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 bg-white text-gray-800 hover:bg-gray-50">
+                      <button className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 bg-white text-gray-800 hover:bg-gray-50 focus:outline-none focus-visible:outline-none focus:ring-0">
                         <Database className="h-4 w-4" /> Upload data
                       </button>
-                      <button className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 bg-white text-gray-800 hover:bg-gray-50">
+                      <button className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 bg-white text-gray-800 hover:bg-gray-50 focus:outline-none focus-visible:outline-none focus:ring-0">
                         <Cpu className="h-4 w-4" /> Configure model
                       </button>
-                      <button className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 bg-white text-gray-800 hover:bg-gray-50">
+                      <button className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 bg-white text-gray-800 hover:bg-gray-50 focus:outline-none focus-visible:outline-none focus:ring-0">
                         <BarChart3 className="h-4 w-4" /> Visualize
                       </button>
                     </div>
                   </div>
                 ) : (
                   <div className="space-y-6">
-                    {/* Data Preview Section - Now displayed first */}
-                    {dataPreview && dataPreview.data && Array.isArray(dataPreview.data) && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                        className={styles.dataPreviewContainer}
-                      >
-                        <div className={styles.dataPreviewHeader}>
-                          <h3 className={styles.dataPreviewTitle}>
-                            <Table className="h-5 w-5 text-purple-400 filter drop-shadow-[0_0_5px_rgba(147,51,234,0.5)]" />
-                            Data Preview
-                          </h3>
-                          <Button variant="outline" size="sm" className={styles.dataPreviewButton}>
-                            <Eye className="h-4 w-4 mr-1" />
-                            View Full Data
-                          </Button>
+                    {/* Results Tabs */}
+                    <div className="flex items-center gap-2 border-b border-gray-200">
+                      {[
+                        { id: 'summary', label: 'Summary' },
+                        { id: 'data', label: 'Data' },
+                        { id: 'visuals', label: 'Visuals' },
+                        { id: 'details', label: 'Details' },
+                      ].map((t) => (
+                        <button
+                          key={t.id}
+                          onClick={() => setResultsTab(t.id)}
+                          className={`px-3 py-2 text-sm rounded-t-md border-b-2 -mb-px focus:outline-none focus-visible:outline-none focus:ring-0 ${
+                            resultsTab === t.id
+                              ? 'border-black text-black'
+                              : 'border-transparent text-gray-600 hover:text-black'
+                          }`}
+                        >
+                          {t.label}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Summary Tab */}
+                    {resultsTab === 'summary' && (
+                      <div className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div className="p-4 bg-white border border-gray-200 rounded-lg">
+                            <div className="text-xs text-gray-500">Score</div>
+                            <div className="flex items-end gap-2 mt-1">
+                              <div className="text-3xl font-semibold text-gray-900">{modelInfo?.score?.toFixed(4) ?? '—'}</div>
+                              <div className="text-xs text-gray-500">/ 1.0</div>
+                            </div>
+                            <div className="mt-2">
+                              <Progress value={(modelInfo?.score ?? 0) * 100} className="h-2 bg-gray-200 rounded-full" />
+                            </div>
+                          </div>
+                          <div className="p-4 bg-white border border-gray-200 rounded-lg">
+                            <div className="text-xs text-gray-500">Task</div>
+                            <div className="mt-1 font-medium capitalize">{(taskType || '').replace('_',' ') || '—'}</div>
+                            <div className="mt-2 inline-flex items-center gap-2 text-xs text-gray-600">
+                              <Cpu className="h-4 w-4 text-gray-500" /> {modelInfo?.model_name || 'Model'}
+                            </div>
+                          </div>
+                          <div className="p-4 bg-white border border-gray-200 rounded-lg">
+                            <div className="text-xs text-gray-500">Data</div>
+                            <div className="mt-1 font-medium">{(dataPreview?.data?.length ?? 0)} rows • {(dataPreview?.columns?.length ?? 0)} cols</div>
+                            {downloadUrl && (
+                              <button onClick={handleDownload} className="mt-2 inline-flex items-center gap-2 text-sm text-black hover:underline">
+                                <Download className="h-4 w-4" /> Download project
+                              </button>
+                            )}
+                          </div>
                         </div>
-                        <div className={styles.tableContainer}>
-                          <div className="inline-block min-w-full align-middle">
-                            <div className="overflow-hidden border border-purple-500/50 rounded-lg shadow-inner">
-                              <table className={styles.table}>
-                                <thead className={styles.tableHeader}>
+
+                        {visualizations && visualizations.plots && (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {visualizations.plots.slice(0, 2).map((plot, index) => (
+                              <div key={index} className="border border-gray-200 rounded-lg bg-white">
+                                <div className="px-4 py-2 border-b border-gray-200 flex items-center justify-between">
+                                  <h4 className="text-sm font-medium text-gray-900">{plot.title}</h4>
+                                  <Badge variant="outline">{plot.image ? 'Visualization' : 'Data'}</Badge>
+                                </div>
+                                <div className="p-3">{createPlotlyVisualization(plot)}</div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Data Tab */}
+                    {resultsTab === 'data' && (
+                      <div className="space-y-6">
+                        {dataPreview && dataPreview.data && Array.isArray(dataPreview.data) && (
+                          <div className="border border-gray-200 rounded-lg bg-white">
+                            <div className="px-4 py-2 border-b border-gray-200 flex items-center justify-between">
+                              <h3 className="text-sm font-medium text-gray-900 flex items-center gap-2"><Table className="h-4 w-4 text-gray-600" /> Data preview</h3>
+                              <Button variant="outline" size="sm" className="h-8"> <Eye className="h-4 w-4 mr-1" /> View full</Button>
+                            </div>
+                            <div className="p-3 overflow-auto">
+                              <table className="min-w-full divide-y divide-gray-200">
+                                <thead className="bg-gray-50">
                                   <tr>
                                     {dataPreview.columns.map((col, i) => (
-                                      <th key={i} scope="col" className={styles.tableHeaderCell}>
-                                        {col}
-                                      </th>
+                                      <th key={i} className="px-3 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider border-r border-gray-200 last:border-r-0">{col}</th>
                                     ))}
                                   </tr>
                                 </thead>
-                                <tbody className={styles.tableBody}>
+                                <tbody className="bg-white divide-y divide-gray-100">
                                   {dataPreview.data.map((row, i) => (
-                                    <tr key={i} className={styles.tableRow}>
-                                      {Array.isArray(row) ? (
-                                        // Handle if row is an array
-                                        row.map((cell, j) => (
-                                          <td key={j} className={styles.tableCell}>
-                                            {cell !== null && cell !== undefined
-                                              ? String(cell).substring(0, 15)
-                                              : "null"}
-                                          </td>
-                                        ))
-                                      ) : typeof row === "object" && row !== null ? (
-                                        // Handle if row is an object
-                                        Object.values(row).map((cell, j) => (
-                                          <td key={j} className={styles.tableCell}>
-                                            {cell !== null && cell !== undefined
-                                              ? String(cell).substring(0, 15)
-                                              : "null"}
-                                          </td>
-                                        ))
-                                      ) : (
-                                        // Handle if row is a primitive
-                                        <td className={styles.tableCell}>
-                                          {row !== null && row !== undefined ? String(row).substring(0, 15) : "null"}
+                                    <tr key={i} className="hover:bg-gray-50">
+                                      {(Array.isArray(row) ? row : Object.values(row)).map((cell, j) => (
+                                        <td key={j} className="px-3 py-2 whitespace-nowrap text-sm text-gray-800 border-r border-gray-100 last:border-r-0">
+                                          {cell !== null && cell !== undefined ? String(cell).substring(0, 15) : 'null'}
                                         </td>
-                                      )}
+                                      ))}
                                     </tr>
                                   ))}
                                 </tbody>
                               </table>
                             </div>
                           </div>
-                        </div>
-                      </motion.div>
+                        )}
+
+                        {datasetInfo && (
+                          <div className="border border-gray-200 rounded-lg bg-white">
+                            <div className="px-4 py-2 border-b border-gray-200 flex items-center justify-between">
+                              <h3 className="text-sm font-medium text-gray-900 flex items-center gap-2"><Database className="h-4 w-4 text-gray-600" /> Dataset info</h3>
+                            </div>
+                            <div className="p-4">
+                              <ScrollArea className="h-[200px] rounded-md">
+                                {typeof datasetInfo === 'string' ? (
+                                  <pre className="text-sm text-gray-700 whitespace-pre-wrap">{datasetInfo}</pre>
+                                ) : (
+                                  <pre className="text-sm text-gray-700 whitespace-pre-wrap">{JSON.stringify(datasetInfo, null, 2)}</pre>
+                                )}
+                              </ScrollArea>
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     )}
 
-                    {/* Dataset Info Section */}
-                    {datasetInfo && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
-                        className={styles.datasetInfoContainer}
-                      >
-                        <div className={styles.datasetInfoHeader}>
-                          <h3 className={styles.datasetInfoTitle}>
-                            <Database className="h-5 w-5 text-purple-400 filter drop-shadow-[0_0_5px_rgba(147,51,234,0.5)]" />
-                            Dataset Information
-                          </h3>
-                        </div>
-                        <div className={styles.datasetInfoContent}>
-                          <ScrollArea className="h-[200px] rounded-md">
-                            {typeof datasetInfo === "string" ? (
-                              <pre className={styles.preText}>{datasetInfo}</pre>
-                            ) : (
-                              <pre className={styles.preText}>{JSON.stringify(datasetInfo, null, 2)}</pre>
+                    {/* Visuals Tab */}
+                    {resultsTab === 'visuals' && visualizations && visualizations.plots && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {visualizations.plots.map((plot, index) => (
+                          <div key={index} className="border border-gray-200 rounded-lg bg-white">
+                            <div className="px-4 py-2 border-b border-gray-200 flex items-center justify-between">
+                              <h4 className="text-sm font-medium text-gray-900">{plot.title}</h4>
+                              <Badge variant="outline">{plot.image ? 'Visualization' : 'Data'}</Badge>
+                            </div>
+                            <div className="p-3">{createPlotlyVisualization(plot)}</div>
+                            {plot.explanation && (
+                              <details className="px-4 py-3 border-t text-sm text-gray-700">
+                                <summary className="cursor-pointer text-gray-800">AI explanation</summary>
+                                <p className="mt-2 text-gray-600">{plot.explanation}</p>
+                              </details>
                             )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Details Tab */}
+                    {resultsTab === 'details' && modelInfo && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="border border-gray-200 rounded-lg bg-white p-4">
+                          <h3 className="text-sm font-medium text-gray-900 mb-3">Model</h3>
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <div className="text-xs text-gray-500">Name</div>
+                              <div className="font-medium">{modelInfo.model_name}</div>
+                            </div>
+                            <div>
+                              <div className="text-xs text-gray-500">Task</div>
+                              <div className="font-medium capitalize">{taskType.replace('_',' ')}</div>
+                            </div>
+                            <div className="col-span-2">
+                              <div className="text-xs text-gray-500">Score</div>
+                              <div className="flex items-end gap-2 mt-1">
+                                <div className="text-2xl font-semibold">{modelInfo.score.toFixed(4)}</div>
+                                <div className="text-xs text-gray-500">/ 1.0</div>
+                              </div>
+                              <div className="mt-2">
+                                <Progress value={modelInfo.score * 100} className="h-2 bg-gray-200 rounded-full" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="border border-gray-200 rounded-lg bg-white p-4">
+                          <h3 className="text-sm font-medium text-gray-900 mb-3">JSON output</h3>
+                          <ScrollArea className="h-[260px]">
+                            <pre className="text-xs text-gray-700 whitespace-pre-wrap">{JSON.stringify(result, null, 2)}</pre>
                           </ScrollArea>
                         </div>
-                      </motion.div>
-                    )}
-
-                    {/* Model Information Section - Now displayed second */}
-                    {modelInfo && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className={styles.modelInfoContainer}
-                      >
-                        <div className={styles.modelInfoHeader}>
-                          <h3 className={styles.modelInfoTitle}>
-                            <BrainCircuit className="h-5 w-5 text-purple-400 filter drop-shadow-[0_0_5px_rgba(147,51,234,0.5)]" />
-                            Model Information
-                          </h3>
-                          <Badge className={taskTypeColors[taskType]}>
-                            {taskTypeIcons[taskType]}
-                            <span className="ml-1">{modelInfo.model_name}</span>
-                          </Badge>
-                        </div>
-                        <div className={styles.modelInfoGrid}>
-                          <div className={styles.modelInfoCard}>
-                            <div className={styles.modelInfoLabel}>Performance Score</div>
-                            <div className="flex items-end gap-2">
-                              <span className={styles.modelInfoValue}>{modelInfo.score.toFixed(4)}</span>
-                              <span className={styles.modelInfoScale}>/ 1.0</span>
-                            </div>
-                            <div className="mt-2">
-                              <Progress value={modelInfo.score * 100} className={styles.progressBar}>
-                                <div className={styles.progressFill} style={{ width: `${modelInfo.score * 100}%` }} />
-                              </Progress>
-                            </div>
-                          </div>
-                          <div className={styles.modelInfoCard}>
-                            <div className={styles.modelInfoLabel}>Task Type</div>
-                            <div className="flex items-center gap-2">
-                              <div className="p-2 rounded-md bg-black/70 shadow-[0_0_10px_rgba(147,51,234,0.2)]">
-                                {taskTypeIcons[taskType]}
-                              </div>
-                              <div>
-                                <div className="font-medium capitalize text-purple-200">
-                                  {taskType.replace("_", " ")}
-                                </div>
-                                <div className="text-xs text-purple-300">
-                                  {taskType === "classification" && "Categorize data into classes"}
-                                  {taskType === "regression" && "Predict continuous values"}
-                                  {taskType === "nlp" && "Process and analyze text data"}
-                                  {taskType === "image_classification" && "Classify images into categories"}
-                                  {taskType === "object_detection" && "Detect objects in images"}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-
-                    {/* Visualizations Section - Now displayed last */}
-                    {visualizations && visualizations.plots && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.3 }}
-                        className={styles.visualizationsContainer}
-                      >
-                        <div className={styles.visualizationsHeader}>
-                          <h3 className={styles.visualizationsTitle}>
-                            <BarChart3 className="h-5 w-5 text-purple-400 filter drop-shadow-[0_0_5px_rgba(147,51,234,0.5)]" />
-                            Visualizations
-                          </h3>
-                          <TooltipProvider>
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <Button variant="outline" size="sm" className={styles.dataPreviewButton}>
-                                  <Info className="h-4 w-4" />
-                                </Button>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p className="text-xs max-w-xs">
-                                  These visualizations help you understand your model's performance and data patterns,
-                                  generated from your actual data.
-                                </p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                        </div>
-                        <div className={styles.visualizationsGrid}>
-                          {visualizations.plots.map((plot, index) => (
-                            <motion.div
-                              key={index}
-                              className={styles.plotContainer}
-                              initial={{ opacity: 0, scale: 0.95 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
-                            >
-                              <div className={styles.plotHeader}>
-                                <h4 className={styles.plotTitle}>{plot.title}</h4>
-                                <Badge variant="outline" className={styles.plotBadge}>
-                                  {plot.image ? "Visualization" : "Data"}
-                                </Badge>
-                              </div>
-                              <div className={styles.plotContent}>{createPlotlyVisualization(plot, index)}</div>
-                              {plot.explanation && (
-                                <Accordion type="single" collapsible className="border-t border-purple-500/50">
-                                  <AccordionItem value="explanation" className="border-b-0">
-                                    <AccordionTrigger className={styles.explanationTrigger}>
-                                      <Zap className="h-3.5 w-3.5 mr-1 filter drop-shadow-[0_0_5px_rgba(147,51,234,0.5)]" />
-                                      AI Explanation
-                                    </AccordionTrigger>
-                                    <AccordionContent className={styles.explanationContent}>
-                                      <div className={styles.explanationText}>{plot.explanation}</div>
-                                    </AccordionContent>
-                                  </AccordionItem>
-                                </Accordion>
-                              )}
-                            </motion.div>
-                          ))}
-                        </div>
-                      </motion.div>
+                      </div>
                     )}
                   </div>
                 )}
