@@ -235,7 +235,7 @@ export default function RegisterPage() {
     return (
         <div className="flex flex-col min-h-screen bg-white text-gray-900" ref={containerRef}>
             
-            <section className="flex-grow relative py-12 z-10">
+            <section className="flex-grow relative pt-4 pb-10 z-10">
                 <div className="container mx-auto px-4 sm:px-6 relative">
                    
                     {/* Local back button (no header) */}
