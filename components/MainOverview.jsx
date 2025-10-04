@@ -3,14 +3,24 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Plus, FolderKanban, Table, Layers, Rocket, Bot, LineChart } from "lucide-react";
-import CreateProjectModal from "@/components/CreateProjectModal";
+import { Plus, FolderKanban, Table, Layers, Rocket, Bot, LineChart, LogOut } from "lucide-react";
+import SimpleCreateProjectModal from "@/components/SimpleCreateProjectModal";
 
 export default function MainOverview() {
   const router = useRouter();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+      try { localStorage.removeItem("cachedUser"); } catch (e) {}
+      router.push("/");
+    } catch (e) {
+      router.push("/");
+    }
+  };
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -38,10 +48,10 @@ export default function MainOverview() {
   const quickActions = [
     { label: "New Project", icon: <Plus className="h-5 w-5" />, onClick: () => setIsModalOpen(true) },
     { label: "ML Builder", href: "/ml", icon: <FolderKanban className="h-5 w-5" /> },
+    { label: "Chatbot", href: "/chatbot", icon: <Bot className="h-5 w-5" /> },
     { label: "CSV Analysis", href: "/analysis", icon: <Table className="h-5 w-5" /> },
     { label: "Alter & Expand", href: "/alter_expand", icon: <Layers className="h-5 w-5" /> },
     { label: "Deploy", href: "/deploy", icon: <Rocket className="h-5 w-5" /> },
-    { label: "Chatbot", href: "/chatbot", icon: <Bot className="h-5 w-5" /> },
   ];
 
   const onCreateProject = (project) => {
@@ -51,21 +61,25 @@ export default function MainOverview() {
   };
 
   return (
-    <main className="min-h-screen bg-white text-gray-900 pt-28">
+    <main className="min-h-screen bg-white text-gray-900 pt-8">
+      {/* Floating logout control */}
+      <div className="fixed top-4 right-6 z-40">
+        <button
+          onClick={handleLogout}
+          className="h-10 w-10 rounded-full bg-red-600 hover:bg-red-700 text-white shadow flex items-center justify-center"
+          aria-label="Logout"
+          title="Logout"
+        >
+          <LogOut className="h-5 w-5" />
+        </button>
+      </div>
+
       {/* Hero */}
       <section className="max-w-7xl mx-auto px-6">
         <div className="rounded-2xl border border-gray-200 bg-gradient-to-br from-violet-50 to-white p-8 md:p-10">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Welcome to your workspace</h1>
-              <p className="mt-2 text-gray-600">Create, analyze, and deploy ML projects from a single, clean dashboard.</p>
-            </div>
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="inline-flex items-center gap-2 rounded-full bg-violet-600 px-5 py-3 text-white shadow-lg hover:bg-violet-700 transition"
-            >
-              <Plus className="h-5 w-5" /> New Project
-            </button>
+          <div className="flex flex-col gap-2">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Welcome to your workspace</h1>
+            <p className="text-gray-600">Create, analyze, and deploy ML projects from a single, clean dashboard.</p>
           </div>
         </div>
       </section>
@@ -103,11 +117,8 @@ export default function MainOverview() {
 
       {/* Recent projects */}
       <section className="max-w-7xl mx-auto px-6 mt-10 mb-16">
-        <div className="flex items-center justify-between mb-4">
+        <div className="mb-4">
           <h2 className="text-xl font-semibold">Recent projects</h2>
-          {!loading && (
-            <button onClick={() => setIsModalOpen(true)} className="text-violet-700 hover:text-violet-800 text-sm">Create new</button>
-          )}
         </div>
 
         <div className="rounded-2xl border border-gray-200 bg-white">
@@ -143,7 +154,7 @@ export default function MainOverview() {
       </section>
 
       {isModalOpen && (
-        <CreateProjectModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSubmit={onCreateProject} />
+        <SimpleCreateProjectModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSubmit={onCreateProject} />
       )}
     </main>
   );

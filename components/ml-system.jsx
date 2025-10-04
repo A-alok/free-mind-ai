@@ -40,6 +40,7 @@ import {
 } from "lucide-react"
 import dynamic from "next/dynamic"
 import { useEffect, useRef, useState } from "react"
+import Link from "next/link"
 
 // Dynamically import Plotly to avoid SSR issues
 const Plot = dynamic(() => import("react-plotly.js"), { ssr: false })
@@ -435,48 +436,48 @@ export default function MLSystem() {
 
   // Define custom styles for the component
   const styles = {
-    container: "min-h-screen bg-black text-white pt-16",
-    gradient:
-      "absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(120,30,255,0.2),transparent_50%),radial-gradient(circle_at_bottom_left,rgba(70,0,150,0.15),transparent_50%)] pointer-events-none",
-    content: "container mx-auto px-4 py-4 relative z-10",
-    header: "text-center mb-8",
-    title:
-      "text-5xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600 drop-shadow-[0_2px_5px_rgba(147,51,234,0.5)]",
-    subtitle: "text-xl text-purple-300 drop-shadow-sm",
-    configCard:
-      "lg:col-span-1 bg-black/50 border border-purple-500/30 backdrop-blur-md shadow-[0_10px_50px_-12px_rgba(147,51,234,0.25)] rounded-3xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_80px_-12px_rgba(147,51,234,0.35)] hover:border-purple-500/50",
-    configHeader: "bg-gradient-to-b from-purple-900/40 to-purple-800/20 pt-0 pb-3",
-    configTitle: "flex items-center gap-2 text-purple-300",
-    configDescription: "text-purple-200 drop-shadow-sm",
-    uploadArea:
-      "border-2 border-dashed border-purple-500/50 rounded-lg p-6 text-center cursor-pointer hover:bg-purple-900/30 hover:border-purple-500/70 transition-all duration-300 group backdrop-blur-sm",
-    uploadIcon:
-      "mx-auto h-8 w-8 text-purple-300 mb-2 group-hover:text-purple-400 transition-colors group-hover:scale-110 duration-300",
-    uploadText: "text-sm text-purple-300 group-hover:text-purple-200 transition-colors",
+container: "min-h-screen bg-white text-gray-900 pt-8",
+gradient:
+      "absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(147,51,234,0.05),transparent_50%),radial-gradient(circle_at_bottom_left,rgba(79,70,229,0.04),transparent_50%)] pointer-events-none",
+content: "max-w-7xl mx-auto px-6 py-4 relative z-10",
+header: "mb-8",
+title:
+      "text-4xl md:text-5xl font-bold mb-2 text-gray-900",
+subtitle: "text-base md:text-lg text-gray-600",
+configCard:
+      "lg:col-span-1 bg-white border border-gray-200 shadow-sm rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-md hover:border-violet-300",
+configHeader: "pt-0 pb-3 border-b border-gray-200",
+configTitle: "flex items-center gap-2 text-gray-900",
+configDescription: "text-gray-600",
+uploadArea:
+      "border-2 border-dashed border-violet-300 rounded-lg p-6 text-center cursor-pointer hover:bg-violet-50 hover:border-violet-400 transition-all duration-300",
+uploadIcon:
+      "mx-auto h-8 w-8 text-violet-600 mb-2 transition-colors",
+uploadText: "text-sm text-gray-600",
     uploadBadge: "bg-purple-500/20 text-purple-400 border-purple-500/50 shadow-[0_0_10px_rgba(147,51,234,0.3)]",
     textareaWrapper: "relative",
-    textareaIcon: "absolute left-3 top-3 h-5 w-5 text-purple-300",
-    textarea:
-      "w-full rounded-lg bg-black/60 border-purple-500/50 text-white pl-10 p-3 focus:ring-purple-500 focus:border-purple-500 shadow-inner backdrop-blur-sm transition-all duration-300 focus:shadow-[0_0_15px_rgba(147,51,234,0.3)]",
+textareaIcon: "absolute left-3 top-3 h-5 w-5 text-violet-500",
+textarea:
+      "w-full rounded-lg bg-white border border-gray-300 text-gray-900 pl-10 p-3 focus:ring-violet-600 focus:border-transparent shadow-inner transition-all duration-300",
     taskTypeButton: {
       active:
         "bg-gradient-to-r from-purple-600 to-purple-600 text-white border-none shadow-[0_0_15px_rgba(147,51,234,0.3)]",
-      inactive: "bg-black/60 hover:bg-purple-900/30 border-purple-500/50 text-purple-300 backdrop-blur-sm",
+inactive: "bg-white hover:bg-gray-50 border border-gray-300 text-gray-700",
     },
     buildButton:
       "w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white font-medium shadow-[0_10px_20px_-10px_rgba(147,51,234,0.5)] py-3 rounded-lg transition-all duration-300 hover:shadow-[0_15px_30px_-8px_rgba(147,51,234,0.6)] transform hover:-translate-y-1",
-    dashboardCard:
-      "bg-black/60 border border-purple-500/30 backdrop-blur-md shadow-[0_10px_50px_-12px_rgba(147,51,234,0.25)] rounded-3xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_80px_-12px_rgba(147,51,234,0.35)] hover:border-purple-500/50",
-    dashboardHeader: "bg-gradient-to-b from-purple-900/40 to-purple-800/20",
-    dashboardTitle: "flex items-center gap-2 text-purple-300",
-    dashboardDescription: "text-purple-200 drop-shadow-sm",
+dashboardCard:
+      "bg-white border border-gray-200 shadow-sm rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-md hover:border-violet-300",
+dashboardHeader: "border-b border-gray-200",
+dashboardTitle: "flex items-center gap-2 text-gray-900",
+dashboardDescription: "text-gray-600",
     loadingContainer: "flex flex-col items-center justify-center py-16 space-y-6",
     loadingIcon: "h-12 w-12 text-purple-400 filter drop-shadow-[0_0_8px_rgba(147,51,234,0.5)]",
     progressContainer: "w-full max-w-md space-y-2",
-    progressText: "flex justify-between text-sm text-purple-300",
-    progressBar: "h-2 bg-gray-700/70 rounded-full overflow-hidden backdrop-blur-sm",
-    progressFill:
-      "h-full bg-gradient-to-r from-purple-500 to-purple-600 rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(147,51,234,0.5)]",
+progressText: "flex justify-between text-sm text-gray-600",
+progressBar: "h-2 bg-gray-200 rounded-full overflow-hidden",
+progressFill:
+      "h-full bg-gradient-to-r from-violet-500 to-violet-600 rounded-full transition-all duration-500",
     loadingTitle: "text-lg font-medium text-purple-200 drop-shadow-sm",
     loadingSubtitle: "text-sm text-purple-300",
     emptyStateContainer: "flex flex-col items-center justify-center py-16 space-y-6 text-center",
@@ -497,13 +498,13 @@ export default function MLSystem() {
     dataPreviewTitle: "font-medium flex items-center gap-2 text-purple-300",
     dataPreviewButton: "h-8 border-purple-500/50 hover:bg-purple-900/30 backdrop-blur-sm",
     tableContainer: "p-4 overflow-auto",
-    table: "min-w-full divide-y divide-purple-500/50",
-    tableHeader: "bg-black/60",
-    tableHeaderCell:
-      "px-3 py-2 text-left text-xs font-medium text-purple-300 uppercase tracking-wider border-r border-purple-500/50 last:border-r-0",
-    tableBody: "bg-black/40 divide-y divide-purple-500/50",
-    tableRow: "hover:bg-purple-900/30 transition-colors backdrop-blur-sm",
-    tableCell: "px-3 py-2 whitespace-nowrap text-sm text-purple-200 border-r border-purple-500/50 last:border-r-0",
+table: "min-w-full divide-y divide-gray-200",
+tableHeader: "bg-gray-50",
+tableHeaderCell:
+      "px-3 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider border-r border-gray-200 last:border-r-0",
+tableBody: "bg-white divide-y divide-gray-100",
+tableRow: "hover:bg-violet-50 transition-colors",
+tableCell: "px-3 py-2 whitespace-nowrap text-sm text-gray-800 border-r border-gray-100 last:border-r-0",
     datasetInfoContainer:
       "bg-black/60 rounded-lg border border-purple-500/30 overflow-hidden shadow-xl backdrop-blur-sm transition-all duration-300 hover:shadow-[0_15px_30px_-5px_rgba(147,51,234,0.25)] hover:border-purple-500/50",
     datasetInfoHeader:
@@ -549,7 +550,7 @@ export default function MLSystem() {
   // Show Project Configuration if not configured yet
   if (!isConfigured) {
     return (
-      <div className="min-h-screen bg-black text-white relative overflow-hidden">
+      <div className="min-h-screen bg-white text-gray-900 relative overflow-hidden">
         {/* Background Effects */}
         <div className="absolute inset-0">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full filter blur-3xl animate-pulse"></div>
@@ -562,7 +563,7 @@ export default function MLSystem() {
             <motion.h1 
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent"
+              className="text-4xl font-bold mb-4 text-gray-900"
             >
               Project Configuration
             </motion.h1>
@@ -570,7 +571,7 @@ export default function MLSystem() {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-gray-400 text-lg"
+              className="text-gray-600 text-lg"
             >
               Configure your machine learning project
             </motion.p>
@@ -583,14 +584,14 @@ export default function MLSystem() {
                 <div key={step} className="flex items-center">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 ${
                     configurationStep >= step 
-                      ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white' 
-                      : 'bg-gray-700 text-gray-400'
+                      ? 'bg-black text-white' 
+                      : 'bg-white text-gray-600 border border-gray-300'
                   }`}>
-                    {configurationStep > step ? <CheckCircle className="w-5 h-5" /> : step}
+                    {configurationStep > step ? <CheckCircle className="w-5 h-5 text-white" /> : step}
                   </div>
                   {step < 3 && (
                     <div className={`w-12 h-1 mx-2 rounded-full transition-all duration-300 ${
-                      configurationStep > step ? 'bg-gradient-to-r from-purple-500 to-blue-500' : 'bg-gray-700'
+                      configurationStep > step ? 'bg-black' : 'bg-gray-300'
                     }`} />
                   )}
                 </div>
@@ -609,7 +610,7 @@ export default function MLSystem() {
                 className="text-center"
               >
                 <h2 className="text-2xl font-semibold mb-6">Do you have a dataset?</h2>
-                <p className="text-gray-400 mb-8">Choose whether you already have data or need help finding/generating it</p>
+                <p className="text-gray-600 mb-8">Choose whether you already have data or need help finding/generating it</p>
                 
                 <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
                   <motion.div
@@ -619,11 +620,11 @@ export default function MLSystem() {
                       setHasDataset(true)
                       setConfigurationStep(2)
                     }}
-                    className="p-8 bg-black/40 backdrop-blur-md border border-purple-500/20 rounded-xl cursor-pointer hover:border-purple-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10"
+                    className="p-8 bg-white border border-gray-200 rounded-xl cursor-pointer hover:border-violet-300 transition-all duration-300 hover:shadow"
                   >
                     <Database className="w-12 h-12 text-green-400 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold mb-2 text-green-400">Yes, I have data</h3>
-                    <p className="text-gray-400">Upload your existing dataset to get started with training</p>
+                    <h3 className="text-xl font-semibold mb-2 text-gray-900">Yes, I have data</h3>
+                    <p className="text-gray-600">Upload your existing dataset to get started with training</p>
                   </motion.div>
                   
                   <motion.div
@@ -633,11 +634,11 @@ export default function MLSystem() {
                       setHasDataset(false)
                       setConfigurationStep(2)
                     }}
-                    className="p-8 bg-black/40 backdrop-blur-md border border-purple-500/20 rounded-xl cursor-pointer hover:border-purple-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10"
+                    className="p-8 bg-white border border-gray-200 rounded-xl cursor-pointer hover:border-violet-300 transition-all duration-300 hover:shadow"
                   >
                     <Search className="w-12 h-12 text-blue-400 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold mb-2 text-blue-400">No, I need data</h3>
-                    <p className="text-gray-400">Describe what you want to build and we'll help find or generate data</p>
+                    <h3 className="text-xl font-semibold mb-2 text-gray-900">No, I need data</h3>
+                    <p className="text-gray-600">Describe what you want to build and we'll help find or generate data</p>
                   </motion.div>
                 </div>
               </motion.div>
@@ -651,19 +652,13 @@ export default function MLSystem() {
                 animate={{ opacity: 1, x: 0 }}
                 className="text-center"
               >
-                <h2 className="text-2xl font-semibold mb-6">Upload Your Dataset</h2>
-                <p className="text-gray-400 mb-8">Upload your data - we'll automatically detect the task type</p>
-                
+                <h2 className="text-2xl font-semibold mb-6">Upload dataset</h2>
+                <p className="text-gray-500 text-sm mb-6">Structured: CSV/XLSX/JSON · Images: ZIP with class folders or YOLO. We'll auto-detect the task.</p>
                 <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-                  {/* CSV/XML Upload */}
-                  <div className="p-6 bg-black/40 backdrop-blur-md border border-purple-500/20 rounded-xl">
-                    <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                      <FileText className="w-6 h-6 text-blue-400" />
-                      Structured Data
-                    </h3>
-                    <div className="border-2 border-dashed border-blue-500/30 rounded-lg p-8 hover:border-blue-500/50 transition-colors">
-                      <Upload className="w-12 h-12 text-blue-400 mx-auto mb-4" />
-                      <p className="text-sm text-gray-400 mb-4">CSV, Excel, or XML files</p>
+                  {/* Structured upload */}
+                  <div className="p-6 bg-white border border-gray-200 rounded-xl">
+                    <h3 className="text-base font-medium mb-4">Structured</h3>
+                    <div className="rounded-lg p-6 border border-gray-200">
                       <input
                         type="file"
                         onChange={handleCSVUpload}
@@ -673,25 +668,18 @@ export default function MLSystem() {
                       />
                       <label
                         htmlFor="csv-upload"
-                        className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg cursor-pointer hover:opacity-90 transition-opacity inline-block text-sm"
+                        className="inline-flex items-center justify-center px-4 py-2 rounded-md bg-black text-white text-sm hover:bg-neutral-800 cursor-pointer"
                       >
-                        Choose File
+                        Select file
                       </label>
-                      <p className="text-xs text-blue-300 mt-3">
-                        ✨ Auto-detects: Classification, Regression, or NLP
-                      </p>
+                      <p className="text-xs text-gray-500 mt-3">CSV, XLSX, JSON</p>
                     </div>
                   </div>
 
-                  {/* ZIP Upload */}
-                  <div className="p-6 bg-black/40 backdrop-blur-md border border-purple-500/20 rounded-xl">
-                    <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                      <Image className="w-6 h-6 text-orange-400" />
-                      Image Data
-                    </h3>
-                    <div className="border-2 border-dashed border-orange-500/30 rounded-lg p-8 hover:border-orange-500/50 transition-colors">
-                      <Upload className="w-12 h-12 text-orange-400 mx-auto mb-4" />
-                      <p className="text-sm text-gray-400 mb-4">ZIP with organized folders</p>
+                  {/* Image zip upload */}
+                  <div className="p-6 bg-white border border-gray-200 rounded-xl">
+                    <h3 className="text-base font-medium mb-4">Images</h3>
+                    <div className="rounded-lg p-6 border border-gray-200">
                       <input
                         type="file"
                         onChange={handleZipUpload}
@@ -701,21 +689,19 @@ export default function MLSystem() {
                       />
                       <label
                         htmlFor="zip-upload"
-                        className="bg-gradient-to-r from-orange-600 to-red-600 text-white px-4 py-2 rounded-lg cursor-pointer hover:opacity-90 transition-opacity inline-block text-sm"
+                        className="inline-flex items-center justify-center px-4 py-2 rounded-md bg-black text-white text-sm hover:bg-neutral-800 cursor-pointer"
                       >
-                        Choose ZIP
+                        Select ZIP
                       </label>
-                      <p className="text-xs text-orange-300 mt-3">
-                        📋 Will ask: Classification or Detection
-                      </p>
+                      <p className="text-xs text-gray-500 mt-3">ZIP with class folders or YOLO</p>
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="flex justify-center mt-8">
                   <button
                     onClick={() => setConfigurationStep(1)}
-                    className="flex items-center gap-2 px-6 py-2 text-gray-400 hover:text-white transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-black transition-colors text-sm"
                   >
                     <ArrowLeft className="w-4 h-4" />
                     Back
@@ -733,22 +719,22 @@ export default function MLSystem() {
                 className="text-center"
               >
                 <h2 className="text-2xl font-semibold mb-6">Describe Your Data Needs</h2>
-                <p className="text-gray-400 mb-8">Tell us what you want to build and we'll find or generate the data</p>
+                <p className="text-gray-600 mb-8">Tell us what you want to build and we'll find or generate the data</p>
                 
                 <div className="max-w-2xl mx-auto">
-                  <div className="bg-black/40 backdrop-blur-md border border-purple-500/20 rounded-xl p-6">
+                  <div className="bg-white border border-gray-200 rounded-xl p-6">
                     <textarea
                       value={dataDescription}
                       onChange={(e) => setDataDescription(e.target.value)}
                       placeholder="Describe your project. For example:\n- Predict house prices based on location and size\n- Classify customer reviews as positive/negative\n- Detect objects in retail store images\n- Analyze sentiment in social media posts"
-                      className="w-full h-40 bg-black/60 border border-purple-500/30 rounded-lg p-4 text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none resize-none"
+                      className="w-full h-40 bg-white border border-gray-300 rounded-lg p-4 text-gray-900 placeholder-gray-400 focus:ring-violet-600 focus:border-transparent focus:outline-none resize-none"
                     />
                   </div>
                   
                   <div className="flex justify-center gap-4 mt-8">
                     <button
                       onClick={() => setConfigurationStep(1)}
-                      className="flex items-center gap-2 px-6 py-2 text-gray-400 hover:text-white transition-colors"
+                      className="flex items-center gap-2 px-6 py-2 text-gray-600 hover:text-gray-900 transition-colors"
                     >
                       <ArrowLeft className="w-4 h-4" />
                       Back
@@ -756,7 +742,7 @@ export default function MLSystem() {
                     <button
                       onClick={handleDataDescription}
                       disabled={!dataDescription.trim()}
-                      className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex items-center gap-2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white px-6 py-2 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Continue
                       <ArrowRight className="w-4 h-4" />
@@ -774,37 +760,31 @@ export default function MLSystem() {
                 animate={{ opacity: 1, x: 0 }}
                 className="text-center"
               >
-                <h2 className="text-2xl font-semibold mb-6">Select Image Task Type</h2>
-                <p className="text-gray-400 mb-8">What do you want to do with your images?</p>
-                
+                <h2 className="text-2xl font-semibold mb-6">Choose image task</h2>
                 <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => handleImageTaskTypeSelection('image_classification')}
-                    className="p-8 bg-black/40 backdrop-blur-md border border-purple-500/20 rounded-xl cursor-pointer hover:border-purple-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10"
+                    className="p-6 bg-white border border-gray-200 rounded-xl cursor-pointer hover:border-gray-300 transition-colors"
                   >
-                    <Image className="w-12 h-12 text-amber-400 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold mb-2 text-amber-400">Image Classification</h3>
-                    <p className="text-gray-400">Single label per image (e.g., cat vs dog, product categories)</p>
+                    <h3 className="text-base font-medium text-gray-900">Classification</h3>
                   </motion.div>
                   
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => handleImageTaskTypeSelection('object_detection')}
-                    className="p-8 bg-black/40 backdrop-blur-md border border-purple-500/20 rounded-xl cursor-pointer hover:border-purple-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10"
+                    className="p-6 bg-white border border-gray-200 rounded-xl cursor-pointer hover:border-gray-300 transition-colors"
                   >
-                    <Box className="w-12 h-12 text-rose-400 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold mb-2 text-rose-400">Object Detection</h3>
-                    <p className="text-gray-400">Multiple objects per image with bounding boxes</p>
+                    <h3 className="text-base font-medium text-gray-900">Detection</h3>
                   </motion.div>
                 </div>
                 
                 <div className="flex justify-center mt-8">
                   <button
                     onClick={() => setConfigurationStep(2)}
-                    className="flex items-center gap-2 px-6 py-2 text-gray-400 hover:text-white transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-black transition-colors text-sm"
                   >
                     <ArrowLeft className="w-4 h-4" />
                     Back
@@ -817,12 +797,12 @@ export default function MLSystem() {
           
           {/* Reset Button */}
           <div className="text-center mt-12">
-            <button
-              onClick={resetConfiguration}
-              className="text-gray-500 hover:text-gray-400 text-sm transition-colors"
+            <Link
+              href="/main"
+              className="text-gray-600 hover:text-gray-900 text-sm underline hover:underline focus:outline-none"
             >
               Start Over
-            </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -841,14 +821,14 @@ export default function MLSystem() {
           >
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h1 className="text-3xl font-bold text-white mb-2">
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">
                   {projectName || `${taskTypeOptions.find(t => t.id === taskType)?.name} Project`}
                 </h1>
-                <p className="text-purple-300">Task: {taskTypeOptions.find(t => t.id === taskType)?.name}</p>
+                <p className="text-gray-600">Task: {taskTypeOptions.find(t => t.id === taskType)?.name}</p>
               </div>
               <button
                 onClick={resetConfiguration}
-                className="text-purple-400 hover:text-purple-300 transition-colors text-sm"
+                className="text-violet-700 hover:text-violet-800 transition-colors text-sm"
               >
                 Reconfigure Project
               </button>
@@ -886,8 +866,8 @@ export default function MLSystem() {
                 )}
 
                 {/* Project Configuration Summary */}
-                <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-4">
-                  <h3 className="text-sm font-semibold text-purple-300 mb-3 flex items-center gap-2">
+                <div className="bg-violet-50 border border-violet-200 rounded-lg p-4">
+                  <h3 className="text-sm font-semibold text-violet-700 mb-3 flex items-center gap-2">
                     <CheckCircle className="w-4 h-4" />
                     Project Configuration
                   </h3>
