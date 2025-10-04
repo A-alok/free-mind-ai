@@ -1060,3 +1060,14 @@
 2025-10-05 01:56:52,139 - __main__ - INFO - Changing task type from classification to regression based on file analysis
 2025-10-05 01:56:52,139 - __main__ - INFO - Changing task type from classification to regression based on file analysis
 2025-10-05 01:57:10,041 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 01:57:10] "POST /process HTTP/1.1" 200 -
+2025-10-05 02:04:44,217 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.142.97:5000
+2025-10-05 02:04:44,218 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 02:05:01,724 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 02:05:01,724 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 02:05:01,758 - __main__ - INFO - Auto-detected task type for uploaded file: regression
+2025-10-05 02:05:01,758 - __main__ - INFO - Auto-detected task type for uploaded file: regression
+2025-10-05 02:05:01,759 - __main__ - INFO - Changing task type from classification to regression based on file analysis
+2025-10-05 02:05:01,759 - __main__ - INFO - Changing task type from classification to regression based on file analysis

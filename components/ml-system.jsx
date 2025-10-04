@@ -465,7 +465,7 @@ textarea:
 inactive: "bg-white hover:bg-gray-50 border border-gray-300 text-gray-700",
     },
     buildButton:
-      "w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white font-medium shadow-[0_10px_20px_-10px_rgba(147,51,234,0.5)] py-3 rounded-lg transition-all duration-300 hover:shadow-[0_15px_30px_-8px_rgba(147,51,234,0.6)] transform hover:-translate-y-1",
+      "w-full bg-black hover:bg-neutral-800 text-white font-medium py-3 rounded-lg transition-colors duration-200",
 dashboardCard:
       "bg-white border border-gray-200 shadow-sm rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-md hover:border-violet-300",
 dashboardHeader: "border-b border-gray-200",
@@ -481,16 +481,15 @@ progressFill:
     loadingTitle: "text-lg font-medium text-purple-200 drop-shadow-sm",
     loadingSubtitle: "text-sm text-purple-300",
     emptyStateContainer: "flex flex-col items-center justify-center py-16 space-y-6 text-center",
-    emptyStateIcon:
-      "p-6 rounded-full bg-gradient-to-br from-purple-500/20 to-purple-600/20 shadow-[0_0_30px_rgba(147,51,234,0.3)]",
-    emptyStateTitle: "text-xl font-medium mb-2 text-purple-200 drop-shadow-sm",
-    emptyStateText: "text-gray-400 max-w-md",
+    emptyStateIcon: "p-6 rounded-full bg-gray-100",
+    emptyStateTitle: "text-xl font-semibold mb-2 text-gray-900",
+    emptyStateText: "text-gray-600 max-w-md",
     stepsContainer: "grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-md",
     stepItem:
-      "flex flex-col items-center p-4 bg-black/60 rounded-lg border border-purple-500/50 hover:border-purple-600/80 hover:bg-purple-900/40 transition-all duration-300 backdrop-blur-sm shadow-lg hover:shadow-[0_10px_25px_-5px_rgba(147,51,234,0.3)] transform hover:-translate-y-1",
+      "flex flex-col items-center p-4 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-300 shadow-sm hover:shadow",
     stepIcon:
-      "w-8 h-8 rounded-full bg-gradient-to-br from-purple-500/30 to-purple-600/30 flex items-center justify-center mb-2 shadow-[0_0_15px_rgba(147,51,234,0.3)]",
-    stepText: "text-sm text-purple-200",
+      "w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mb-2",
+    stepText: "text-sm text-gray-700",
     dataPreviewContainer:
       "bg-black/60 rounded-lg border border-purple-500/30 overflow-hidden shadow-xl backdrop-blur-sm transition-all duration-300 hover:shadow-[0_15px_30px_-5px_rgba(147,51,234,0.25)] hover:border-purple-500/50",
     dataPreviewHeader:
@@ -828,7 +827,7 @@ tableCell: "px-3 py-2 whitespace-nowrap text-sm text-gray-800 border-r border-gr
               </div>
               <button
                 onClick={resetConfiguration}
-                className="text-violet-700 hover:text-violet-800 transition-colors text-sm"
+                className="text-gray-700 hover:text-black transition-colors text-sm"
               >
                 Reconfigure Project
               </button>
@@ -843,10 +842,10 @@ tableCell: "px-3 py-2 whitespace-nowrap text-sm text-gray-800 border-r border-gr
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <Card className={styles.configCard}>
+            <Card className={`${styles.configCard} lg:sticky top-24`}>
               <CardHeader className={styles.configHeader} style={{ marginTop: 0, paddingTop: "1rem" }}>
                 <CardTitle className={styles.configTitle}>
-                  <Cpu className="h-5 w-5 text-purple-400 filter drop-shadow-[0_0_5px_rgba(147,51,234,0.5)]" />
+                  <Cpu className="h-5 w-5 text-gray-600" />
                   Build ML Model
                 </CardTitle>
                 <CardDescription className={styles.configDescription}>
@@ -866,8 +865,8 @@ tableCell: "px-3 py-2 whitespace-nowrap text-sm text-gray-800 border-r border-gr
                 )}
 
                 {/* Project Configuration Summary */}
-                <div className="bg-violet-50 border border-violet-200 rounded-lg p-4">
-                  <h3 className="text-sm font-semibold text-violet-700 mb-3 flex items-center gap-2">
+                <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                  <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
                     <CheckCircle className="w-4 h-4" />
                     Project Configuration
                   </h3>
@@ -876,20 +875,20 @@ tableCell: "px-3 py-2 whitespace-nowrap text-sm text-gray-800 border-r border-gr
                       <span className="text-gray-400">Task Type:</span>
                       <div className="flex items-center gap-2 mt-1">
                         {taskTypeIcons[taskType]}
-                        <span className="text-white font-medium">{taskTypeOptions.find(t => t.id === taskType)?.name}</span>
+                        <span className="text-gray-900 font-medium">{taskTypeOptions.find(t => t.id === taskType)?.name}</span>
                       </div>
                     </div>
                     <div>
                       <span className="text-gray-400">Dataset:</span>
-                      <div className="text-white font-medium mt-1">
+                      <div className="text-gray-900 font-medium mt-1">
                         {hasDataset ? (file ? file.name : 'User provided') : 'AI Generated'}
                       </div>
                     </div>
                   </div>
                   {!hasDataset && textPrompt && (
-                    <div className="mt-3 pt-3 border-t border-purple-500/20">
-                      <span className="text-gray-400 text-xs">Requirements:</span>
-                      <p className="text-white text-xs mt-1 bg-black/30 p-2 rounded">
+                    <div className="mt-3 pt-3 border-t border-gray-200">
+                      <span className="text-gray-500 text-xs">Requirements:</span>
+                      <p className="text-gray-700 text-xs mt-1 bg-gray-50 p-2 rounded border border-gray-200">
                         {textPrompt.length > 100 ? `${textPrompt.substring(0, 100)}...` : textPrompt}
                       </p>
                     </div>
@@ -958,9 +957,9 @@ tableCell: "px-3 py-2 whitespace-nowrap text-sm text-gray-800 border-r border-gr
                 )}
 
                 {/* Advanced Options */}
-                <div className="border-t border-purple-500/20 pt-4">
+                <div className="border-t border-gray-200 pt-4">
                   <details className="group">
-                    <summary className="cursor-pointer text-sm font-medium text-purple-300 hover:text-purple-200 flex items-center gap-2 mb-3">
+                    <summary className="cursor-pointer text-sm font-medium text-gray-700 hover:text-black flex items-center gap-2 mb-3">
                       <Plus className="w-4 h-4 group-open:rotate-45 transition-transform" />
                       Advanced Configuration
                     </summary>
@@ -972,7 +971,7 @@ tableCell: "px-3 py-2 whitespace-nowrap text-sm text-gray-800 border-r border-gr
                           </label>
                           <textarea
                             rows={3}
-                            className="w-full rounded-lg bg-black/60 border border-purple-500/30 text-white p-3 text-sm focus:border-purple-500 focus:outline-none resize-none"
+                            className="w-full rounded-lg bg-white border border-gray-300 text-gray-900 p-3 text-sm focus:border-gray-900 focus:outline-none resize-none"
                             placeholder="Add any specific constraints or additional requirements..."
                             value={textPrompt}
                             onChange={(e) => setTextPrompt(e.target.value)}
@@ -1017,18 +1016,18 @@ tableCell: "px-3 py-2 whitespace-nowrap text-sm text-gray-800 border-r border-gr
               >
                 <div className="flex items-center justify-between">
                   <CardTitle className={styles.dashboardTitle}>
-                    <LayoutDashboard className="h-5 w-5 text-purple-400 filter drop-shadow-[0_0_5px_rgba(147,51,234,0.5)]" />
+                    <LayoutDashboard className="h-5 w-5 text-gray-600" />
                     Project Dashboard
                   </CardTitle>
                   {downloadUrl && (
                     <div className="flex gap-2">
                       <Button
                         onClick={handleDownload}
-                        className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 rounded-md shadow-[0_5px_15px_-5px_rgba(16,185,129,0.4)] transition-all duration-300 hover:shadow-[0_8px_20px_-5px_rgba(16,185,129,0.5)] transform hover:-translate-y-0.5"
+                        className="bg-black hover:bg-neutral-800 text-white rounded-md transition-colors"
                         size="sm"
                       >
                         <Download className="mr-2 h-4 w-4" />
-                        Download Project
+                        Download
                       </Button>
                     </div>
                   )}
@@ -1093,38 +1092,21 @@ tableCell: "px-3 py-2 whitespace-nowrap text-sm text-gray-800 border-r border-gr
                 ) : result && result.error ? (
                   <ErrorMessage message={result.error} />
                 ) : !result ? (
-                  <div className={styles.emptyStateContainer}>
-                    <motion.div
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ duration: 0.5, type: "spring", stiffness: 120 }}
-                      className={styles.emptyStateIcon}
-                    >
-                      <Sparkles className="h-16 w-16 text-purple-400 filter drop-shadow-[0_0_15px_rgba(147,51,234,0.5)]" />
-                    </motion.div>
-                    <div>
-                      <h3 className={styles.emptyStateTitle}>Ready to Build Your ML Project</h3>
-                      <p className={styles.emptyStateText}>
-                        Configure your project settings on the left and click "Build ML Project" to start the process.
-                      </p>
+                  <div className="space-y-6">
+                    <div className="rounded-xl border border-dashed border-gray-300 bg-white p-8 text-center">
+                      <h3 className="text-lg font-medium text-gray-900 mb-1">You're ready to train</h3>
+                      <p className="text-sm text-gray-600">Check settings on the left, upload data if needed, then start training.</p>
                     </div>
-                    <div className={styles.stepsContainer}>
-                      {[
-                        { icon: <Database className="h-5 w-5" />, label: "Upload Data" },
-                        { icon: <Cpu className="h-5 w-5" />, label: "Configure Model" },
-                        { icon: <BarChart3 className="h-5 w-5" />, label: "Visualize Results" },
-                      ].map((step, i) => (
-                        <motion.div
-                          key={i}
-                          className={styles.stepItem}
-                          initial={{ y: 20, opacity: 0 }}
-                          animate={{ y: 0, opacity: 1 }}
-                          transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
-                        >
-                          <div className={styles.stepIcon}>{step.icon}</div>
-                          <span className={styles.stepText}>{step.label}</span>
-                        </motion.div>
-                      ))}
+                    <div className="flex flex-wrap gap-3 justify-center">
+                      <button className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 bg-white text-gray-800 hover:bg-gray-50">
+                        <Database className="h-4 w-4" /> Upload data
+                      </button>
+                      <button className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 bg-white text-gray-800 hover:bg-gray-50">
+                        <Cpu className="h-4 w-4" /> Configure model
+                      </button>
+                      <button className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 bg-white text-gray-800 hover:bg-gray-50">
+                        <BarChart3 className="h-4 w-4" /> Visualize
+                      </button>
                     </div>
                   </div>
                 ) : (
