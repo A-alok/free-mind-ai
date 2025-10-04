@@ -19,8 +19,26 @@ from PIL import Image
 import zipfile
 
 from dotenv import load_dotenv
+import numpy as np
+import google.generativeai as genai
 
+# Load both .env.local and .env if present
+try:
+    load_dotenv('.env.local')
+except Exception:
+    pass
 load_dotenv()
+
+# Configure Gemini if key available
+try:
+    _gem_key = os.getenv("GOOGLE_API_KEY")
+    if _gem_key:
+        genai.configure(api_key=_gem_key)
+        print("Gemini API configured successfully")
+    else:
+        print("Warning: GOOGLE_API_KEY not found in environment variables")
+except Exception as _e:
+    print(f"Gemini configuration skipped: {_e}")
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -34,12 +52,27 @@ DATASET_DIR = "datasets"
 EXPORTS_DIR = "exports"
 
 class DataExpander:
-    def __init__(self, openrouter_api_key=None, model_name="meta-llama/llama-3.1-8b-instruct"):
+    def __init__(self, openrouter_api_key=None, model_name="meta-llama/llama-3.1-8b-instruct", provider="auto"):
         self.openrouter_api_key = openrouter_api_key or os.getenv("OPENROUTER_API_KEY", "")
         self.model_name = model_name
+        if provider not in ("openrouter", "gemini", "auto"):
+            provider = "auto"
+        if provider == "auto":
+            if self.openrouter_api_key:
+                self.provider = "openrouter"
+            elif os.getenv("GOOGLE_API_KEY"):
+                self.provider = "gemini"
+            else:
+                self.provider = "offline"
+        else:
+            self.provider = provider
+        if self.provider == "gemini" and not str(self.model_name).startswith("gemini"):
+            self.model_name = os.getenv("GEMINI_MODEL", "gemini-1.5-flash-8b-latest")
 
     def generate_with_openrouter(self, prompt, system_prompt=None):
         """Generate response using OpenRouter API"""
+        if not self.openrouter_api_key:
+            return "NO_API_KEY"
         url = "https://openrouter.ai/api/v1/chat/completions"
         headers = {
             "Authorization": f"Bearer {self.openrouter_api_key}",
@@ -63,6 +96,288 @@ class DataExpander:
                 return f"Error: {response.status_code} - {response.text}"
         except Exception as e:
             return f"Connection error: {str(e)}"
+
+    def generate_with_gemini(self, prompt, system_prompt=None):
+        if not os.getenv("GOOGLE_API_KEY"):
+            return "NO_GEMINI_API_KEY"
+        requested = []
+        if str(self.model_name).startswith("gemini"):
+            requested.append(self.model_name)
+        requested += [
+            "gemini-1.5-flash-8b-latest",
+            "gemini-1.5-flash-latest",
+            "gemini-1.5-pro-latest",
+            "gemini-1.5-flash",
+            "gemini-1.5-pro",
+        ]
+        available = set()
+        try:
+            for m in genai.list_models():
+                name = getattr(m, "name", "")
+                if name:
+                    available.add(name)
+        except Exception:
+            pass
+        candidates = []
+        for m in requested:
+            if available:
+                if (m in available) or (f"models/{m}" in available):
+                    candidates.append(m if m in available else f"models/{m}")
+            else:
+                candidates.append(m)
+        if not candidates:
+            candidates = requested
+        content = "\n\n".join([p for p in [system_prompt, prompt] if p])
+        last_err = None
+        for m in candidates:
+            try:
+                model = genai.GenerativeModel(m)
+                resp = model.generate_content(
+                    content,
+                    generation_config={
+                        "temperature": 0.2,
+                        "max_output_tokens": 1024,
+                    },
+                )
+                text = getattr(resp, "text", None)
+                if not text and getattr(resp, "candidates", None):
+                    parts = resp.candidates[0].content.parts
+                    text = "".join(getattr(p, "text", "") for p in parts)
+                if text:
+                    return text
+                last_err = "Empty response"
+            except Exception as e:
+                last_err = str(e)
+                continue
+        return f"Connection error: {last_err or 'Unknown error'}"
+
+    def generate(self, prompt, system_prompt=None):
+        if self.provider == "openrouter":
+            return self.generate_with_openrouter(prompt, system_prompt)
+        if self.provider == "gemini":
+            return self.generate_with_gemini(prompt, system_prompt)
+        return "NO_PROVIDER"
+
+    def expand_csv_offline(self, df, num_samples):
+        """Generate synthetic rows without external APIs.
+        - Numeric columns: sample around mean with small noise.
+        - Categorical/text: sample from existing non-null values, or use synthetic_#.
+        """
+        if df.empty:
+            return df
+        rng = np.random.default_rng()
+        cols = list(df.columns)
+        out_rows = df.to_dict(orient="records")
+
+        # Precompute stats and value pools
+        numeric_cols = df.select_dtypes(include=["number"]).columns.tolist()
+        stats = {col: (df[col].mean(), df[col].std(ddof=0) if df[col].std(ddof=0) > 0 else (abs(df[col].mean()) or 1.0)) for col in numeric_cols}
+        pools = {}
+        for col in cols:
+            if col not in numeric_cols:
+                values = [v for v in df[col].dropna().tolist() if str(v).strip() != ""]
+                pools[col] = values if values else []
+
+        for i in range(num_samples):
+            new_row = {}
+            for col in cols:
+                if col in numeric_cols:
+                    mu, sigma = stats[col]
+                    s = sigma if sigma and sigma > 0 else (abs(mu) * 0.1 or 1.0)
+                    val = float(rng.normal(mu, s))
+                    if pd.api.types.is_integer_dtype(df[col].dtype):
+                        val = int(round(val))
+                    new_row[col] = val
+                else:
+                    pool = pools.get(col, [])
+                    if pool:
+                        new_row[col] = rng.choice(pool)
+                    else:
+                        new_row[col] = f"synthetic_{i+1}"
+            out_rows.append(new_row)
+        return pd.DataFrame(out_rows)
+
+    def alter_csv_offline(self, df, alter_prompt):
+        """Lightweight offline alteration without LLM when no specific rule matches.
+        - Numeric: apply small noise to a subset of rows (5-20%).
+        - Categorical/Text: swap with another value from the same column or append a small suffix.
+        """
+        if df.empty:
+            return df
+        rng = np.random.default_rng()
+        out = df.copy(deep=True)
+        n = len(out)
+        if n == 0:
+            return out
+        frac = 0.2 if n < 100 else 0.1
+        idx = out.sample(frac=frac, random_state=42).index if n > 1 else out.index
+
+        # Numeric columns
+        num_cols = out.select_dtypes(include=["number"]).columns.tolist()
+        for col in num_cols:
+            series = out.loc[idx, col].astype(float)
+            mu = float(df[col].mean()) if pd.notna(df[col].mean()) else 0.0
+            sd = float(df[col].std(ddof=0)) if pd.notna(df[col].std(ddof=0)) and df[col].std(ddof=0) > 0 else (abs(mu) * 0.1 or 1.0)
+            noise = rng.normal(0.0, sd * 0.1, size=len(series))
+            out.loc[idx, col] = series + noise
+            if pd.api.types.is_integer_dtype(df[col].dtype):
+                out[col] = out[col].round().astype(int)
+            if (df[col] >= 0).all():
+                out[col] = out[col].clip(lower=0)
+
+        # Non-numeric columns
+        other_cols = [c for c in out.columns if c not in num_cols]
+        for col in other_cols:
+            values = [v for v in df[col].dropna().tolist() if str(v).strip() != ""]
+            if not values:
+                continue
+            for i in idx:
+                if rng.random() < 0.5:
+                    out.at[i, col] = str(rng.choice(values))
+                else:
+                    base = str(out.at[i, col]) if pd.notna(out.at[i, col]) else ""
+                    out.at[i, col] = (base + "*").strip()
+        return out
+
+    def alter_csv_rule_based(self, df, alter_prompt):
+        """Apply deterministic transformations based on simple natural-language prompts.
+        Supports operations on all numeric columns or specified columns:
+        - multiply ... by/with N
+        - divide ... by N
+        - add/increase ... by N or by N%
+        - subtract/decrease/reduce ... by N or by N%
+        """
+        if df.empty:
+            return df, False
+        text = (alter_prompt or "").strip()
+        low = text.lower()
+
+        # Determine target columns
+        all_numeric = df.select_dtypes(include=["number"]).columns.tolist()
+        targets = set(all_numeric)  # default to all numeric
+
+        # Try to detect explicit columns mentioned in the prompt
+        mentioned = []
+        for col in df.columns:
+            pattern = r"\b" + re.escape(str(col).lower()) + r"\b"
+            if re.search(pattern, low):
+                mentioned.append(col)
+        if mentioned:
+            targets = set([c for c in mentioned if c in df.columns])
+
+        def parse_number(s: str):
+            try:
+                return float(s)
+            except Exception:
+                return None
+
+        num = None
+        op = None
+        pct = False
+
+        m_pct = re.search(r"(\d+(?:\.\d+)?)\s*%", low)
+        if m_pct:
+            num = float(m_pct.group(1))
+            pct = True
+
+        if op is None:
+            m = re.search(r"multiply[\w\s]*?(?:by|with)\s*(-?\d+(?:\.\d+)?)", low)
+            if m:
+                op = "mul"
+                num = parse_number(m.group(1))
+        if op is None:
+            m = re.search(r"divide[\w\s]*?by\s*(-?\d+(?:\.\d+)?)", low)
+            if m:
+                op = "div"
+                num = parse_number(m.group(1))
+        if op is None and ("add" in low or "increase" in low):
+            m = re.search(r"(?:add|increase)[\w\s]*?(?:by\s*)?(-?\d+(?:\.\d+)?)(?:\s*%)?", low)
+            if m:
+                op = "add"
+                if pct and num is not None:
+                    pass
+                else:
+                    num = parse_number(m.group(1))
+        if op is None and ("subtract" in low or "decrease" in low or "reduce" in low):
+            m = re.search(r"(?:subtract|decrease|reduce)[\w\s]*?(?:by\s*)?(-?\d+(?:\.\d+)?)(?:\s*%)?", low)
+            if m:
+                op = "sub"
+                if pct and num is not None:
+                    pass
+                else:
+                    num = parse_number(m.group(1))
+
+        if op is None:
+            return df, False
+
+        out = df.copy()
+        applied = False
+        for col in targets:
+            if col not in out.columns:
+                continue
+            if not pd.api.types.is_numeric_dtype(out[col]):
+                continue
+            series = out[col].astype(float)
+            if op == "mul" and num is not None:
+                out[col] = series * num
+                applied = True
+            elif op == "div" and num not in (None, 0):
+                out[col] = series / num
+                applied = True
+            elif op == "add" and num is not None:
+                if pct:
+                    out[col] = series * (1.0 + num / 100.0)
+                else:
+                    out[col] = series + num
+                applied = True
+            elif op == "sub" and num is not None:
+                if pct:
+                    out[col] = series * (1.0 - num / 100.0)
+                else:
+                    out[col] = series - num
+                applied = True
+        return out, applied
+
+    def alter_csv(self, df, alter_prompt):
+
+    def expand_csv_offline(self, df, num_samples):
+        """Generate synthetic rows without external APIs.
+        - Numeric columns: sample around mean with small noise.
+        - Categorical/text: sample from existing non-null values, or use synthetic_#.
+        """
+        if df.empty:
+            return df
+        rng = np.random.default_rng()
+        cols = list(df.columns)
+        out_rows = df.to_dict(orient="records")
+
+        # Precompute stats and value pools
+        numeric_cols = df.select_dtypes(include=["number"]).columns.tolist()
+        stats = {col: (df[col].mean(), df[col].std(ddof=0) if df[col].std(ddof=0) > 0 else (abs(df[col].mean()) or 1.0)) for col in numeric_cols}
+        pools = {}
+        for col in cols:
+            if col not in numeric_cols:
+                values = [v for v in df[col].dropna().tolist() if str(v).strip() != ""]
+                pools[col] = values if values else []
+
+        for i in range(num_samples):
+            new_row = {}
+            for col in cols:
+                if col in numeric_cols:
+                    mu, sigma = stats[col]
+                    s = sigma if sigma and sigma > 0 else (abs(mu) * 0.1 or 1.0)
+                    val = float(rng.normal(mu, s))
+                    if pd.api.types.is_integer_dtype(df[col].dtype):
+                        val = int(round(val))
+                    new_row[col] = val
+                else:
+                    pool = pools.get(col, [])
+                    if pool:
+                        new_row[col] = rng.choice(pool)
+                    else:
+                        new_row[col] = f"synthetic_{i+1}"
+            out_rows.append(new_row)
+        return pd.DataFrame(out_rows)
 
     def alter_csv(self, df, alter_prompt):
         """Alter CSV data using a prompt via Llama on OpenRouter - EXACT STREAMLIT LOGIC"""
@@ -98,7 +413,7 @@ Return the modified CSV only, no extra text or explanations.
 """
         
         print("Processing data alteration...")
-        response_text = self.generate_with_openrouter(prompt)
+        response_text = self.generate(prompt)
         
         # Try to parse the returned CSV
         try:
@@ -143,7 +458,7 @@ Return the modified CSV only, no extra text or explanations.
                 f"Return only valid JSON, no additional text or formatting."
             )
             
-            response_text = self.generate_with_openrouter(prompt)
+            response_text = self.generate(prompt)
             
             try:
                 # Clean the response to extract JSON
@@ -411,39 +726,56 @@ def expand_dataset():
     num_samples = data.get('num_samples', 10)
     api_key = data.get('api_key', '') or os.getenv("OPENROUTER_API_KEY", "")
     model_name = data.get('model_name', 'meta-llama/llama-3.1-8b-instruct')
-    
+    provider = data.get('provider', 'auto')
+
     if not file_name or not expansion_prompt:
         return jsonify({"error": "File name and expansion prompt are required"}), 400
-    
-    if not api_key:
-        return jsonify({"error": "OpenRouter API key is required. Please provide it in the request or set OPENROUTER_API_KEY in environment"}), 400
-    
+
+    # Try LLM if we have either OpenRouter or Gemini configured
+    use_llm = bool(api_key) or bool(os.getenv("GOOGLE_API_KEY"))
+
     try:
         # Check if file exists in database
         if not db_fs.file_exists(file_name, DATASET_DIR):
             return jsonify({"error": f"File {file_name} not found in database"}), 404
-        
+
         # Get file content from database
         file_content = db_fs.get_file(file_name, DATASET_DIR)
-        
+
         # Read the CSV content into a DataFrame
         df = pd.read_csv(io.BytesIO(file_content))
-        
+
         # Initialize data expander
-        expander = DataExpander(openrouter_api_key=api_key, model_name=model_name)
-        
-        # Expand the dataset using EXACT STREAMLIT LOGIC
-        expanded_df = expander.expand_csv(df, expansion_prompt, num_samples)
-        
+        expander = DataExpander(openrouter_api_key=api_key, model_name=model_name, provider=provider)
+
+        # Expand the dataset
+        expanded_df = None
+        generation_mode = "offline"
+        warning = None
+        if use_llm:
+            try:
+                expanded_df = expander.expand_csv(df, expansion_prompt, num_samples)
+                generation_mode = "llm" if expander.provider in ("openrouter", "gemini") else "offline"
+            except Exception as llm_err:
+                warning = f"LLM expansion failed, falling back to offline: {str(llm_err)}"
+                print(warning)
+
+        if expanded_df is None:
+            if not use_llm and not warning:
+                warning = "No LLM key detected; generated synthetic rows locally. Set GOOGLE_API_KEY for Gemini or OPENROUTER_API_KEY for OpenRouter to use LLM."
+                print(f"Warning: {warning}")
+            expanded_df = expander.expand_csv_offline(df, num_samples)
+            generation_mode = "offline"
+
         # Save expanded dataset to database
         current_time = time.strftime("%Y%m%d_%H%M%S")
         expanded_filename = f"expanded_{current_time}_{file_name}"
-        
+
         # Create a temporary file to save the expanded CSV
         with tempfile.NamedTemporaryFile(mode='w+', delete=False, suffix='.csv', encoding='utf-8') as temp_file:
             expanded_df.to_csv(temp_file, index=False)
             temp_file_path = temp_file.name
-        
+
         try:
             # Save the expanded file to the database with the correct filename
             with open(temp_file_path, 'rb') as temp_file:
@@ -453,10 +785,10 @@ def expand_dataset():
             os.unlink(temp_file_path)
         except Exception as save_error:
             print(f"Error saving to database: {str(save_error)}")
-        
+
         # Convert DataFrame to JSON for preview
         preview_data = expanded_df.head(10).to_dict(orient='records')
-        
+
         # Get column info with data types
         columns_with_types = []
         for col in expanded_df.columns:
@@ -465,14 +797,14 @@ def expand_dataset():
                 "name": col,
                 "type": data_type
             })
-        
+
         # Generate insights
         insights = generate_data_insights(expanded_df)
-        
+
         # Prepare CSV data for download
         clean_csv = expanded_df.to_csv(index=False)
-        
-        return jsonify({
+
+        response_payload = {
             "success": True,
             "message": f"Dataset expanded successfully! Added {num_samples} new rows.",
             "expanded_filename": expanded_filename,
@@ -481,9 +813,13 @@ def expand_dataset():
             "original_rows": len(df),
             "expanded_rows": len(expanded_df),
             "insights": insights,
-            "csvData": base64.b64encode(clean_csv.encode('utf-8')).decode('utf-8')
-        })
-        
+            "csvData": base64.b64encode(clean_csv.encode('utf-8')).decode('utf-8'),
+            "generation_mode": generation_mode
+        }
+        if warning:
+            response_payload["warning"] = warning
+        return jsonify(response_payload)
+
     except Exception as e:
         error_traceback = traceback.format_exc()
         print(f"Error expanding dataset: {str(e)}")
@@ -502,8 +838,8 @@ def alter_dataset():
     if not file_name or not alter_prompt:
         return jsonify({"error": "File name and alter prompt are required"}), 400
     
-    if not api_key:
-        return jsonify({"error": "OpenRouter API key is required. Please provide it in the request or set OPENROUTER_API_KEY in environment"}), 400
+    # Do not hard-fail on missing API key. We'll fallback to offline alteration.
+    use_llm = bool(api_key) or bool(os.getenv("GOOGLE_API_KEY"))
     
     try:
         # Check if file exists in database
@@ -517,10 +853,36 @@ def alter_dataset():
         original_df = pd.read_csv(io.BytesIO(file_content))
         
         # Initialize data expander
-        expander = DataExpander(openrouter_api_key=api_key, model_name=model_name)
+        provider = data.get('provider', 'auto')
+        expander = DataExpander(openrouter_api_key=api_key, model_name=model_name, provider=provider)
         
-        # Alter the dataset using EXACT STREAMLIT LOGIC
-        altered_df = expander.alter_csv(original_df, alter_prompt)
+        # Alter the dataset: prefer rule-based local transforms first
+        altered_df = None
+        generation_mode = "offline"
+        warning = None
+
+        # 1) Try rule-based first (ensures exact math like "multiply by 10")
+        rb_df, matched = expander.alter_csv_rule_based(original_df, alter_prompt)
+        if matched:
+            altered_df = rb_df
+            generation_mode = "rule-based"
+
+        # 2) If still not altered and LLM is available, try LLM
+        if altered_df is None and use_llm:
+            try:
+                altered_df = expander.alter_csv(original_df, alter_prompt)
+                generation_mode = "llm"
+            except Exception as llm_err:
+                warning = f"LLM alteration failed, falling back to offline: {str(llm_err)}"
+                print(warning)
+
+        # 3) If still not altered, last resort: offline noise-based alteration
+        if altered_df is None:
+            if not use_llm and not warning:
+                warning = "OpenRouter API key not found; altered data locally without LLM. Set OPENROUTER_API_KEY to use LLM alteration."
+                print(f"Warning: {warning}")
+            altered_df = expander.alter_csv_offline(original_df, alter_prompt)
+            generation_mode = "offline"
         
         # Save altered dataset to database
         current_time = time.strftime("%Y%m%d_%H%M%S")
@@ -567,7 +929,7 @@ def alter_dataset():
         # Prepare CSV data for download
         clean_csv = altered_df.to_csv(index=False)
         
-        return jsonify({
+        response_payload = {
             "success": True,
             "message": f"Dataset altered successfully!",
             "altered_filename": altered_filename,
@@ -578,8 +940,12 @@ def alter_dataset():
             "altered_rows": len(altered_df),
             "changes": changes,
             "insights": insights,
-            "csvData": base64.b64encode(clean_csv.encode('utf-8')).decode('utf-8')
-        })
+            "csvData": base64.b64encode(clean_csv.encode('utf-8')).decode('utf-8'),
+            "generation_mode": generation_mode
+        }
+        if warning:
+            response_payload["warning"] = warning
+        return jsonify(response_payload)
         
     except Exception as e:
         error_traceback = traceback.format_exc()

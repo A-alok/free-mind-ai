@@ -15,12 +15,17 @@ export default function Navbar() {
   const profileMenuRef = useRef(null)
   const pathname = usePathname()
   
+  // Hide navbar only on /main
+  const shouldHide = pathname === "/main"
+  if (shouldHide) return null
+  
   // Navigation items with their respective paths
   const navItems = [
-    { name: "Dashboard", path: "/main" },
-    { name: "Data Analysis", path: "/analysis" },
+    { name: "New Project", path: "/ml" },
+    { name: "ML Builder", path: "/ml" },
     { name: "Chatbot", path: "/chatbot" },
-    { name: "Alter and Expand", path: "/alter_expand" },
+    { name: "CSV Analysis", path: "/analysis" },
+    { name: "Alter & Expand", path: "/alter_expand" },
     { name: "Deploy", path: "/deploy" }
   ]
   
@@ -111,12 +116,14 @@ export default function Navbar() {
   }
   
   return (
+    <>
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-black/80 backdrop-blur-md shadow-lg" : "bg-transparent"
+        isScrolled ? "bg-white/95 backdrop-blur-lg border-b border-gray-200 shadow" : "bg-white/90 backdrop-blur border-b border-gray-100"
       }`}
     >
       <div className="container mx-auto px-5">
+        <div aria-hidden className="h-2" />
         <div className="flex justify-between items-center h-16">
           <Link href="/main" className="flex items-center gap-2 text-xl font-bold">
             <img src="/images/LOGO.svg" alt="FreeMindAi" className="w-24 h-8" />
@@ -129,7 +136,7 @@ export default function Navbar() {
                 <li key={item.name}>
                   <Link
                     href={item.path}
-                    className={`text-white hover:text-[#9340FF] transition-colors duration-300 relative py-1
+                    className={`text-gray-800 hover:text-[#9340FF] transition-colors duration-300 relative py-1
                      after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-[#9340FF]
                      after:transition-all after:duration-300 hover:after:w-full ${
                        pathname === item.path ? "text-[#9340FF] after:w-full" : ""
@@ -165,30 +172,30 @@ export default function Navbar() {
                 
                 {isProfileMenuOpen && (
                   <motion.div 
-                    className="absolute right-0 mt-2 w-48 bg-gray-900/90 backdrop-blur-md rounded-lg shadow-xl py-2 z-10 border border-gray-700"
+                    className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 z-10 border border-gray-200"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div className="px-4 py-2 border-b border-gray-700">
-                      <p className="text-sm font-medium text-white truncate">{user.name}</p>
-                      <p className="text-xs text-gray-400 truncate">{user.email}</p>
+                    <div className="px-4 py-2 border-b border-gray-200">
+                      <p className="text-sm font-medium text-gray-900 truncate">{user.name}</p>
+                      <p className="text-xs text-gray-600 truncate">{user.email}</p>
                     </div>
                     
-                    <Link href="/profile" className="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-[#9340FF]/20 hover:text-[#9340FF]">
+                    <Link href="/profile" className="flex items-center px-4 py-2 text-sm text-gray-800 hover:bg-violet-50 hover:text-[#9340FF]">
                       <User size={16} className="mr-2" />
                       <span>My Profile</span>
                     </Link>
                     
-                    <Link href="/registered-events" className="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-[#9340FF]/20 hover:text-[#9340FF]">
+                    <Link href="/registered-events" className="flex items-center px-4 py-2 text-sm text-gray-800 hover:bg-violet-50 hover:text-[#9340FF]">
                       <Calendar size={16} className="mr-2" />
                       <span>Registered Events</span>
                     </Link>
                     
                     <button 
                       onClick={handleLogout}
-                      className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-red-900/20 hover:text-red-400"
+                      className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-800 hover:bg-red-50 hover:text-red-600"
                     >
                       <LogOut size={16} className="mr-2" />
                       <span>Logout</span>
@@ -210,7 +217,7 @@ export default function Navbar() {
           
           {/* Mobile Menu Button */}
           <button 
-            className="lg:hidden text-white"
+            className="lg:hidden text-gray-900"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle mobile menu"
           >
@@ -224,14 +231,14 @@ export default function Navbar() {
         
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="fixed inset-0 top-16 z-40 bg-black bg-opacity-95 backdrop-blur-md lg:hidden overflow-y-auto">
+          <div className="fixed inset-0 top-16 z-40 bg-white/95 backdrop-blur-md lg:hidden overflow-y-auto border-t border-gray-200">
             <div className="container mx-auto px-5 py-6">
               <ul className="flex flex-col">
                 {navItems.map((item) => (
                   <li key={item.name} className="py-3 border-b border-gray-800">
                     <Link
                       href={item.path}
-                      className={`text-white text-lg font-medium hover:text-[#9340FF] block py-1 ${
+                      className={`text-gray-900 text-lg font-medium hover:text-[#9340FF] block py-1 ${
                         pathname === item.path ? "text-[#9340FF]" : ""
                       }`}
                       onClick={() => setIsMobileMenuOpen(false)}
@@ -262,7 +269,6 @@ export default function Navbar() {
                       <p className="text-xs text-gray-400">{user.email}</p>
                     </div>
                   </div>
-                  
                   <Link 
                     href="/profile" 
                     className="w-full bg-gray-800 hover:bg-gray-700 text-white px-4 py-3 rounded-md text-center transition-all duration-300 font-medium mb-3 flex items-center justify-center"
@@ -310,5 +316,8 @@ export default function Navbar() {
         )}
       </div>
     </header>
+    {/* Spacer to keep content below fixed navbar */}
+    <div aria-hidden className="h-16" />
+    </>
   )
 }

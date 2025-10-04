@@ -25,32 +25,8 @@ export default function Deploy() {
   const [showErrorLog, setShowErrorLog] = useState(false)
   const [deploymentComplete, setDeploymentComplete] = useState(false)
   const fileInputRef = useRef(null)
-  const [stars, setStars] = useState([])
   const [deploymentStatus, setDeploymentStatus] = useState(null)
   const router = useRouter()
-
-  // Generate stars for the background with improved visibility
-  useEffect(() => {
-    const generateStars = () => {
-      const newStars = []
-      const count = 150  // Increased count for more stars
-
-      for (let i = 0; i < count; i++) {
-        newStars.push({
-          id: i,
-          left: Math.random() * 100,
-          top: Math.random() * 100,
-          size: Math.random() * 3 + 1,  // Slightly larger stars
-          animationDuration: Math.random() * 4 + 3,
-          opacity: Math.random() * 0.5 + 0.5  // Higher base opacity
-        })
-      }
-
-      setStars(newStars)
-    }
-
-    generateStars()
-  }, [])
 
   // Simulate progress during deployment
   useEffect(() => {
@@ -203,397 +179,288 @@ export default function Deploy() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden pt-16">
-      {/* Stars background */}
-      {stars.map((star) => (
-        <div
-          key={star.id}
-          className="absolute rounded-full bg-white animate-pulse"
-          style={{
-            left: `${star.left}%`,
-            top: `${star.top}%`,
-            width: `${star.size}px`,
-            height: `${star.size}px`,
-            opacity: star.opacity,
-            animationDuration: `${star.animationDuration}s`,
-            boxShadow: `0 0 ${star.size * 2}px rgba(255,255,255,0.8)`,
-          }}
-        />
-      ))}
-
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#A277FF]/10 to-transparent pointer-events-none"></div>
-
-      <div className="max-w-5xl mx-auto py-12 px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-[#FF5C41] via-[#F39C12] via-[#E67E22] via-[#BB8FCE] to-[#9B59B6] text-transparent bg-clip-text">
-            FreeMindAi Deploy
-          </h1>
-          <p className="text-xl text-gray-300">Your cosmic companion for ML project deployment</p>
-          <div className="h-1 w-32 bg-gradient-to-r from-[#A277FF] via-[#E056FD] to-[#6153CC] rounded-full mx-auto mt-4 shadow-[0_0_15px_5px_rgba(162,119,255,0.3)]"></div>
+    <div className="min-h-screen bg-white text-gray-900 pt-8">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight flex items-center gap-3">
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-violet-50 text-violet-600">
+                  <RocketIcon className="h-5 w-5" />
+                </span>
+                Deploy your project
+              </h1>
+              <p className="text-gray-600 mt-2">
+                Upload your trained ZIP and deploy to GitHub & Render with a clean, professional UI.
+              </p>
+            </div>
+          </div>
         </div>
 
-        <div className="bg-black backdrop-blur-sm rounded-xl shadow-lg shadow-[#A277FF]/20 overflow-hidden border border-[#A277FF]/30 relative">
-          {/* Glowing border effect */}
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute inset-0 border border-[#A277FF] rounded-xl opacity-50 blur-[2px]"></div>
-          </div>
-          
-          <div className="p-8 relative z-10">
-            {/* GitHub Configuration Check */}
-            <div className="mb-8 p-4 bg-[#3A005A]/40 rounded-lg border border-[#A277FF]/30">
-              <div className="flex items-start">
-                <div className="flex-shrink-0">
-                  <GithubIcon className="h-5 w-5 text-[#A277FF]" />
-                </div>
-                <div className="ml-3">
-                  <h3 className="text-sm font-medium text-[#A277FF]">GitHub Configuration Required</h3>
-                  <div className="mt-2 text-sm text-[#A277FF]/80">
-                    <p>Make sure your GitHub credentials are configured on the server. The server needs:</p>
-                    <pre className="mt-2 bg-black p-2 rounded text-xs overflow-x-auto text-[#A277FF]/90 border border-[#A277FF]/30">
-                      {`[github]
+        {/* Content card */}
+        <div className="rounded-2xl border border-gray-200 bg-white shadow-sm">
+          <div className="p-6 md:p-8">
+            {/* GitHub Configuration Hint */}
+            <div className="mb-6 rounded-xl border border-violet-200 bg-violet-50 p-4">
+              <div className="flex items-start gap-3">
+                <GithubIcon className="h-5 w-5 text-violet-600 mt-0.5" />
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-900">GitHub configuration</h3>
+                  <p className="text-sm text-gray-700 mt-1">Make sure your server has a GitHub token configured.</p>
+                  <pre className="mt-3 bg-white border border-gray-200 p-3 rounded text-xs text-gray-800 overflow-x-auto">
+{`[github]
 token = "your-github-personal-access-token"
 username = "your-github-username"`}
-                    </pre>
-                  </div>
+                  </pre>
                 </div>
               </div>
             </div>
 
-            {/* File Upload */}
+            {/* File upload */}
             {!result && (
               <div
-                className="border-2 border-dashed border-[#A277FF]/50 rounded-lg p-12 text-center cursor-pointer hover:bg-[#3A005A]/20 transition-colors mb-6 group"
+                className="rounded-xl border-2 border-dashed border-violet-200 p-10 text-center hover:bg-violet-50 transition cursor-pointer"
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current.click()}
               >
                 <input type="file" ref={fileInputRef} onChange={handleFileChange} accept=".zip" className="hidden" />
-                <ArrowUpIcon className="mx-auto h-12 w-12 text-[#A277FF] group-hover:text-[#A277FF]/80 transition-colors" />
-                <p className="mt-2 text-sm text-[#A277FF] group-hover:text-[#A277FF]/80 transition-colors">
-                  Drag and drop your trained ML Project ZIP file here, or click to browse
-                </p>
-                <p className="text-xs text-[#A277FF]/60 mt-1">Only .zip files are accepted</p>
+                <ArrowUpIcon className="mx-auto h-10 w-10 text-violet-600" />
+                <p className="mt-2 text-sm text-gray-800">Drag and drop your trained ML Project ZIP file here, or click to browse</p>
+                <p className="text-xs text-gray-600 mt-1">Only .zip files are accepted</p>
               </div>
             )}
 
-            {/* File Details */}
+            {/* File details */}
             {fileDetails && !result && (
-              <div className="mb-6 p-4 bg-[#3A005A]/40 rounded-lg border border-[#A277FF]/30">
-                <h3 className="font-medium text-[#A277FF] mb-2">File Details</h3>
-                <div className="grid grid-cols-2 gap-2 text-sm">
+              <div className="mt-6 rounded-xl border border-gray-200 bg-white p-4">
+                <h3 className="font-semibold text-gray-900 mb-3">File details</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                   {Object.entries(fileDetails).map(([key, value]) => (
                     <div key={key} className="flex">
-                      <span className="font-medium text-[#A277FF]">{key}:</span>
-                      <span className="ml-2 text-[#A277FF]/80">{value}</span>
+                      <span className="font-medium text-gray-700">{key}:</span>
+                      <span className="ml-2 text-gray-700">{value}</span>
                     </div>
                   ))}
                 </div>
-                <div className="mt-4 flex items-center">
-                  <CheckCircleIcon className="h-5 w-5 text-green-400 mr-2" />
-                  <span className="text-green-300 text-sm">ZIP file uploaded successfully!</span>
+                <div className="mt-3 flex items-center text-green-700 text-sm">
+                  <CheckCircleIcon className="h-5 w-5 text-green-500 mr-2" /> ZIP file uploaded successfully
                 </div>
               </div>
             )}
 
-
-            {/* Deploy Button */}
+            {/* Deploy button */}
             {file && !result && (
-              <button
-                onClick={deployProject}
-                disabled={isDeploying}
-                className="w-full py-3 px-4 border border-transparent rounded-md shadow-sm text-white bg-gradient-to-r from-[#A277FF] to-[#6153CC] hover:from-[#A277FF]/90 hover:to-[#6153CC]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A277FF] disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(162,119,255,0.3)] flex items-center justify-center"
-              >
-                {isDeploying ? (
-                  <>
-                    <svg
-                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                    Processing...
-                  </>
-                ) : (
-                  <>
-                    <RocketIcon className="mr-2 h-5 w-5" /> Deploy to GitHub & Render
-                  </>
-                )}
-              </button>
+              <div className="mt-6">
+                <button
+                  onClick={deployProject}
+                  disabled={isDeploying}
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-violet-600 px-4 py-3 font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 disabled:opacity-50"
+                >
+                  {isDeploying ? (
+                    <>
+                      <svg className="animate-spin -ml-1 mr-2 h-5 w-5" viewBox="0 0 24 24" fill="none">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      <RocketIcon className="h-5 w-5" /> Deploy to GitHub & Render
+                    </>
+                  )}
+                </button>
+              </div>
             )}
 
-            {/* Progress and Status */}
+            {/* Progress */}
             {isDeploying && (
               <div className="mt-6">
-                <div className="relative pt-1">
-                  <div className="flex mb-2 items-center justify-between">
-                    <div>
-                      <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-[#A277FF] bg-[#3A005A]">
-                        Progress
-                      </span>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-xs font-semibold inline-block text-[#A277FF]">{progress.toFixed(0)}%</span>
-                    </div>
-                  </div>
-                  <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-[#3A005A]/50">
-                    <div
-                      style={{ width: `${progress}%` }}
-                      className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-[#A277FF] to-[#6153CC] transition-all duration-500"
-                    ></div>
-                  </div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-gray-700">Progress</span>
+                  <span className="text-sm text-gray-600">{progress.toFixed(0)}%</span>
                 </div>
-                <p className="text-sm text-[#A277FF]">{status}</p>
+                <div className="h-2 w-full rounded bg-gray-100 overflow-hidden">
+                  <div className="h-full bg-violet-500 transition-all" style={{ width: `${progress}%` }} />
+                </div>
+                <p className="mt-2 text-sm text-gray-700">{status}</p>
               </div>
             )}
 
-            {/* Error Log */}
+            {/* Error log */}
             {errorLog.length > 0 && (
               <div className="mt-6">
                 <button
                   onClick={() => setShowErrorLog(!showErrorLog)}
-                  className="flex items-center text-sm text-red-400 hover:text-red-300"
+                  className="flex items-center text-sm text-red-600 hover:text-red-700"
                 >
                   <AlertCircleIcon className="h-5 w-5 mr-1" />
-                  {showErrorLog ? "Hide Error Log" : "Show Error Log"}
+                  {showErrorLog ? "Hide error log" : "Show error log"}
                 </button>
                 {showErrorLog && (
-                  <div className="mt-2 p-3 bg-red-900/20 rounded border border-red-500/30 text-xs font-mono overflow-x-auto text-red-300">
+                  <div className="mt-2 p-3 bg-red-50 rounded border border-red-200 text-xs font-mono text-red-700 overflow-x-auto">
                     {errorLog.map((error, index) => (
-                      <div key={index} className="mb-1">
-                        {error}
-                      </div>
+                      <div key={index} className="mb-1">{error}</div>
                     ))}
                   </div>
                 )}
               </div>
             )}
 
-            {/* Deployment Result */}
+            {/* Result */}
             {result && !result.error && (
-              <div className="mt-8 p-6 bg-[#3A005A]/30 rounded-lg border border-[#A277FF]/30">
-                <h2 className="text-xl font-semibold text-[#A277FF] mb-4">
-                  {deploymentComplete ? "🎉 Deployment Complete!" : "🚀 Deployment in Progress"}
-                </h2>
+              <div className="mt-8 space-y-6">
+                <div className="rounded-xl border border-gray-200 bg-white p-4">
+                  <h2 className="text-lg font-semibold text-gray-900 mb-3">
+                    {deploymentComplete ? "Deployment complete" : "Deployment in progress"}
+                  </h2>
 
-                {/* GitHub Repository */}
-                {result.github_url && (
-                  <div className="mb-6">
-                    <h3 className="text-lg font-medium text-[#A277FF] mb-2">✅ GitHub Deployment Complete</h3>
-                    
-                    {/* Deployment Stats */}
-                    <div className="grid grid-cols-2 gap-4 mb-4">
-                      <div className="p-3 bg-black rounded-lg border border-[#A277FF]/30">
-                        <p className="text-xs text-[#A277FF]/60 mb-1">Repository</p>
-                        <p className="text-sm text-[#A277FF] font-medium">{result.deployment_id || 'ml-model'}</p>
+                  {result.github_url && (
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="rounded-lg border border-gray-200 p-3">
+                          <p className="text-xs text-gray-600">Repository</p>
+                          <p className="text-sm font-medium text-gray-900">{result.deployment_id || 'ml-model'}</p>
+                        </div>
+                        <div className="rounded-lg border border-gray-200 p-3">
+                          <p className="text-xs text-gray-600">Files uploaded</p>
+                          <p className="text-sm font-medium text-gray-900">{result.files_uploaded || 'Multiple'} files</p>
+                        </div>
+                        <div className="rounded-lg border border-gray-200 p-3">
+                          <p className="text-xs text-gray-600">Model size</p>
+                          <p className="text-sm font-medium text-gray-900">{result.model_size || 'N/A'}</p>
+                        </div>
+                        <div className="rounded-lg border border-gray-200 p-3">
+                          <p className="text-xs text-gray-600">Status</p>
+                          <p className="text-sm font-medium text-green-700">Deployed</p>
+                        </div>
                       </div>
-                      <div className="p-3 bg-black rounded-lg border border-[#A277FF]/30">
-                        <p className="text-xs text-[#A277FF]/60 mb-1">Files Uploaded</p>
-                        <p className="text-sm text-[#A277FF] font-medium">{result.files_uploaded || 'Multiple'} files</p>
-                      </div>
-                      <div className="p-3 bg-black rounded-lg border border-[#A277FF]/30">
-                        <p className="text-xs text-[#A277FF]/60 mb-1">Model Size</p>
-                        <p className="text-sm text-[#A277FF] font-medium">{result.model_size || 'N/A'}</p>
-                      </div>
-                      <div className="p-3 bg-black rounded-lg border border-[#A277FF]/30">
-                        <p className="text-xs text-[#A277FF]/60 mb-1">Status</p>
-                        <p className="text-sm text-green-400 font-medium">✅ Deployed</p>
-                      </div>
-                    </div>
-                    
-                    {/* GitHub URL */}
-                    <div className="flex items-center p-3 bg-black rounded-lg border border-[#A277FF]/30 mb-4">
-                      <GithubIcon className="h-5 w-5 text-[#A277FF] mr-2" />
-                      <span className="text-[#A277FF]/80 truncate flex-1">{result.github_url}</span>
-                    </div>
-                    
-                    {/* Success Message */}
-                    {result.message && (
-                      <div className="p-3 bg-green-900/20 rounded-lg border border-green-500/30 mb-4">
-                        <p className="text-sm text-green-300">{result.message}</p>
-                      </div>
-                    )}
-                    
-                    <a
-                      href={result.github_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#3A005A] hover:bg-[#4C0066] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A277FF]"
-                    >
-                      <GithubIcon className="mr-2 h-4 w-4" /> View GitHub Repository
-                    </a>
-                  </div>
-                )}
 
-                {/* Render Status */}
-                <div className="mb-6">
-                  <h3 className="text-lg font-medium text-[#A277FF] mb-2">Render Deployment</h3>
-                  
-                  {/* Status Indicator */}
-                  <div className="p-4 bg-black rounded-lg border border-[#A277FF]/30 mb-4">
-                    <div className="flex items-center mb-4">
-                      <ServerIcon className="h-5 w-5 text-[#A277FF] mr-2" />
-                      <span className="text-[#A277FF] font-medium">Status: </span>
-                      <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-medium 
-                        ${result.render_status === 'live' ? 'bg-green-900/50 text-green-300' : 
-                          result.render_status === 'created' ? 'bg-yellow-900/50 text-yellow-300' : 
-                          'bg-[#3A005A] text-[#A277FF]'}`}
-                      >
-                        {result.render_status === 'live' ? 'Live' : 
-                         result.render_status === 'created' ? 'Building' : 
-                         'Setup Required'}
-                      </span>
-                    </div>
-                    
-                    {/* Status Message */}
-                    <p className="text-[#A277FF]/80 mb-4">{status}</p>
-                    
-                    {/* Progress Bar for Building Status */}
-                    {result.render_status === 'created' && !deploymentComplete && (
-                      <div className="mb-4">
-                        <div className="overflow-hidden h-2 mb-1 text-xs flex rounded bg-[#3A005A]/50">
-                          <div className="w-full bg-[#A277FF] animate-pulse h-full rounded"></div>
-                        </div>
-                        <p className="text-xs text-[#A277FF]">Deployment in progress. This may take a few minutes.</p>
+                      <div className="flex items-center rounded-lg border border-gray-200 p-3">
+                        <GithubIcon className="h-5 w-5 text-gray-700 mr-2" />
+                        <span className="text-gray-700 truncate flex-1">{result.github_url}</span>
+                        <a
+                          href={result.github_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="ml-3 inline-flex items-center rounded-md bg-gray-900 px-3 py-2 text-sm text-white hover:bg-black"
+                        >
+                          <GithubIcon className="mr-2 h-4 w-4" /> View repository
+                        </a>
                       </div>
-                    )}
-                    
-                    {/* Render URLs */}
-                    {result.render_url && (
-                      <div className="flex flex-col space-y-2">
-                        <div className="flex items-center">
-                          <span className="text-[#A277FF] text-sm">Dashboard URL:</span>
-                          <a 
-                            href={result.render_url} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="ml-2 text-[#A277FF]/80 hover:text-[#A277FF] text-sm flex items-center"
-                          >
-                            {result.render_url.slice(0, 40)}...
-                            <ExternalLinkIcon className="ml-1 h-3 w-3" />
-                          </a>
+                    </div>
+                  )}
+
+                  {/* Render section */}
+                  <div className="mt-6">
+                    <h3 className="text-base font-semibold text-gray-900 mb-2">Render deployment</h3>
+
+                    <div className="rounded-lg border border-gray-200 p-4 mb-4">
+                      <div className="flex items-center mb-3">
+                        <ServerIcon className="h-5 w-5 text-gray-700 mr-2" />
+                        <span className="text-gray-800 font-medium">Status:</span>
+                        <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-medium ${
+                          result.render_status === 'live' ? 'bg-green-100 text-green-700' :
+                          result.render_status === 'created' ? 'bg-yellow-100 text-yellow-700' : 'bg-violet-100 text-violet-700'
+                        }`}>
+                          {result.render_status === 'live' ? 'Live' : result.render_status === 'created' ? 'Building' : 'Setup Required'}
+                        </span>
+                      </div>
+
+                      <p className="text-sm text-gray-700 mb-3">{status}</p>
+
+                      {result.render_status === 'created' && !deploymentComplete && (
+                        <div>
+                          <div className="h-2 w-full rounded bg-gray-100 overflow-hidden mb-1">
+                            <div className="w-full h-full bg-violet-500 animate-pulse" />
+                          </div>
+                          <p className="text-xs text-gray-600">Deployment in progress. This may take a few minutes.</p>
                         </div>
-                        
-                        {deploymentComplete && result.render_app_url && (
+                      )}
+
+                      {result.render_url && (
+                        <div className="space-y-2">
                           <div className="flex items-center">
-                            <span className="text-[#A277FF] text-sm">Application URL:</span>
-                            <a 
-                              href={result.render_app_url} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="ml-2 text-[#A277FF]/80 hover:text-[#A277FF] text-sm flex items-center"
-                            >
-                              {result.render_app_url}
+                            <span className="text-gray-700 text-sm">Dashboard URL:</span>
+                            <a href={result.render_url} target="_blank" rel="noopener noreferrer" className="ml-2 text-violet-700 hover:text-violet-900 text-sm flex items-center">
+                              {result.render_url.slice(0, 40)}...
                               <ExternalLinkIcon className="ml-1 h-3 w-3" />
                             </a>
                           </div>
-                        )}
-                      </div>
+                          {deploymentComplete && result.render_app_url && (
+                            <div className="flex items-center">
+                              <span className="text-gray-700 text-sm">Application URL:</span>
+                              <a href={result.render_app_url} target="_blank" rel="noopener noreferrer" className="ml-2 text-violet-700 hover:text-violet-900 text-sm flex items-center">
+                                {result.render_app_url}
+                                <ExternalLinkIcon className="ml-1 h-3 w-3" />
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    {result.render_url && (
+                      <a
+                        href={result.render_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center rounded-md bg-violet-600 px-4 py-2 text-sm text-white hover:bg-violet-700"
+                      >
+                        <ServerIcon className="mr-2 h-4 w-4" /> {deploymentComplete ? 'View app on Render' : 'View deployment on Render'}
+                      </a>
                     )}
                   </div>
-                  
-                  {/* Render Dashboard Button */}
-                  {result.render_url && (
-                    <a
-                      href={result.render_url}
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-[#A277FF] to-[#6153CC] hover:from-[#A277FF]/90 hover:to-[#6153CC]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A277FF] shadow-[0_0_15px_rgba(162,119,255,0.3)]"
+
+                  <div className="mt-6">
+                    <button
+                      onClick={() => {
+                        setResult(null);
+                        setFile(null);
+                        setFileDetails(null);
+                        setDeploymentComplete(false);
+                        setDeploymentStatus(null);
+                        setStatus("");
+                        setErrorLog([]);
+                      }}
+                      className="w-full rounded-lg border border-violet-300 px-4 py-2 text-violet-700 hover:bg-violet-50"
                     >
-                      <ServerIcon className="mr-2 h-4 w-4" /> 
-                      {deploymentComplete ? "View App on Render" : "View Deployment on Render"}
-                    </a>
-                  )}
+                      Start new deployment
+                    </button>
+                  </div>
                 </div>
-                
-                {/* Start New Deployment Button */}
-                <button
-                  onClick={() => {
-                    setResult(null);
-                    setFile(null);
-                    setFileDetails(null);
-                    setDeploymentComplete(false);
-                    setDeploymentStatus(null);
-                    setStatus("");
-                    setErrorLog([]);
-                  }}
-                  className="w-full py-2 px-4 border border-[#A277FF] rounded-md shadow-sm text-[#A277FF] bg-transparent hover:bg-[#3A005A]/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A277FF]"
-                >
-                  Start New Deployment
-                </button>
               </div>
             )}
 
             {/* Instructions */}
             {!file && !result && (
-              <div className="mt-6 p-4 bg-[#3A005A]/20 rounded-lg border border-[#A277FF]/30">
-                <h3 className="font-medium text-[#A277FF] mb-2">
-                  Upload your trained ML project ZIP file (downloaded from the ML training page):
-                </h3>
-                <div className="mb-4 p-3 bg-[#4A006A]/30 rounded border border-[#A277FF]/20">
-                  <p className="text-sm text-[#A277FF]/90 font-medium mb-2">📍 How to get your trained model ZIP:</p>
-                  <ol className="text-xs text-[#A277FF]/70 space-y-1 pl-4">
-                    <li>1. Go to the <strong>ML page</strong> and train a model</li>
-                    <li>2. Download the generated ZIP file</li>
-                    <li>3. Upload that ZIP file here for deployment</li>
+              <div className="mt-8 rounded-xl border border-gray-200 bg-white p-6">
+                <h3 className="text-gray-900 font-semibold mb-2">Upload your trained ML project ZIP</h3>
+                <p className="text-sm text-gray-700 mb-3">Download from the ML training page, then upload here for deployment.</p>
+                <div className="rounded-lg border border-violet-200 bg-violet-50 p-4 mb-4">
+                  <p className="text-sm font-medium text-gray-900 mb-2">How to get your ZIP</p>
+                  <ol className="list-decimal pl-4 space-y-1 text-sm text-gray-700">
+                    <li>Go to the ML page and train a model</li>
+                    <li>Download the generated ZIP file</li>
+                    <li>Upload that ZIP file here for deployment</li>
                   </ol>
                 </div>
-                <h4 className="text-sm font-medium text-[#A277FF]/90 mb-2">The ZIP should contain:</h4>
-                <ul className="space-y-2 text-sm text-[#A277FF]/80">
-                  <li className="flex items-center">
-                    <FileIcon className="h-4 w-4 text-[#A277FF] mr-2" />
-                    <span>
-                      <code className="bg-[#3A005A]/50 px-1 py-0.5 rounded">load_model.py</code> - App for model
-                      loading and visualization
-                    </span>
-                  </li>
-                  <li className="flex items-center">
-                    <FileIcon className="h-4 w-4 text-[#A277FF] mr-2" />
-                    <span>
-                      <code className="bg-[#3A005A]/50 px-1 py-0.5 rounded">requirements.txt</code> - Python package
-                      dependencies
-                    </span>
-                  </li>
-                  <li className="flex items-center">
-                    <FileIcon className="h-4 w-4 text-[#A277FF] mr-2" />
-                    <span>
-                      Trained model: <code className="bg-[#3A005A]/50 px-1 py-0.5 rounded">best_model.pkl</code>,{" "}
-                      <code className="bg-[#3A005A]/50 px-1 py-0.5 rounded">best_model.keras</code>, or{" "}
-                      <code className="bg-[#3A005A]/50 px-1 py-0.5 rounded">best_model.pt</code>
-                    </span>
-                  </li>
+                <h4 className="text-sm font-medium text-gray-900 mb-2">The ZIP should contain</h4>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-center"><FileIcon className="h-4 w-4 text-violet-600 mr-2" /> <code className="bg-gray-100 px-1 py-0.5 rounded">load_model.py</code> - model loading app</li>
+                  <li className="flex items-center"><FileIcon className="h-4 w-4 text-violet-600 mr-2" /> <code className="bg-gray-100 px-1 py-0.5 rounded">requirements.txt</code> - dependencies</li>
+                  <li className="flex items-center"><FileIcon className="h-4 w-4 text-violet-600 mr-2" /> Trained model file: <code className="bg-gray-100 px-1 py-0.5 rounded">best_model.pkl</code> / <code className="bg-gray-100 px-1 py-0.5 rounded">best_model.keras</code> / <code className="bg-gray-100 px-1 py-0.5 rounded">best_model.pt</code></li>
                 </ul>
               </div>
             )}
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="mt-8 text-center text-[#A277FF] text-sm">
-          <p>FreeMindAi Deploy • Your cosmic companion for ML project deployment</p>
-        </div>
+        <div className="py-6 text-center text-gray-500 text-sm">Deploy your ML projects with a clean, consistent UI.</div>
       </div>
-      
-      <style jsx global>{`
-        @keyframes twinkle {
-          0%, 100% { opacity: 0.3; }
-          50% { opacity: 1; }
-        }
-      `}</style>
     </div>
   )
 }
+
