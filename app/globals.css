@@ -1,8 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --primary-violet: rgba(79, 70, 229, 0.9);
+  --violet-light: rgba(79, 70, 229, 0.1);
+  --violet-medium: rgba(79, 70, 229, 0.3);
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-600: #4b5563;
+  --gray-800: #1f2937;
 }
 
 @theme inline {
@@ -17,6 +26,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
+  line-height: 1.6;
 }
 
 /* Smooth scrolling */
@@ -30,27 +40,27 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1a1a1a;
+  background: var(--gray-100);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
+  background: var(--primary-violet);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #2563eb, #7c3aed);
+  background: rgba(79, 70, 229, 1);
 }
 
 /* Selection color */
 ::selection {
-  background: rgba(59, 130, 246, 0.3);
-  color: white;
+  background: var(--violet-light);
+  color: var(--foreground);
 }
 
 /* Focus styles */
 *:focus {
-  outline: 2px solid rgba(59, 130, 246, 0.5);
+  outline: 2px solid var(--violet-medium);
   outline-offset: 2px;
 }
 
@@ -88,16 +98,17 @@ html {
 
 /* Glassmorphism effects */
 .glass-card {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(147, 64, 255, 0.2);
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  box-shadow: 0 4px 24px rgba(79, 70, 229, 0.08);
 }
 
 .glass-card:hover {
-  background: rgba(0, 0, 0, 0.5);
-  border-color: rgba(147, 64, 255, 0.4);
-  box-shadow: 0 10px 40px rgba(147, 64, 255, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(79, 70, 229, 0.4);
+  box-shadow: 0 8px 32px rgba(79, 70, 229, 0.12);
 }
 
 /* Perfect center alignment */

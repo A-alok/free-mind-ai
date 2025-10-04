@@ -1,8 +1,8 @@
-import FuturisticHome from "@/components/FuturisticHome";
+import ModernHome from "@/components/ModernHome";
 
 export default function Home() {
   return (
-    <FuturisticHome />
+    <ModernHome />
   );
 }
 
