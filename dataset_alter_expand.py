@@ -256,8 +256,10 @@ def upload_dataset():
         file.save(temp_file_path.name)
         temp_file_path.close()
         
-        # Save the file to the database
-        db_fs.save_file(temp_file_path.name, DATASET_DIR)
+        # Save the file to the database with original filename
+        with open(temp_file_path.name, 'rb') as temp_file:
+            file_content = temp_file.read()
+            db_fs.save_file_content(file_content, file.filename, DATASET_DIR)
         
         # Clean up temporary file
         os.unlink(temp_file_path.name)
@@ -282,8 +284,10 @@ def upload_dataset():
                     excel_df.to_csv(temp_csv, index=False)
                     temp_csv_path = temp_csv.name
                 
-                # Save CSV to database
-                db_fs.save_file(temp_csv_path, DATASET_DIR)
+                # Save CSV to database with proper filename
+                with open(temp_csv_path, 'rb') as temp_csv_file:
+                    csv_content = temp_csv_file.read()
+                    db_fs.save_file_content(csv_content, csv_filename, DATASET_DIR)
                 
                 # Clean up temporary files
                 os.unlink(temp_excel_path)

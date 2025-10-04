@@ -1003,3 +1003,13 @@
 2025-10-04 16:36:40,165 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
 2025-10-04 16:36:40,167 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
 2025-10-04 16:36:40,167 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-04 16:37:11,610 - werkzeug - INFO - 127.0.0.1 - - [04/Oct/2025 16:37:11] "POST /process HTTP/1.1" 200 -
+2025-10-04 17:12:00,815 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-04 17:12:00,815 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-04 17:12:03,435 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-04 17:12:03,435 - root - INFO - Auto-detected task type: classification
+2025-10-04 17:12:03,439 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-04 17:12:03,439 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-04 17:12:03,439 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-04 17:12:03,439 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-04 17:12:27,561 - werkzeug - INFO - 127.0.0.1 - - [04/Oct/2025 17:12:27] "POST /process HTTP/1.1" 200 -

@@ -52,8 +52,10 @@ const DataExpanderTool = () => {
   const [uploading, setUploading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [resultViewAll, setResultViewAll] = useState(false);
   const [previewSize] = useState(10); // Dynamic preview size
+  const [dragOver, setDragOver] = useState(false);
 
   const API_BASE = 'http://localhost:5004/api';
 
@@ -95,13 +97,53 @@ const DataExpanderTool = () => {
       if (data.success) {
         await loadDatasets();
         setSelectedDataset(file.name);
+        // Show success message with file info
+        setError('');
+        setSuccessMessage(`✅ Successfully uploaded: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`);
+        // Clear success message after 5 seconds
+        setTimeout(() => setSuccessMessage(''), 5000);
       } else {
         setError(data.error || 'Upload failed');
       }
     } catch (err) {
-      setError('Upload failed: ' + err.message);
+      let errorMessage = 'Upload failed: ' + err.message;
+      if (err.message.includes('Failed to fetch')) {
+        errorMessage = '🔌 Connection Error: Unable to connect to data processing server. Please ensure the Flask server is running on port 5004.';
+      }
+      setError(errorMessage);
     } finally {
       setUploading(false);
+    }
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setDragOver(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setDragOver(false);
+  };
+
+  const handleDrop = async (e) => {
+    e.preventDefault();
+    setDragOver(false);
+    
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      const file = files[0];
+      if (file.name.toLowerCase().endsWith('.csv') || 
+          file.name.toLowerCase().endsWith('.xlsx') || 
+          file.name.toLowerCase().endsWith('.json')) {
+        // Create a synthetic event to reuse the existing upload handler
+        const syntheticEvent = {
+          target: { files: [file] }
+        };
+        await handleFileUpload(syntheticEvent);
+      } else {
+        setError('Please drop a CSV, Excel (.xlsx), or JSON file.');
+      }
     }
   };
 
@@ -159,10 +201,21 @@ const DataExpanderTool = () => {
         setResult(data);
         await loadDatasets(); // Refresh dataset list
       } else {
-        setError(data.error || 'Processing failed');
+        // Enhanced error handling for common issues
+        let errorMessage = data.error || 'Processing failed';
+        if (errorMessage.includes('API key')) {
+          errorMessage = '🔑 API Key Required: The data processing server needs an OpenRouter API key to function. Please ensure OPENROUTER_API_KEY is set in the environment.';
+        } else if (errorMessage.includes('Connection error')) {
+          errorMessage = '🌐 Connection Error: Unable to reach the AI service. Please check your internet connection and try again.';
+        }
+        setError(errorMessage);
       }
     } catch (err) {
-      setError('Processing failed: ' + err.message);
+      let errorMessage = 'Processing failed: ' + err.message;
+      if (err.message.includes('Failed to fetch')) {
+        errorMessage = '🔌 Server Connection Error: Unable to connect to the data processing server. Please ensure the Flask server is running on port 5004.';
+      }
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -200,6 +253,19 @@ const DataExpanderTool = () => {
 
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
+        {/* Success Display */}
+        {successMessage && (
+          <div className="mb-8 bg-black rounded-lg shadow-[0_0_30px_rgba(34,197,94,0.2)] border border-green-500 p-6 relative overflow-hidden">
+            <div className="flex items-center mb-4 relative z-10">
+              <div className="text-green-500 mr-2">✅</div>
+              <h2 className="text-xl font-semibold text-green-500">Success</h2>
+            </div>
+            <div className="text-gray-300 relative z-10">
+              {successMessage}
+            </div>
+          </div>
+        )}
+
         {/* Error Display */}
         {error && (
           <div className="mb-8 bg-black rounded-lg shadow-[0_0_30px_rgba(255,92,65,0.2)] border border-[#FF5C41] p-6 relative overflow-hidden">
@@ -228,8 +294,17 @@ const DataExpanderTool = () => {
                 
               {/* File Upload */}
               <div className="mb-8 relative z-10">
-                <label className="block text-gray-300 mb-2 text-sm">Upload Dataset</label>
-                <div className="border border-[#3A005A] bg-black/60 rounded-md p-2 hover:border-[#A277FF] transition-colors duration-200 cursor-pointer">
+                <label className="block text-gray-300 mb-2 text-sm">Upload Dataset from Anywhere</label>
+                <div 
+                  className={`border rounded-md p-4 transition-all duration-200 cursor-pointer relative ${
+                    dragOver 
+                      ? 'border-[#A277FF] bg-[#A277FF]/10 shadow-[0_0_20px_rgba(162,119,255,0.3)]' 
+                      : 'border-[#3A005A] bg-black/60 hover:border-[#A277FF]'
+                  }`}
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                >
                   <input
                     type="file"
                     accept=".csv,.xlsx,.json"
@@ -237,12 +312,20 @@ const DataExpanderTool = () => {
                     disabled={uploading}
                     className="w-full text-gray-300 focus:outline-none opacity-0 absolute inset-0 cursor-pointer"
                   />
-                  <div className="flex items-center justify-center gap-2 py-2">
-                    <Upload size={18} className="text-[#A277FF]" />
-                    <span className="text-gray-300 text-sm">
-                      {uploading ? 'Uploading...' : 'Click to upload files'}
+                  <div className="flex flex-col items-center justify-center gap-2 py-2">
+                    <Upload size={24} className={dragOver ? 'text-[#A277FF] animate-bounce' : 'text-[#A277FF]'} />
+                    <span className="text-gray-300 text-sm text-center">
+                      {uploading 
+                        ? 'Uploading...' 
+                        : dragOver 
+                          ? 'Drop your file here!' 
+                          : 'Click to browse or drag & drop files from anywhere'
+                      }
                     </span>
                   </div>
+                </div>
+                <div className="mt-2 text-xs text-gray-400 text-center">
+                  📁 Supports: CSV, Excel (.xlsx), JSON • 💻 From any location on your drive • 🐇 Drag & drop enabled
                 </div>
               </div>
 
