@@ -70,13 +70,28 @@ def train_models(X_train, y_train, X_test, y_test, task_type, models_dir, datase
             )
     
     # Original logic for other model types
-    models = {
+    all_models = {
         "Decision Tree": DecisionTreeClassifier() if task_type in ['classification', 'nlp'] else DecisionTreeRegressor(),
         "Support Vector Machine": SVC(probability=True) if task_type in ['classification', 'nlp'] else SVR(),
         "K-Nearest Neighbors": KNeighborsClassifier() if task_type in ['classification', 'nlp'] else KNeighborsRegressor(),
         "Random Forest": RandomForestClassifier() if task_type in ['classification', 'nlp'] else RandomForestRegressor(),
         "Gradient Boosting": GradientBoostingClassifier() if task_type in ['classification', 'nlp'] else GradientBoostingRegressor(),
     }
+    
+    # Filter models based on environment variable
+    enabled_models = set(os.getenv('MODELS', 'dt,svm,knn,rf,gb').lower().split(','))
+    model_map = {
+        'dt': "Decision Tree",
+        'svm': "Support Vector Machine", 
+        'knn': "K-Nearest Neighbors",
+        'rf': "Random Forest",
+        'gb': "Gradient Boosting"
+    }
+    
+    models = {}
+    for short_name, full_name in model_map.items():
+        if short_name in enabled_models and full_name in all_models:
+            models[full_name] = all_models[full_name]
 
     best_model = None
     best_model_name = ""
@@ -86,20 +101,40 @@ def train_models(X_train, y_train, X_test, y_test, task_type, models_dir, datase
         if model is None:
             continue  # Skip models that are not applicable
         
+        # Use environment variable to control optimization level
+        use_fast_training = os.getenv('FAST_TRAINING', 'true').lower() == 'true'
+        
         param_grid = {}
-        if model_name == "Decision Tree":
-            param_grid = {'max_depth': [None, 10, 20], 'min_samples_split': [2, 5]}
-        elif model_name == "Support Vector Machine":
-            param_grid = {'C': [0.1, 1], 'kernel': ['linear', 'rbf']}
-        elif model_name == "K-Nearest Neighbors":
-            param_grid = {'n_neighbors': [3, 5, 7]}
-        elif model_name == "Random Forest":
-            param_grid = {'n_estimators': [50, 100], 'max_depth': [None, 10]}
-        elif model_name == "Gradient Boosting":
-            param_grid = {'n_estimators': [50, 100], 'learning_rate': [0.1, 0.2]}
+        if use_fast_training:
+            # Minimal parameter search for speed
+            if model_name == "Decision Tree":
+                param_grid = {'max_depth': [10]}  # Single best default
+            elif model_name == "Support Vector Machine":
+                param_grid = {'C': [1], 'kernel': ['rbf']}  # Single best combo
+            elif model_name == "K-Nearest Neighbors":
+                param_grid = {'n_neighbors': [5]}  # Single best default
+            elif model_name == "Random Forest":
+                param_grid = {'n_estimators': [50], 'max_depth': [10]}  # Fast defaults
+            elif model_name == "Gradient Boosting":
+                param_grid = {'n_estimators': [50], 'learning_rate': [0.1]}  # Fast defaults
+        else:
+            # Full parameter search for best performance
+            if model_name == "Decision Tree":
+                param_grid = {'max_depth': [None, 10, 20], 'min_samples_split': [2, 5]}
+            elif model_name == "Support Vector Machine":
+                param_grid = {'C': [0.1, 1], 'kernel': ['linear', 'rbf']}
+            elif model_name == "K-Nearest Neighbors":
+                param_grid = {'n_neighbors': [3, 5, 7]}
+            elif model_name == "Random Forest":
+                param_grid = {'n_estimators': [50, 100], 'max_depth': [None, 10]}
+            elif model_name == "Gradient Boosting":
+                param_grid = {'n_estimators': [50, 100], 'learning_rate': [0.1, 0.2]}
 
+        # Use faster CV for speed vs comprehensive for accuracy
+        cv_folds = 2 if use_fast_training else 3
+        
         # Perform grid search
-        grid_search = GridSearchCV(model, param_grid, scoring='accuracy' if task_type in ['classification', 'nlp'] else 'r2', cv=3)
+        grid_search = GridSearchCV(model, param_grid, scoring='accuracy' if task_type in ['classification', 'nlp'] else 'r2', cv=cv_folds, n_jobs=-1)
 
         try:
             grid_search.fit(X_train, y_train)

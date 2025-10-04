@@ -10,6 +10,7 @@ from kaggle.api.kaggle_api_extended import KaggleApi
 import logging
 from scipy import stats
 import tempfile
+import csv
 from db_file_system import DBFileSystem
 
 # Initialize the database file system
@@ -104,6 +105,120 @@ def auto_detect_task_type(csv_path):
     Analyze the CSV to detect if it's more suitable for regression or classification
     Returns the detected task type and the loaded dataframe
     """
+    def try_read_csv_with_encoding(content_or_path, is_content=False):
+        """
+        Try to read CSV robustly with multiple encodings, delimiters, and fallbacks.
+        Also supports Excel files if detected.
+        """
+        def make_buffer():
+            return io.BytesIO(content_or_path) if is_content else content_or_path
+        
+        def attempt_read(**kwargs):
+            if is_content:
+                return pd.read_csv(io.BytesIO(content_or_path), **kwargs)
+            else:
+                return pd.read_csv(content_or_path, **kwargs)
+        
+        # First, if it's clearly an Excel file, try that
+        try:
+            if is_content and isinstance(content_or_path, (bytes, bytearray)) and content_or_path[:2] == b'PK':
+                # Likely an .xlsx (zip-based)
+                try:
+                    import openpyxl  # noqa: F401
+                    return pd.read_excel(io.BytesIO(content_or_path), engine='openpyxl')
+                except Exception:
+                    pass
+            if not is_content and isinstance(content_or_path, str) and content_or_path.lower().endswith(('.xlsx', '.xls')):
+                try:
+                    return pd.read_excel(content_or_path)
+                except Exception:
+                    pass
+        except Exception:
+            # Ignore and continue with CSV attempts
+            pass
+        
+        encodings = ['utf-8', 'cp1252', 'latin-1', 'iso-8859-1', 'utf-16', 'ascii']
+        delims = [',', ';', '\t', '|']
+        
+        # 1) Straightforward attempts with default comma
+        for encoding in encodings:
+            try:
+                return attempt_read(encoding=encoding)
+            except (UnicodeDecodeError, UnicodeError, pd.errors.ParserError):
+                continue
+            except Exception as e:
+                if 'codec' not in str(e).lower() and 'decode' not in str(e).lower():
+                    # Could be structural, try other strategies
+                    pass
+        
+        # 2) Use Python engine with delimiter inference
+        for encoding in encodings:
+            try:
+                return attempt_read(encoding=encoding, sep=None, engine='python')
+            except (UnicodeDecodeError, UnicodeError, pd.errors.ParserError):
+                continue
+            except Exception:
+                continue
+        
+        # 3) Try common delimiters explicitly
+        for encoding in encodings:
+            for sep in delims:
+                try:
+                    return attempt_read(encoding=encoding, sep=sep, engine='python')
+                except (UnicodeDecodeError, UnicodeError, pd.errors.ParserError):
+                    continue
+                except Exception:
+                    continue
+        
+        # 4) Try regex separator over common delimiters
+        for encoding in encodings:
+            try:
+                return attempt_read(encoding=encoding, sep=r'[\,\;\t\|]+', engine='python')
+            except (UnicodeDecodeError, UnicodeError, pd.errors.ParserError):
+                continue
+            except Exception:
+                continue
+        
+        # 5) Skip bad lines to salvage data
+        for encoding in encodings:
+            try:
+                return attempt_read(encoding=encoding, sep=None, engine='python', on_bad_lines='skip')
+            except Exception:
+                continue
+        
+        # 6) Try chardet detection
+        try:
+            import chardet
+            if is_content:
+                detected_encoding = chardet.detect(content_or_path)['encoding']
+                if detected_encoding:
+                    try:
+                        return attempt_read(encoding=detected_encoding, sep=None, engine='python', on_bad_lines='skip')
+                    except Exception:
+                        return attempt_read(encoding=detected_encoding)
+            else:
+                with open(content_or_path, 'rb') as f:
+                    raw_data = f.read()
+                    detected_encoding = chardet.detect(raw_data)['encoding']
+                    if detected_encoding:
+                        try:
+                            return attempt_read(encoding=detected_encoding, sep=None, engine='python', on_bad_lines='skip')
+                        except Exception:
+                            return attempt_read(encoding=detected_encoding)
+        except ImportError:
+            print("chardet not available for encoding detection")
+        except Exception as e:
+            print(f"Chardet encoding detection failed: {e}")
+        
+        # 7) Final fallback: errors='ignore' to force read
+        try:
+            if is_content:
+                return pd.read_csv(io.BytesIO(content_or_path), encoding='utf-8', errors='ignore', sep=None, engine='python', on_bad_lines='skip')
+            else:
+                return pd.read_csv(content_or_path, encoding='utf-8', errors='ignore', sep=None, engine='python', on_bad_lines='skip')
+        except Exception as e:
+            raise ValueError(f"Failed to read file as CSV/Excel with any strategy: {e}")
+    
     try:
         # Check if the path is in the database
         if 'ml_system' in csv_path:
@@ -116,12 +231,12 @@ def auto_detect_task_type(csv_path):
                 
                 # Get the file from database and load as DataFrame
                 content = db_fs.get_file(filename, dir_name)
-                df = pd.read_csv(io.BytesIO(content))
+                df = try_read_csv_with_encoding(content, is_content=True)
             else:
                 raise ValueError(f"Invalid database path: {csv_path}")
         else:
             # Load directly from file path
-            df = pd.read_csv(csv_path)
+            df = try_read_csv_with_encoding(csv_path, is_content=False)
         
         # Get the target column (last column)
         target_col = df.columns[-1]
@@ -201,7 +316,7 @@ def auto_detect_task_type(csv_path):
         print(f"Error in auto_detect_task_type: {e}")
         # Default to classification if detection fails
         
-        # Try to load from database
+        # Try to load from database with encoding fallback
         if 'ml_system' in csv_path:
             parts = csv_path.replace('\\', '/').strip('/').split('/')
             idx = parts.index('ml_system')
@@ -209,10 +324,20 @@ def auto_detect_task_type(csv_path):
                 dir_name = parts[idx + 1]
                 filename = parts[idx + 2]
                 content = db_fs.get_file(filename, dir_name)
-                return "classification", pd.read_csv(io.BytesIO(content))
+                try:
+                    df = try_read_csv_with_encoding(content, is_content=True)
+                    return "classification", df
+                except Exception as fallback_e:
+                    print(f"Fallback CSV reading also failed: {fallback_e}")
+                    raise ValueError(f"Cannot read CSV file: {e}")
         
-        # Fall back to direct file reading
-        return "classification", pd.read_csv(csv_path)
+        # Fall back to direct file reading with encoding fallback
+        try:
+            df = try_read_csv_with_encoding(csv_path, is_content=False)
+            return "classification", df
+        except Exception as fallback_e:
+            print(f"Fallback CSV reading also failed: {fallback_e}")
+            raise ValueError(f"Cannot read CSV file: {e}")
 
 def get_gemini_task_type_opinion(df, query):
     """

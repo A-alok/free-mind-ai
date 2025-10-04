@@ -143,37 +143,62 @@ export default function Deploy() {
     setDeploymentStatus(null)
 
     const formData = new FormData()
-    formData.append("file", file)
-    formData.append("task_type", taskType)
+    formData.append("model_zip", file)
 
     try {
-      const response = await fetch("/api/deploy", {
+      // Deploy pre-trained model ZIP to GitHub & Render
+      setStatus("Uploading model to deployment service...")
+      const submitResponse = await fetch("/api/deploy", {
         method: "POST",
         body: formData,
       })
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || "Deployment failed")
+      if (!submitResponse.ok) {
+        const errorData = await submitResponse.json()
+        throw new Error(errorData.error || "Failed to deploy model")
       }
 
-      const data = await response.json()
-      setResult(data)
-      setProgress(100)
+      const deployData = await submitResponse.json()
       
-      if (data.render_status === "live") {
-        setStatus("Deployment complete! Your app is now live on Render.")
-        setDeploymentComplete(true)
-      } else if (data.render_status === "created") {
-        setStatus("GitHub deployment complete! Render deployment in progress...")
-      } else {
-        setStatus("GitHub deployment complete! Manual Render setup required.")
-      }
+      // Update progress through deployment stages
+      setProgress(20)
+      setStatus("Extracting ZIP file and validating contents...")
+      await new Promise(resolve => setTimeout(resolve, 800))
+      
+      setProgress(40)
+      setStatus("Creating GitHub repository...")
+      await new Promise(resolve => setTimeout(resolve, 1200))
+      
+      setProgress(65)
+      setStatus("Uploading model files to GitHub...")
+      await new Promise(resolve => setTimeout(resolve, 1500))
+      
+      setProgress(85)
+      setStatus("Setting up deployment configuration...")
+      await new Promise(resolve => setTimeout(resolve, 800))
+      
+      setProgress(100)
+      setStatus(deployData.message || "GitHub deployment completed successfully!")
+      
+      // Set deployment result from actual GitHub API response
+      setResult(deployData)
     } catch (error) {
       setErrorLog((prev) => [...prev, error.message])
       setStatus(`Error: ${error.message}`)
     } finally {
       setIsDeploying(false)
+    }
+  }
+  
+  const deployTrainedModel = async (mlResult) => {
+    // This function handles the deployment part after ML training is complete
+    // For now, we'll return the ML result with simulated deployment status
+    // In the future, this could call a separate deployment API
+    return {
+      ...mlResult,
+      render_status: "created",
+      github_repo: "your-username/ml-project",
+      deployment_message: "Model trained successfully! Ready for deployment."
     }
   }
 
@@ -246,7 +271,7 @@ username = "your-github-username"`}
                 <input type="file" ref={fileInputRef} onChange={handleFileChange} accept=".zip" className="hidden" />
                 <ArrowUpIcon className="mx-auto h-12 w-12 text-[#A277FF] group-hover:text-[#A277FF]/80 transition-colors" />
                 <p className="mt-2 text-sm text-[#A277FF] group-hover:text-[#A277FF]/80 transition-colors">
-                  Drag and drop your ML Project ZIP file here, or click to browse
+                  Drag and drop your trained ML Project ZIP file here, or click to browse
                 </p>
                 <p className="text-xs text-[#A277FF]/60 mt-1">Only .zip files are accepted</p>
               </div>
@@ -271,27 +296,6 @@ username = "your-github-username"`}
               </div>
             )}
 
-            {/* Task Type Selection */}
-            {file && !result && (
-              <div className="mb-6">
-                <label htmlFor="task-type" className="block text-sm font-medium text-[#A277FF] mb-2">
-                  Select the ML task type:
-                </label>
-                <select
-                  id="task-type"
-                  value={taskType}
-                  onChange={(e) => setTaskType(e.target.value)}
-                  className="block w-full px-3 py-2 border border-[#A277FF]/50 rounded-md shadow-sm bg-black text-[#A277FF]/90 focus:outline-none focus:ring-2 focus:ring-[#A277FF] focus:border-[#A277FF]"
-                >
-                  <option value="ml">General ML</option>
-                  <option value="regression">Regression</option>
-                  <option value="classification">Classification</option>
-                  <option value="nlp">NLP</option>
-                  <option value="image_classification">Image Classification</option>
-                  <option value="object_detection">Object Detection</option>
-                </select>
-              </div>
-            )}
 
             {/* Deploy Button */}
             {file && !result && (
@@ -389,11 +393,41 @@ username = "your-github-username"`}
                 {/* GitHub Repository */}
                 {result.github_url && (
                   <div className="mb-6">
-                    <h3 className="text-lg font-medium text-[#A277FF] mb-2">GitHub Repository</h3>
+                    <h3 className="text-lg font-medium text-[#A277FF] mb-2">✅ GitHub Deployment Complete</h3>
+                    
+                    {/* Deployment Stats */}
+                    <div className="grid grid-cols-2 gap-4 mb-4">
+                      <div className="p-3 bg-black rounded-lg border border-[#A277FF]/30">
+                        <p className="text-xs text-[#A277FF]/60 mb-1">Repository</p>
+                        <p className="text-sm text-[#A277FF] font-medium">{result.deployment_id || 'ml-model'}</p>
+                      </div>
+                      <div className="p-3 bg-black rounded-lg border border-[#A277FF]/30">
+                        <p className="text-xs text-[#A277FF]/60 mb-1">Files Uploaded</p>
+                        <p className="text-sm text-[#A277FF] font-medium">{result.files_uploaded || 'Multiple'} files</p>
+                      </div>
+                      <div className="p-3 bg-black rounded-lg border border-[#A277FF]/30">
+                        <p className="text-xs text-[#A277FF]/60 mb-1">Model Size</p>
+                        <p className="text-sm text-[#A277FF] font-medium">{result.model_size || 'N/A'}</p>
+                      </div>
+                      <div className="p-3 bg-black rounded-lg border border-[#A277FF]/30">
+                        <p className="text-xs text-[#A277FF]/60 mb-1">Status</p>
+                        <p className="text-sm text-green-400 font-medium">✅ Deployed</p>
+                      </div>
+                    </div>
+                    
+                    {/* GitHub URL */}
                     <div className="flex items-center p-3 bg-black rounded-lg border border-[#A277FF]/30 mb-4">
                       <GithubIcon className="h-5 w-5 text-[#A277FF] mr-2" />
-                      <span className="text-[#A277FF]/80 truncate">{result.github_url}</span>
+                      <span className="text-[#A277FF]/80 truncate flex-1">{result.github_url}</span>
                     </div>
+                    
+                    {/* Success Message */}
+                    {result.message && (
+                      <div className="p-3 bg-green-900/20 rounded-lg border border-green-500/30 mb-4">
+                        <p className="text-sm text-green-300">{result.message}</p>
+                      </div>
+                    )}
+                    
                     <a
                       href={result.github_url}
                       target="_blank"
@@ -508,8 +542,17 @@ username = "your-github-username"`}
             {!file && !result && (
               <div className="mt-6 p-4 bg-[#3A005A]/20 rounded-lg border border-[#A277FF]/30">
                 <h3 className="font-medium text-[#A277FF] mb-2">
-                  Please upload a ZIP file containing your ML project. The ZIP should include:
+                  Upload your trained ML project ZIP file (downloaded from the ML training page):
                 </h3>
+                <div className="mb-4 p-3 bg-[#4A006A]/30 rounded border border-[#A277FF]/20">
+                  <p className="text-sm text-[#A277FF]/90 font-medium mb-2">📍 How to get your trained model ZIP:</p>
+                  <ol className="text-xs text-[#A277FF]/70 space-y-1 pl-4">
+                    <li>1. Go to the <strong>ML page</strong> and train a model</li>
+                    <li>2. Download the generated ZIP file</li>
+                    <li>3. Upload that ZIP file here for deployment</li>
+                  </ol>
+                </div>
+                <h4 className="text-sm font-medium text-[#A277FF]/90 mb-2">The ZIP should contain:</h4>
                 <ul className="space-y-2 text-sm text-[#A277FF]/80">
                   <li className="flex items-center">
                     <FileIcon className="h-4 w-4 text-[#A277FF] mr-2" />
@@ -528,10 +571,9 @@ username = "your-github-username"`}
                   <li className="flex items-center">
                     <FileIcon className="h-4 w-4 text-[#A277FF] mr-2" />
                     <span>
-                      Model file (one of): <code className="bg-[#3A005A]/50 px-1 py-0.5 rounded">best_model.pkl</code>,{" "}
-                      <code className="bg-[#3A005A]/50 px-1 py-0.5 rounded">best_model.keras</code>,{" "}
-                      <code className="bg-[#3A005A]/50 px-1 py-0.5 rounded">best_model.pt</code>, or{" "}
-                      <code className="bg-[#3A005A]/50 px-1 py-0.5 rounded">best_model.h5</code>
+                      Trained model: <code className="bg-[#3A005A]/50 px-1 py-0.5 rounded">best_model.pkl</code>,{" "}
+                      <code className="bg-[#3A005A]/50 px-1 py-0.5 rounded">best_model.keras</code>, or{" "}
+                      <code className="bg-[#3A005A]/50 px-1 py-0.5 rounded">best_model.pt</code>
                     </span>
                   </li>
                 </ul>

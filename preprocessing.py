@@ -77,11 +77,42 @@ def preprocess_dataset(df, task_type, dataset_folder=None):
             # Stem and lemmatize, while removing stopwords
             text = [lemmatizer.lemmatize(ps.stem(word)) for word in text if word not in all_stopwords]
             text = ' '.join(text)  # Join words back to a single string
-            corpus.append(text)
+            # Ensure we don't add completely empty strings
+            if text.strip():  # Only add non-empty texts
+                corpus.append(text)
+            else:
+                # Add a placeholder for empty texts to maintain index alignment
+                corpus.append("unknown_text")
 
-        # Use TF-IDF Vectorization instead of Count Vectorization
-        vectorizer = TfidfVectorizer(max_features=1500, ngram_range=(1, 2))  # Unigrams and bigrams
-        X_transformed = vectorizer.fit_transform(corpus).toarray()
+        # Check if corpus is empty or contains only empty strings
+        if not corpus or all(not text.strip() for text in corpus):
+            raise ValueError("All text data appears to be empty or contains only stop words. Please check your text column.")
+
+        try:
+            # Use optimized TF-IDF settings for speed vs accuracy tradeoff
+            use_fast_training = os.getenv('FAST_TRAINING', 'true').lower() == 'true'
+            
+            if use_fast_training:
+                # Faster settings: fewer features, unigrams only
+                vectorizer = TfidfVectorizer(max_features=500, ngram_range=(1, 1), min_df=1)
+            else:
+                # Full settings: more features, unigrams and bigrams
+                vectorizer = TfidfVectorizer(max_features=1500, ngram_range=(1, 2), min_df=1)
+                
+            X_transformed = vectorizer.fit_transform(corpus).toarray()
+        except ValueError as e:
+            if "empty vocabulary" in str(e).lower():
+                print("Warning: Empty vocabulary detected. Trying fallback approach with character n-grams...")
+                # Fallback: use character n-grams which are less likely to result in empty vocabulary
+                vectorizer = TfidfVectorizer(
+                    analyzer='char',
+                    ngram_range=(3, 5),
+                    min_df=1,
+                    max_features=1500
+                )
+                X_transformed = vectorizer.fit_transform([str(X.iloc[i, 0]) for i in range(len(X))]).toarray()
+            else:
+                raise e
 
         # Perform label encoding for the target variable
         le = LabelEncoder()
