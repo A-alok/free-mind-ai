@@ -1003,3 +1003,15 @@
 2025-10-04 16:36:40,165 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
 2025-10-04 16:36:40,167 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
 2025-10-04 16:36:40,167 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-04 17:08:25,607 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.142.97:5000
+2025-10-04 17:08:25,609 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-04 17:12:12,339 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-04 17:12:12,339 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-04 17:12:12,526 - __main__ - INFO - Auto-detected task type for uploaded file: regression
+2025-10-04 17:12:12,526 - __main__ - INFO - Auto-detected task type for uploaded file: regression
+2025-10-04 17:12:12,527 - __main__ - INFO - Changing task type from classification to regression based on file analysis
+2025-10-04 17:12:12,527 - __main__ - INFO - Changing task type from classification to regression based on file analysis
+2025-10-04 17:12:30,966 - werkzeug - INFO - 127.0.0.1 - - [04/Oct/2025 17:12:30] "POST /process HTTP/1.1" 200 -
