@@ -153,7 +153,7 @@ export default function Navbar() {
               <div className="relative ml-8" ref={profileMenuRef}>
                 <button 
                   onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                  className="flex items-center space-x-2 text-white hover:text-[#9340FF] focus:outline-none"
+                  className="flex items-center space-x-2 text-gray-900 hover:text-[#9340FF] focus:outline-none"
                 >
                   <div className="w-10 h-10 rounded-full bg-gray-800 border-2 border-[#9340FF] overflow-hidden flex items-center justify-center">
                     {user.profilePicture ? (
@@ -208,7 +208,7 @@ export default function Navbar() {
             {/* Login button - MODIFIED to show only when user definitely doesn't exist */}
             {!isLoading && !user && (
               <div className="ml-8">
-                <Link href="/login" className="text-white hover:text-[#9340FF] px-4 py-2 rounded-md border border-[#9340FF] hover:bg-[#9340FF]/10 transition-all">
+                <Link href="/login" className="text-gray-900 hover:text-[#9340FF] px-4 py-2 rounded-md border border-[#9340FF] hover:bg-[#9340FF]/10 transition-all">
                   Login
                 </Link>
               </div>
@@ -265,8 +265,8 @@ export default function Navbar() {
                       )}
                     </div>
                     <div>
-                      <p className="font-medium text-white">{user.name}</p>
-                      <p className="text-xs text-gray-400">{user.email}</p>
+                      <p className="font-medium text-gray-900">{user.name}</p>
+                      <p className="text-xs text-gray-600">{user.email}</p>
                     </div>
                   </div>
                   <Link 
@@ -304,7 +304,7 @@ export default function Navbar() {
                 <div className="mt-6 pt-4 border-t border-gray-800">
                   <Link 
                     href="/login" 
-                    className="w-full bg-[#9340FF]/20 hover:bg-[#9340FF]/40 text-white border border-[#9340FF] px-4 py-3 rounded-md text-center transition-all duration-300 font-medium block"
+                    className="w-full bg-[#9340FF]/10 hover:bg-[#9340FF]/20 text-gray-900 border border-[#9340FF] px-4 py-3 rounded-md text-center transition-all duration-300 font-medium block"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Login
