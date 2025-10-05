@@ -57,7 +57,7 @@ export default function MainOverview() {
   const onCreateProject = (project) => {
     setProjects((prev) => [project, ...prev]);
     setIsModalOpen(false);
-    router.push("/ml");
+    router.push(`/ml?project=${project.id}`);
   };
 
   return (
@@ -140,7 +140,7 @@ export default function MainOverview() {
                   <div className="flex items-center gap-3">
                     <span className="rounded-full border px-2 py-1 text-xs text-gray-600 border-gray-200">{p.status}</span>
                     <button
-                      onClick={() => router.push("/ml")}
+                      onClick={() => router.push(`/ml?project=${p.id}`)}
                       className="rounded-full border border-violet-300 px-3 py-1 text-sm text-violet-700 hover:bg-violet-50"
                     >
                       Open

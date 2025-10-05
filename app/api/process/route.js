@@ -143,6 +143,11 @@ export async function POST(request) {
     const folderZip = formData.get("folder_zip")
     const textPrompt = formData.get("text_prompt")
     const taskType = formData.get("task_type")
+    
+    // Extract project context for backend integration
+    const projectId = formData.get("project_id")
+    const userId = formData.get("user_id") 
+    const projectName = formData.get("project_name")
 
     // Create a new FormData to forward to the Flask backend
     const flaskFormData = new FormData()
@@ -150,6 +155,18 @@ export async function POST(request) {
     if (folderZip) flaskFormData.append("folder_zip", folderZip)
     flaskFormData.append("text_prompt", textPrompt)
     flaskFormData.append("task_type", taskType)
+    
+    // Forward project context to Flask backend - THIS IS CRITICAL!
+    if (projectId) flaskFormData.append("project_id", projectId)
+    if (userId) flaskFormData.append("user_id", userId)
+    if (projectName) flaskFormData.append("project_name", projectName)
+    
+    // Log project context for debugging
+    console.log('🔍 Project context forwarding to Flask:', {
+      projectId: projectId || 'NOT PROVIDED',
+      userId: userId || 'NOT PROVIDED',
+      projectName: projectName || 'NOT PROVIDED'
+    })
 
     // Forward the request to the Flask backend with a longer timeout
     const controller = new AbortController()

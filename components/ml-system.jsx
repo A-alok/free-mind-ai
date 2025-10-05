@@ -42,6 +42,7 @@ import {
 import dynamic from "next/dynamic"
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
+import { useAuth } from '@/lib/contexts/AuthContext'
 
 // Dynamically import Plotly to avoid SSR issues
 const Plot = dynamic(() => import("react-plotly.js"), { ssr: false })
@@ -101,11 +102,30 @@ const taskTypeOptions = [
   }
 ];
 
-export default function MLSystem() {
+export default function MLSystem({ project = null }) {
+  // Get user context from auth
+  const { user } = useAuth();
+  
+  // Log project context when component loads
+  useEffect(() => {
+    console.log('🎧 ML Component: Received props:', {
+      project: project ? {
+        id: project.id,
+        name: project.name,
+        userId: project.userId
+      } : 'NO PROJECT PROVIDED',
+      user: user ? {
+        id: user.id,
+        name: user.name
+      } : 'NO USER AVAILABLE'
+    });
+  }, [project, user]);
+  
   // Project Configuration states
   const [configurationStep, setConfigurationStep] = useState(1)
   const [isConfigured, setIsConfigured] = useState(false)
-  const [projectName, setProjectName] = useState('')
+  const [projectName, setProjectName] = useState(project?.name || '')
+  const [currentProject, setCurrentProject] = useState(project)
   const [hasDataset, setHasDataset] = useState(null)
   const [dataDescription, setDataDescription] = useState('')
   
@@ -167,19 +187,52 @@ export default function MLSystem() {
     }
   }
 
-  const completeConfiguration = () => {
-    // Set default project name if not provided
-    if (!projectName.trim()) {
-      const taskName = taskTypeOptions.find(t => t.id === taskType)?.name || 'ML'
-      setProjectName(`${taskName} Project`)
+  const completeConfiguration = async () => {
+    try {
+      let projectToUse = currentProject;
+      
+      // If no project is provided, create a new one
+      if (!projectToUse) {
+        const projectNameToUse = projectName.trim() || `${taskTypeOptions.find(t => t.id === taskType)?.name || 'ML'} Project`;
+        
+        const formData = new FormData();
+        formData.append('name', projectNameToUse);
+        formData.append('description', `ML project for ${taskType} task`);
+        formData.append('taskType', taskType);
+        
+        const response = await fetch('/api/projects', {
+          method: 'POST',
+          body: formData,
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          projectToUse = result.project;
+          setCurrentProject(projectToUse);
+          setProjectName(projectToUse.name);
+        } else {
+          console.error('Failed to create project:', result.error);
+          // Continue without project context
+        }
+      }
+      
+      setIsConfigured(true);
+    } catch (error) {
+      console.error('Error during configuration:', error);
+      // Continue without project context
+      setIsConfigured(true);
     }
-    setIsConfigured(true)
   }
 
   const resetConfiguration = () => {
     setConfigurationStep(1)
     setIsConfigured(false)
-    setProjectName('')
+    // Don't reset project name if we have a project context
+    if (!project) {
+      setProjectName('')
+      setCurrentProject(null)
+    }
     setHasDataset(null)
     setDataDescription('')
     setFile(null)
@@ -254,6 +307,22 @@ export default function MLSystem() {
     if (folderZip) formData.append("folder_zip", folderZip)
     formData.append("text_prompt", textPrompt)
     formData.append("task_type", taskType)
+    
+    // Add project context for backend integration
+    if (currentProject && user) {
+      formData.append("project_id", currentProject.id)
+      formData.append("user_id", user.id)
+      formData.append("project_name", currentProject.name)
+      
+      // Log project context being sent
+      console.log('📤 Sending project context to backend:', {
+        project_id: currentProject.id,
+        user_id: user.id,
+        project_name: currentProject.name
+      })
+    } else {
+      console.log('⚠️ No project context available:', { currentProject, user })
+    }
 
     try {
       // Add a longer timeout for the fetch operation since model training can take time
@@ -290,6 +359,25 @@ export default function MLSystem() {
       }
 
       setResult(data)
+      
+      // Check if project was updated with Cloudinary URL
+      if (data.cloudinary?.database_update?.success) {
+        console.log('✅ Project updated successfully with Cloudinary URL:', 
+                   data.cloudinary.database_update.project_id);
+        
+        // Update current project data if we have project context
+        if (currentProject) {
+          try {
+            const response = await fetch(`/api/projects/${currentProject.id}`);
+            const projectData = await response.json();
+            if (projectData.success) {
+              setCurrentProject(projectData.project);
+            }
+          } catch (error) {
+            console.error('Error refreshing project data:', error);
+          }
+        }
+      }
 
       // Check if task type was changed by the backend
       // The backend is sending back the actual task type that was used

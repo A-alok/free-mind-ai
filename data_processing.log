@@ -1093,3 +1093,487 @@
 2025-10-05 02:13:03,125 - __main__ - INFO - Changing task type from classification to regression based on file analysis
 2025-10-05 02:13:03,125 - __main__ - INFO - Changing task type from classification to regression based on file analysis
 2025-10-05 02:13:13,985 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 02:13:13] "POST /process HTTP/1.1" 200 -
+2025-10-05 02:50:30,460 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 02:50:30,461 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 02:52:08,896 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 02:52:08,896 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 02:52:11,770 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 02:52:11,771 - root - INFO - Auto-detected task type: classification
+2025-10-05 02:52:11,790 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 02:52:11,790 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 02:52:11,792 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 02:52:11,792 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 02:52:53,960 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 02:52:53] "POST /process HTTP/1.1" 200 -
+2025-10-05 03:09:40,667 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 03:09:40,667 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 03:09:43,312 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 03:09:43,313 - root - INFO - Auto-detected task type: classification
+2025-10-05 03:09:43,317 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 03:09:43,317 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 03:09:43,317 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 03:09:43,317 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 03:10:04,956 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:10:04] "POST /process HTTP/1.1" 200 -
+2025-10-05 03:10:45,320 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 03:10:45,320 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 03:11:15,898 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 03:11:15,898 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 03:11:20,000 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 03:11:20,000 - root - INFO - Auto-detected task type: classification
+2025-10-05 03:11:20,019 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 03:11:20,019 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 03:11:20,021 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 03:11:20,021 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 03:11:42,139 - cloudinary_utils - INFO - Uploading zip to Cloudinary: C:\Users\Vinayak\AppData\Local\Temp\tmptsdq_5mj\project_0875af2d-a2b5-4f27-9293-31070428d7a2.zip -> freemind-ml-projects/general_ml/ML_Project_0875af2d_20251005_031142
+2025-10-05 03:11:45,991 - cloudinary_utils - INFO - Successfully uploaded to Cloudinary: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759614104/freemind-ml-projects/general_ml/ML_Project_0875af2d_20251005_031142.zip
+2025-10-05 03:11:46,825 - mongodb_utils - INFO - Project not found, creating new project record for: ML_Project_0875af2d
+2025-10-05 03:11:46,841 - mongodb_utils - INFO - Created new project with ID: 68e1949aede00df54396b7ca
+2025-10-05 03:11:46,881 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:11:46] "POST /process HTTP/1.1" 200 -
+2025-10-05 03:14:49,324 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 03:14:49,324 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 03:19:09,085 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 03:19:09,085 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 03:20:56,793 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 03:20:56,794 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 03:21:55,678 - __main__ - INFO - Processing request - Project Context: ID=None, User=None, Name=None
+2025-10-05 03:21:55,678 - __main__ - INFO - Processing request - Project Context: ID=None, User=None, Name=None
+2025-10-05 03:21:55,680 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 03:21:55,680 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 03:21:59,025 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 03:21:59,033 - root - INFO - Auto-detected task type: classification
+2025-10-05 03:21:59,074 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 03:21:59,074 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 03:21:59,077 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 03:21:59,077 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 03:22:39,334 - cloudinary_utils - INFO - Uploading zip to Cloudinary: C:\Users\Vinayak\AppData\Local\Temp\tmprla86sva\project_18ba2576-7b34-491a-8269-a1ded2ae7cb6.zip -> freemind-ml-projects/classification/ML_Project_18ba2576_20251005_032239
+2025-10-05 03:22:43,760 - cloudinary_utils - INFO - Successfully uploaded to Cloudinary: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759614763/freemind-ml-projects/classification/ML_Project_18ba2576_20251005_032239.zip
+2025-10-05 03:22:44,343 - mongodb_utils - INFO - Connected to MongoDB: freemind_ai
+2025-10-05 03:22:44,356 - mongodb_utils - INFO - Project not found, creating new project record for: ML_Project_18ba2576
+2025-10-05 03:22:44,373 - mongodb_utils - INFO - Created new project with ID: 68e1972c6663b87d43d01e70
+2025-10-05 03:22:44,389 - mongodb_utils - INFO - Updated project 68e1972c6663b87d43d01e70 with Cloudinary URL: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759614763/freemind-ml-projects/classification/ML_Project_18ba2576_20251005_032239.zip
+2025-10-05 03:22:44,519 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:22:44] "POST /process HTTP/1.1" 200 -
+2025-10-05 03:24:43,125 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 03:24:43,127 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 03:25:05,467 - __main__ - INFO - Processing request - Project Context: ID=None, User=None, Name=None
+2025-10-05 03:25:05,467 - __main__ - INFO - Processing request - Project Context: ID=None, User=None, Name=None
+2025-10-05 03:25:05,468 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 03:25:05,468 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 03:25:08,556 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 03:25:08,557 - root - INFO - Auto-detected task type: classification
+2025-10-05 03:25:08,575 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 03:25:08,575 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 03:25:08,577 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 03:25:08,577 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 03:25:47,107 - cloudinary_utils - INFO - Uploading zip to Cloudinary: C:\Users\Vinayak\AppData\Local\Temp\tmphgg5j8ys\project_0e04797d-8c01-4bae-96bb-dad03d397b2c.zip -> freemind-ml-projects/classification/ML_Project_0e04797d_20251005_032547
+2025-10-05 03:25:52,180 - cloudinary_utils - INFO - Successfully uploaded to Cloudinary: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759614951/freemind-ml-projects/classification/ML_Project_0e04797d_20251005_032547.zip
+2025-10-05 03:25:52,850 - mongodb_utils - INFO - Connected to MongoDB: freemind_ai
+2025-10-05 03:25:52,868 - mongodb_utils - INFO - Project not found, creating new project record for: ML_Project_0e04797d
+2025-10-05 03:25:52,885 - mongodb_utils - INFO - Created new project with ID: 68e197e832e397c9eb01a093
+2025-10-05 03:25:52,951 - mongodb_utils - INFO - Updated project 68e197e832e397c9eb01a093 with Cloudinary URL: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759614951/freemind-ml-projects/classification/ML_Project_0e04797d_20251005_032547.zip
+2025-10-05 03:25:53,201 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:25:53] "POST /process HTTP/1.1" 200 -
+2025-10-05 03:35:26,747 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 03:35:26,749 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 03:36:03,687 - __main__ - INFO - Processing request - Project Context: ID=None, User=None, Name=None
+2025-10-05 03:36:03,687 - __main__ - INFO - Processing request - Project Context: ID=None, User=None, Name=None
+2025-10-05 03:36:03,689 - __main__ - INFO - All form data received: {'text_prompt': 'crop recommendation', 'task_type': 'classification'}
+2025-10-05 03:36:03,689 - __main__ - INFO - All form data received: {'text_prompt': 'crop recommendation', 'task_type': 'classification'}
+2025-10-05 03:36:03,690 - __main__ - INFO - All headers received: {'Host': '127.0.0.1:5000', 'Connection': 'keep-alive', 'Content-Type': 'multipart/form-data; boundary=----formdata-undici-099941568396', 'Accept': '*/*', 'Accept-Language': '*', 'Sec-Fetch-Mode': 'cors', 'User-Agent': 'node', 'Accept-Encoding': 'gzip, deflate', 'Content-Length': '251'}
+2025-10-05 03:36:03,690 - __main__ - INFO - All headers received: {'Host': '127.0.0.1:5000', 'Connection': 'keep-alive', 'Content-Type': 'multipart/form-data; boundary=----formdata-undici-099941568396', 'Accept': '*/*', 'Accept-Language': '*', 'Sec-Fetch-Mode': 'cors', 'User-Agent': 'node', 'Accept-Encoding': 'gzip, deflate', 'Content-Length': '251'}
+2025-10-05 03:36:03,691 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 03:36:03,691 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 03:36:07,109 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 03:36:07,110 - root - INFO - Auto-detected task type: classification
+2025-10-05 03:36:07,117 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 03:36:07,117 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 03:36:07,118 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 03:36:07,118 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 03:36:42,579 - cloudinary_utils - INFO - Uploading zip to Cloudinary: C:\Users\Vinayak\AppData\Local\Temp\tmp5nntp5zc\project_47eefbe3-b7de-42bf-8c3e-bd6f39be28b4.zip -> freemind-ml-projects/classification/ML_Project_47eefbe3_20251005_033642
+2025-10-05 03:36:46,827 - cloudinary_utils - INFO - Successfully uploaded to Cloudinary: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759615605/freemind-ml-projects/classification/ML_Project_47eefbe3_20251005_033642.zip
+2025-10-05 03:36:47,355 - mongodb_utils - INFO - Connected to MongoDB: freemind_ai
+2025-10-05 03:36:47,369 - mongodb_utils - INFO - Project not found, creating new project record for: ML_Project_47eefbe3
+2025-10-05 03:36:47,384 - mongodb_utils - INFO - Created new project with ID: 68e19a7734cc3248b122d1ab
+2025-10-05 03:36:47,409 - mongodb_utils - INFO - Updated project 68e19a7734cc3248b122d1ab with Cloudinary URL: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759615605/freemind-ml-projects/classification/ML_Project_47eefbe3_20251005_033642.zip
+2025-10-05 03:36:47,482 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:36:47] "POST /process HTTP/1.1" 200 -
+2025-10-05 03:52:55,371 - __main__ - INFO - Processing request - Project Context: ID=68e199ff6db56335399e64bc, User=68e10772b79cb2e8d2c009e6, Name=rrrrrrrrrr
+2025-10-05 03:52:55,371 - __main__ - INFO - Processing request - Project Context: ID=68e199ff6db56335399e64bc, User=68e10772b79cb2e8d2c009e6, Name=rrrrrrrrrr
+2025-10-05 03:52:55,372 - __main__ - INFO - All form data received: {'task_type': 'classification', 'text_prompt': 'Single project update test', 'project_id': '68e199ff6db56335399e64bc', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'rrrrrrrrrr'}
+2025-10-05 03:52:55,372 - __main__ - INFO - All form data received: {'task_type': 'classification', 'text_prompt': 'Single project update test', 'project_id': '68e199ff6db56335399e64bc', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'rrrrrrrrrr'}
+2025-10-05 03:52:55,373 - __main__ - INFO - All headers received: {'Host': 'localhost:5000', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate, br', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '792', 'Content-Type': 'multipart/form-data; boundary=2384de5ca636f1de89d6b882c11a7dd1'}
+2025-10-05 03:52:55,373 - __main__ - INFO - All headers received: {'Host': 'localhost:5000', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate, br', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '792', 'Content-Type': 'multipart/form-data; boundary=2384de5ca636f1de89d6b882c11a7dd1'}
+2025-10-05 03:52:55,374 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 03:52:55,374 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 03:52:55,409 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-10-05 03:52:55,409 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-10-05 03:52:55,450 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:52:55] "POST /process HTTP/1.1" 200 -
+2025-10-05 03:55:49,265 - __main__ - INFO - Processing request - Project Context: ID=68e199ff6db56335399e64bc, User=68e10772b79cb2e8d2c009e6, Name=rrrrrrrrrr
+2025-10-05 03:55:49,265 - __main__ - INFO - Processing request - Project Context: ID=68e199ff6db56335399e64bc, User=68e10772b79cb2e8d2c009e6, Name=rrrrrrrrrr
+2025-10-05 03:55:49,266 - __main__ - INFO - All form data received: {'task_type': 'classification', 'text_prompt': 'Single project update test', 'project_id': '68e199ff6db56335399e64bc', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'rrrrrrrrrr'}
+2025-10-05 03:55:49,266 - __main__ - INFO - All form data received: {'task_type': 'classification', 'text_prompt': 'Single project update test', 'project_id': '68e199ff6db56335399e64bc', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'rrrrrrrrrr'}
+2025-10-05 03:55:49,267 - __main__ - INFO - All headers received: {'Host': 'localhost:5000', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate, br', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '792', 'Content-Type': 'multipart/form-data; boundary=8a83f8a2a2c4bd9a1b17b33a27c3ec2e'}
+2025-10-05 03:55:49,267 - __main__ - INFO - All headers received: {'Host': 'localhost:5000', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate, br', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '792', 'Content-Type': 'multipart/form-data; boundary=8a83f8a2a2c4bd9a1b17b33a27c3ec2e'}
+2025-10-05 03:55:49,268 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 03:55:49,268 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 03:55:49,325 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-10-05 03:55:49,325 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-10-05 03:55:49,342 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:55:49] "POST /process HTTP/1.1" 200 -
+2025-10-05 03:56:51,851 - __main__ - INFO - Processing request - Project Context: ID=68e199ff6db56335399e64bc, User=68e10772b79cb2e8d2c009e6, Name=rrrrrrrrrr
+2025-10-05 03:56:51,851 - __main__ - INFO - Processing request - Project Context: ID=68e199ff6db56335399e64bc, User=68e10772b79cb2e8d2c009e6, Name=rrrrrrrrrr
+2025-10-05 03:56:51,852 - __main__ - INFO - All form data received: {'task_type': 'classification', 'text_prompt': 'Single project update test', 'project_id': '68e199ff6db56335399e64bc', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'rrrrrrrrrr'}
+2025-10-05 03:56:51,852 - __main__ - INFO - All form data received: {'task_type': 'classification', 'text_prompt': 'Single project update test', 'project_id': '68e199ff6db56335399e64bc', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'rrrrrrrrrr'}
+2025-10-05 03:56:51,853 - __main__ - INFO - All headers received: {'Host': 'localhost:5000', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate, br', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '792', 'Content-Type': 'multipart/form-data; boundary=87489c764580bfc993b0ef74268982f8'}
+2025-10-05 03:56:51,853 - __main__ - INFO - All headers received: {'Host': 'localhost:5000', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate, br', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '792', 'Content-Type': 'multipart/form-data; boundary=87489c764580bfc993b0ef74268982f8'}
+2025-10-05 03:56:51,853 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 03:56:51,853 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 03:56:51,906 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-10-05 03:56:51,906 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-10-05 03:56:51,924 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:56:51] "POST /process HTTP/1.1" 200 -
+2025-10-05 03:57:34,444 - __main__ - INFO - Processing request - Project Context: ID=68e199ff6db56335399e64bc, User=68e10772b79cb2e8d2c009e6, Name=rrrrrrrrrr
+2025-10-05 03:57:34,444 - __main__ - INFO - Processing request - Project Context: ID=68e199ff6db56335399e64bc, User=68e10772b79cb2e8d2c009e6, Name=rrrrrrrrrr
+2025-10-05 03:57:34,445 - __main__ - INFO - All form data received: {'task_type': 'classification', 'text_prompt': 'Single project update test', 'project_id': '68e199ff6db56335399e64bc', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'rrrrrrrrrr'}
+2025-10-05 03:57:34,445 - __main__ - INFO - All form data received: {'task_type': 'classification', 'text_prompt': 'Single project update test', 'project_id': '68e199ff6db56335399e64bc', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'rrrrrrrrrr'}
+2025-10-05 03:57:34,446 - __main__ - INFO - All headers received: {'Host': 'localhost:5000', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate, br', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '792', 'Content-Type': 'multipart/form-data; boundary=f3becb7a0099f354ba5a990a6ae35d9e'}
+2025-10-05 03:57:34,446 - __main__ - INFO - All headers received: {'Host': 'localhost:5000', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate, br', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '792', 'Content-Type': 'multipart/form-data; boundary=f3becb7a0099f354ba5a990a6ae35d9e'}
+2025-10-05 03:57:34,447 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 03:57:34,447 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 03:57:34,476 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-10-05 03:57:34,476 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-10-05 03:57:34,492 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:57:34] "POST /process HTTP/1.1" 200 -
+2025-10-05 03:58:15,520 - __main__ - INFO - Processing request - Project Context: ID=68e199ff6db56335399e64bc, User=68e10772b79cb2e8d2c009e6, Name=rrrrrrrrrr
+2025-10-05 03:58:15,520 - __main__ - INFO - Processing request - Project Context: ID=68e199ff6db56335399e64bc, User=68e10772b79cb2e8d2c009e6, Name=rrrrrrrrrr
+2025-10-05 03:58:15,521 - __main__ - INFO - All form data received: {'task_type': 'classification', 'text_prompt': 'classification dataset with age, income, education to predict purchase decision', 'project_id': '68e199ff6db56335399e64bc', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'rrrrrrrrrr'}
+2025-10-05 03:58:15,521 - __main__ - INFO - All form data received: {'task_type': 'classification', 'text_prompt': 'classification dataset with age, income, education to predict purchase decision', 'project_id': '68e199ff6db56335399e64bc', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'rrrrrrrrrr'}
+2025-10-05 03:58:15,521 - __main__ - INFO - All headers received: {'Host': 'localhost:5000', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate, br', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '213', 'Content-Type': 'application/x-www-form-urlencoded'}
+2025-10-05 03:58:15,521 - __main__ - INFO - All headers received: {'Host': 'localhost:5000', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate, br', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '213', 'Content-Type': 'application/x-www-form-urlencoded'}
+2025-10-05 03:58:15,521 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 03:58:15,521 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 03:58:16,218 - __main__ - INFO - Generated synthetic dataset from text prompt
+2025-10-05 03:58:16,218 - __main__ - INFO - Generated synthetic dataset from text prompt
+2025-10-05 03:58:16,218 - __main__ - INFO - Auto-detected task type for generated dataset: classification
+2025-10-05 03:58:16,218 - __main__ - INFO - Auto-detected task type for generated dataset: classification
+2025-10-05 03:58:27,537 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 03:58:27] "POST /process HTTP/1.1" 200 -
+2025-10-05 04:04:19,682 - __main__ - INFO - Processing request - Project Context: ID=68e199ff6db56335399e64bc, User=68e10772b79cb2e8d2c009e6, Name=rrrrrrrrrr
+2025-10-05 04:04:19,682 - __main__ - INFO - Processing request - Project Context: ID=68e199ff6db56335399e64bc, User=68e10772b79cb2e8d2c009e6, Name=rrrrrrrrrr
+2025-10-05 04:04:19,683 - __main__ - INFO - All form data received: {'task_type': 'classification', 'text_prompt': 'classification dataset with age, income, education to predict purchase decision', 'project_id': '68e199ff6db56335399e64bc', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'rrrrrrrrrr'}
+2025-10-05 04:04:19,683 - __main__ - INFO - All form data received: {'task_type': 'classification', 'text_prompt': 'classification dataset with age, income, education to predict purchase decision', 'project_id': '68e199ff6db56335399e64bc', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'rrrrrrrrrr'}
+2025-10-05 04:04:19,684 - __main__ - INFO - All headers received: {'Host': 'localhost:5000', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate, br', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '213', 'Content-Type': 'application/x-www-form-urlencoded'}
+2025-10-05 04:04:19,684 - __main__ - INFO - All headers received: {'Host': 'localhost:5000', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate, br', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '213', 'Content-Type': 'application/x-www-form-urlencoded'}
+2025-10-05 04:04:19,685 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 04:04:19,685 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 04:04:20,513 - __main__ - INFO - Generated synthetic dataset from text prompt
+2025-10-05 04:04:20,513 - __main__ - INFO - Generated synthetic dataset from text prompt
+2025-10-05 04:04:20,515 - __main__ - INFO - Auto-detected task type for generated dataset: classification
+2025-10-05 04:04:20,515 - __main__ - INFO - Auto-detected task type for generated dataset: classification
+2025-10-05 04:04:32,276 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 04:04:32] "POST /process HTTP/1.1" 200 -
+2025-10-05 04:06:33,745 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 04:06:33,746 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 04:07:58,240 - __main__ - INFO - Processing request - Project Context: ID=68e1a1c19342d60872e5d5ab, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 04:07:58,240 - __main__ - INFO - Processing request - Project Context: ID=68e1a1c19342d60872e5d5ab, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 04:07:58,242 - __main__ - INFO - All form data received: {'text_prompt': '', 'task_type': 'classification', 'project_id': '68e1a1c19342d60872e5d5ab', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'Classification Project'}
+2025-10-05 04:07:58,242 - __main__ - INFO - All form data received: {'text_prompt': '', 'task_type': 'classification', 'project_id': '68e1a1c19342d60872e5d5ab', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'Classification Project'}
+2025-10-05 04:07:58,244 - __main__ - INFO - All headers received: {'Host': '127.0.0.1:5000', 'Connection': 'keep-alive', 'Content-Type': 'multipart/form-data; boundary=----formdata-undici-039445453974', 'Accept': '*/*', 'Accept-Language': '*', 'Sec-Fetch-Mode': 'cors', 'User-Agent': 'node', 'Accept-Encoding': 'gzip, deflate', 'Content-Length': '239867'}
+2025-10-05 04:07:58,244 - __main__ - INFO - All headers received: {'Host': '127.0.0.1:5000', 'Connection': 'keep-alive', 'Content-Type': 'multipart/form-data; boundary=----formdata-undici-039445453974', 'Accept': '*/*', 'Accept-Language': '*', 'Sec-Fetch-Mode': 'cors', 'User-Agent': 'node', 'Accept-Encoding': 'gzip, deflate', 'Content-Length': '239867'}
+2025-10-05 04:07:58,245 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 04:07:58,245 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 04:07:59,060 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-10-05 04:07:59,060 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-10-05 04:09:58,195 - cloudinary_utils - INFO - Uploading zip to Cloudinary: C:\Users\Vinayak\AppData\Local\Temp\tmp4cxb0l1j\project_d0d5b179-2fe0-4e1d-adc9-57755b566176.zip -> freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_040958
+2025-10-05 04:10:02,348 - cloudinary_utils - INFO - Successfully uploaded to Cloudinary: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759617601/freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_040958.zip
+2025-10-05 04:10:03,049 - mongodb_utils - INFO - Connected to MongoDB: freemind_ai
+2025-10-05 04:10:03,063 - mongodb_utils - INFO - Found project by ID: 68e1a1c19342d60872e5d5ab
+2025-10-05 04:10:03,063 - mongodb_utils - INFO - Found existing project: 68e1a1c19342d60872e5d5ab
+2025-10-05 04:10:03,086 - mongodb_utils - INFO - Updated project 68e1a1c19342d60872e5d5ab with Cloudinary URL: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759617601/freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_040958.zip
+2025-10-05 04:10:03,111 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 04:10:03] "POST /process HTTP/1.1" 200 -
+2025-10-05 04:11:50,530 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 04:11:50,530 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 04:12:43,323 - __main__ - INFO - Processing request - Project Context: ID=68e1a2dedb2f1581495f37eb, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 04:12:43,323 - __main__ - INFO - Processing request - Project Context: ID=68e1a2dedb2f1581495f37eb, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 04:12:43,324 - __main__ - INFO - All form data received: {'text_prompt': 'crop recommendation', 'task_type': 'classification', 'project_id': '68e1a2dedb2f1581495f37eb', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'Classification Project'}
+2025-10-05 04:12:43,324 - __main__ - INFO - All form data received: {'text_prompt': 'crop recommendation', 'task_type': 'classification', 'project_id': '68e1a2dedb2f1581495f37eb', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'Classification Project'}
+2025-10-05 04:12:43,325 - __main__ - INFO - All headers received: {'Host': '127.0.0.1:5000', 'Connection': 'keep-alive', 'Content-Type': 'multipart/form-data; boundary=----formdata-undici-060893010608', 'Accept': '*/*', 'Accept-Language': '*', 'Sec-Fetch-Mode': 'cors', 'User-Agent': 'node', 'Accept-Encoding': 'gzip, deflate', 'Content-Length': '593'}
+2025-10-05 04:12:43,325 - __main__ - INFO - All headers received: {'Host': '127.0.0.1:5000', 'Connection': 'keep-alive', 'Content-Type': 'multipart/form-data; boundary=----formdata-undici-060893010608', 'Accept': '*/*', 'Accept-Language': '*', 'Sec-Fetch-Mode': 'cors', 'User-Agent': 'node', 'Accept-Encoding': 'gzip, deflate', 'Content-Length': '593'}
+2025-10-05 04:12:43,326 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 04:12:43,326 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 04:12:45,921 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 04:12:45,922 - root - INFO - Auto-detected task type: classification
+2025-10-05 04:12:45,939 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 04:12:45,939 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 04:12:45,940 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 04:12:45,940 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 04:13:14,059 - cloudinary_utils - INFO - Uploading zip to Cloudinary: C:\Users\Vinayak\AppData\Local\Temp\tmpnaz78bio\project_1cd0c70b-46ef-4b83-b9da-d5ed112a716f.zip -> freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_041314
+2025-10-05 04:13:20,982 - cloudinary_utils - INFO - Successfully uploaded to Cloudinary: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759617800/freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_041314.zip
+2025-10-05 04:13:21,642 - mongodb_utils - INFO - Connected to MongoDB: freemind_ai
+2025-10-05 04:13:21,654 - mongodb_utils - INFO - Found project by ID: 68e1a2dedb2f1581495f37eb
+2025-10-05 04:13:21,655 - mongodb_utils - INFO - Found existing project: 68e1a2dedb2f1581495f37eb
+2025-10-05 04:13:21,672 - mongodb_utils - INFO - Updated project 68e1a2dedb2f1581495f37eb with Cloudinary URL: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759617800/freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_041314.zip
+2025-10-05 04:13:21,736 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 04:13:21] "POST /process HTTP/1.1" 200 -
+2025-10-05 04:30:27,624 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 04:30:27,624 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 04:31:32,253 - __main__ - INFO - Processing request - Project Context: ID=68e1a74767b67b7a676a494e, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 04:31:32,253 - __main__ - INFO - Processing request - Project Context: ID=68e1a74767b67b7a676a494e, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 04:31:32,257 - __main__ - INFO - All form data received: {'text_prompt': '', 'task_type': 'classification', 'project_id': '68e1a74767b67b7a676a494e', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'Classification Project'}
+2025-10-05 04:31:32,257 - __main__ - INFO - All form data received: {'text_prompt': '', 'task_type': 'classification', 'project_id': '68e1a74767b67b7a676a494e', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'Classification Project'}
+2025-10-05 04:31:32,262 - __main__ - INFO - All headers received: {'Host': '127.0.0.1:5000', 'Connection': 'keep-alive', 'Content-Type': 'multipart/form-data; boundary=----formdata-undici-055615468840', 'Accept': '*/*', 'Accept-Language': '*', 'Sec-Fetch-Mode': 'cors', 'User-Agent': 'node', 'Accept-Encoding': 'gzip, deflate', 'Content-Length': '495137'}
+2025-10-05 04:31:32,262 - __main__ - INFO - All headers received: {'Host': '127.0.0.1:5000', 'Connection': 'keep-alive', 'Content-Type': 'multipart/form-data; boundary=----formdata-undici-055615468840', 'Accept': '*/*', 'Accept-Language': '*', 'Sec-Fetch-Mode': 'cors', 'User-Agent': 'node', 'Accept-Encoding': 'gzip, deflate', 'Content-Length': '495137'}
+2025-10-05 04:31:32,267 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 04:31:32,267 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 04:31:32,392 - __main__ - INFO - Auto-detected task type for uploaded file: nlp
+2025-10-05 04:31:32,392 - __main__ - INFO - Auto-detected task type for uploaded file: nlp
+2025-10-05 04:31:32,393 - __main__ - INFO - Changing task type from classification to nlp based on file analysis
+2025-10-05 04:31:32,393 - __main__ - INFO - Changing task type from classification to nlp based on file analysis
+2025-10-05 04:34:09,308 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 04:34:09,309 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 04:35:10,608 - __main__ - INFO - Processing request - Project Context: ID=68e1a82367b67b7a676a4958, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 04:35:10,608 - __main__ - INFO - Processing request - Project Context: ID=68e1a82367b67b7a676a4958, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 04:35:10,625 - __main__ - INFO - All form data received: {'text_prompt': '', 'task_type': 'classification', 'project_id': '68e1a82367b67b7a676a4958', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'Classification Project'}
+2025-10-05 04:35:10,625 - __main__ - INFO - All form data received: {'text_prompt': '', 'task_type': 'classification', 'project_id': '68e1a82367b67b7a676a4958', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'Classification Project'}
+2025-10-05 04:35:10,728 - __main__ - INFO - All headers received: {'Host': '127.0.0.1:5000', 'Connection': 'keep-alive', 'Content-Type': 'multipart/form-data; boundary=----formdata-undici-050605920176', 'Accept': '*/*', 'Accept-Language': '*', 'Sec-Fetch-Mode': 'cors', 'User-Agent': 'node', 'Accept-Encoding': 'gzip, deflate', 'Content-Length': '495137'}
+2025-10-05 04:35:10,728 - __main__ - INFO - All headers received: {'Host': '127.0.0.1:5000', 'Connection': 'keep-alive', 'Content-Type': 'multipart/form-data; boundary=----formdata-undici-050605920176', 'Accept': '*/*', 'Accept-Language': '*', 'Sec-Fetch-Mode': 'cors', 'User-Agent': 'node', 'Accept-Encoding': 'gzip, deflate', 'Content-Length': '495137'}
+2025-10-05 04:35:10,770 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 04:35:10,770 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 04:35:13,011 - __main__ - INFO - Auto-detected task type for uploaded file: nlp
+2025-10-05 04:35:13,011 - __main__ - INFO - Auto-detected task type for uploaded file: nlp
+2025-10-05 04:35:13,155 - __main__ - INFO - Changing task type from classification to nlp based on file analysis
+2025-10-05 04:35:13,155 - __main__ - INFO - Changing task type from classification to nlp based on file analysis
+2025-10-05 04:38:15,963 - __main__ - INFO - Processing request - Project Context: ID=68e1a8dc67b67b7a676a4968, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 04:38:15,963 - __main__ - INFO - Processing request - Project Context: ID=68e1a8dc67b67b7a676a4968, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 04:38:15,972 - __main__ - INFO - All form data received: {'text_prompt': 'crop recommendation system', 'task_type': 'classification', 'project_id': '68e1a8dc67b67b7a676a4968', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'Classification Project'}
+2025-10-05 04:38:15,972 - __main__ - INFO - All form data received: {'text_prompt': 'crop recommendation system', 'task_type': 'classification', 'project_id': '68e1a8dc67b67b7a676a4968', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'Classification Project'}
+2025-10-05 04:38:15,974 - __main__ - INFO - All headers received: {'Host': '127.0.0.1:5000', 'Connection': 'keep-alive', 'Content-Type': 'multipart/form-data; boundary=----formdata-undici-017115484238', 'Accept': '*/*', 'Accept-Language': '*', 'Sec-Fetch-Mode': 'cors', 'User-Agent': 'node', 'Accept-Encoding': 'gzip, deflate', 'Content-Length': '600'}
+2025-10-05 04:38:15,974 - __main__ - INFO - All headers received: {'Host': '127.0.0.1:5000', 'Connection': 'keep-alive', 'Content-Type': 'multipart/form-data; boundary=----formdata-undici-017115484238', 'Accept': '*/*', 'Accept-Language': '*', 'Sec-Fetch-Mode': 'cors', 'User-Agent': 'node', 'Accept-Encoding': 'gzip, deflate', 'Content-Length': '600'}
+2025-10-05 04:38:15,976 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 04:38:15,976 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 04:38:19,128 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\data_core.csv
+2025-10-05 04:38:19,129 - root - INFO - Auto-detected task type: classification
+2025-10-05 04:38:19,160 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\data_core.csv
+2025-10-05 04:38:19,160 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\data_core.csv
+2025-10-05 04:38:19,162 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 04:38:19,162 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 04:39:46,688 - cloudinary_utils - INFO - Uploading zip to Cloudinary: C:\Users\Vinayak\AppData\Local\Temp\tmpwz2cf_yl\project_04b7d6d9-5b00-43f8-8ac7-3823462ce355.zip -> freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_043946
+2025-10-05 04:39:50,596 - cloudinary_utils - INFO - Successfully uploaded to Cloudinary: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759619389/freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_043946.zip
+2025-10-05 04:39:51,073 - mongodb_utils - INFO - Connected to MongoDB: freemind_ai
+2025-10-05 04:39:51,085 - mongodb_utils - INFO - Found project by ID: 68e1a8dc67b67b7a676a4968
+2025-10-05 04:39:51,086 - mongodb_utils - INFO - Found existing project: 68e1a8dc67b67b7a676a4968
+2025-10-05 04:39:51,103 - mongodb_utils - INFO - Updated project 68e1a8dc67b67b7a676a4968 with Cloudinary URL: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759619389/freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_043946.zip
+2025-10-05 04:39:51,128 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 04:39:51] "POST /process HTTP/1.1" 200 -
+2025-10-05 04:39:52,475 - cloudinary_utils - INFO - Uploading zip to Cloudinary: C:\Users\Vinayak\AppData\Local\Temp\tmpppm3lq77\project_9356217a-fea6-40e8-b191-a89ae3aa48b4.zip -> freemind-ml-projects/68e10772b79cb2e8d2c009e6/nlp/Classification_Project_20251005_043952
+2025-10-05 04:39:53,608 - cloudinary_utils - INFO - Successfully uploaded to Cloudinary: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759619392/freemind-ml-projects/68e10772b79cb2e8d2c009e6/nlp/Classification_Project_20251005_043952.zip
+2025-10-05 04:39:53,624 - mongodb_utils - INFO - Found project by ID: 68e1a74767b67b7a676a494e
+2025-10-05 04:39:53,625 - mongodb_utils - INFO - Found existing project: 68e1a74767b67b7a676a494e
+2025-10-05 04:39:53,644 - mongodb_utils - INFO - Updated project 68e1a74767b67b7a676a494e with Cloudinary URL: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759619392/freemind-ml-projects/68e10772b79cb2e8d2c009e6/nlp/Classification_Project_20251005_043952.zip
+2025-10-05 04:39:53,670 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 04:39:53] "POST /process HTTP/1.1" 200 -
+2025-10-05 04:40:39,630 - __main__ - INFO - Processing request - Project Context: ID=68e1a96c67b67b7a676a4978, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 04:40:39,630 - __main__ - INFO - Processing request - Project Context: ID=68e1a96c67b67b7a676a4978, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 04:40:39,634 - __main__ - INFO - All form data received: {'text_prompt': 'crop recommendation', 'task_type': 'classification', 'project_id': '68e1a96c67b67b7a676a4978', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'Classification Project'}
+2025-10-05 04:40:39,634 - __main__ - INFO - All form data received: {'text_prompt': 'crop recommendation', 'task_type': 'classification', 'project_id': '68e1a96c67b67b7a676a4978', 'user_id': '68e10772b79cb2e8d2c009e6', 'project_name': 'Classification Project'}
+2025-10-05 04:40:39,640 - __main__ - INFO - All headers received: {'Host': '127.0.0.1:5000', 'Connection': 'keep-alive', 'Content-Type': 'multipart/form-data; boundary=----formdata-undici-026892621986', 'Accept': '*/*', 'Accept-Language': '*', 'Sec-Fetch-Mode': 'cors', 'User-Agent': 'node', 'Accept-Encoding': 'gzip, deflate', 'Content-Length': '593'}
+2025-10-05 04:40:39,640 - __main__ - INFO - All headers received: {'Host': '127.0.0.1:5000', 'Connection': 'keep-alive', 'Content-Type': 'multipart/form-data; boundary=----formdata-undici-026892621986', 'Accept': '*/*', 'Accept-Language': '*', 'Sec-Fetch-Mode': 'cors', 'User-Agent': 'node', 'Accept-Encoding': 'gzip, deflate', 'Content-Length': '593'}
+2025-10-05 04:40:39,644 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 04:40:39,644 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 04:40:43,830 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 04:40:43,833 - root - INFO - Auto-detected task type: classification
+2025-10-05 04:40:43,908 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 04:40:43,908 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 04:40:43,933 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 04:40:43,933 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 04:41:31,711 - cloudinary_utils - INFO - Uploading zip to Cloudinary: C:\Users\Vinayak\AppData\Local\Temp\tmp5833yvde\project_8aafac92-cff9-4fa4-af4e-835a20628007.zip -> freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_044131
+2025-10-05 04:41:33,972 - cloudinary_utils - INFO - Successfully uploaded to Cloudinary: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759619493/freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_044131.zip
+2025-10-05 04:41:34,128 - mongodb_utils - INFO - Found project by ID: 68e1a96c67b67b7a676a4978
+2025-10-05 04:41:34,158 - mongodb_utils - INFO - Found existing project: 68e1a96c67b67b7a676a4978
+2025-10-05 04:41:34,266 - mongodb_utils - INFO - Updated project 68e1a96c67b67b7a676a4978 with Cloudinary URL: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759619493/freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_044131.zip
+2025-10-05 04:41:35,031 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 04:41:35] "POST /process HTTP/1.1" 200 -
+2025-10-05 04:41:47,220 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 04:41:47] "GET /api/download/project_8aafac92-cff9-4fa4-af4e-835a20628007.zip HTTP/1.1" 200 -
+2025-10-05 05:31:21,087 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 05:31:21] "GET /api/download/project_8aafac92-cff9-4fa4-af4e-835a20628007.zip HTTP/1.1" 200 -
+2025-10-05 05:53:27,059 - torch._subclasses.fake_tensor - INFO - FakeTensor cache stats:
+2025-10-05 05:53:27,061 - torch._subclasses.fake_tensor - INFO -   cache_hits: 0
+2025-10-05 05:53:27,062 - torch._subclasses.fake_tensor - INFO -   cache_misses: 0
+2025-10-05 05:54:37,611 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 05:54:37,612 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 05:55:11,411 - __main__ - INFO - Processing request - Project Context: ID=68e1ba60952c0a693b8b68f2, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 05:55:11,411 - __main__ - INFO - Processing request - Project Context: ID=68e1ba60952c0a693b8b68f2, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 05:55:11,412 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 05:55:11,412 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 05:55:14,817 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\data_core.csv
+2025-10-05 05:55:14,818 - root - INFO - Auto-detected task type: classification
+2025-10-05 05:55:14,845 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\data_core.csv
+2025-10-05 05:55:14,845 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\data_core.csv
+2025-10-05 05:55:14,846 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 05:55:14,846 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 05:56:58,567 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 05:56:58] "POST /process HTTP/1.1" 200 -
+2025-10-05 05:58:18,806 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 05:58:18,807 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 05:59:27,010 - __main__ - INFO - Processing request - Project Context: ID=68e1ba60952c0a693b8b68f2, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 05:59:27,010 - __main__ - INFO - Processing request - Project Context: ID=68e1ba60952c0a693b8b68f2, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 05:59:27,013 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 05:59:27,013 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 05:59:30,007 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\data_core.csv
+2025-10-05 05:59:30,008 - root - INFO - Auto-detected task type: classification
+2025-10-05 05:59:30,050 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\data_core.csv
+2025-10-05 05:59:30,050 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\data_core.csv
+2025-10-05 05:59:30,052 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 05:59:30,052 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 06:00:22,363 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 06:00:22,364 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 06:01:02,218 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 06:01:02] "POST /process HTTP/1.1" 200 -
+2025-10-05 06:02:32,105 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 06:02:32,107 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 06:02:43,277 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 06:02:43,279 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 06:03:41,304 - __main__ - INFO - Processing request - Project Context: ID=68e1bcdd4e56a93374df4605, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 06:03:41,304 - __main__ - INFO - Processing request - Project Context: ID=68e1bcdd4e56a93374df4605, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 06:03:41,305 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 06:03:41,305 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 06:03:44,168 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\data_core.csv
+2025-10-05 06:03:44,168 - root - INFO - Auto-detected task type: classification
+2025-10-05 06:03:44,191 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\data_core.csv
+2025-10-05 06:03:44,191 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\data_core.csv
+2025-10-05 06:03:44,191 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 06:03:44,191 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 06:04:46,658 - cloudinary_utils - INFO - Uploading zip to Cloudinary: C:\Users\Vinayak\AppData\Local\Temp\tmpd6rd21vi\project_3757ad3e-8a4f-4824-b8b3-d4c69a6fd211.zip -> freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_060446
+2025-10-05 06:04:50,837 - cloudinary_utils - INFO - Successfully uploaded to Cloudinary: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759624489/freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_060446.zip
+2025-10-05 06:04:52,247 - mongodb_utils - INFO - Connected to MongoDB: freemind_ai
+2025-10-05 06:04:52,258 - mongodb_utils - INFO - Found project by ID: 68e1bcdd4e56a93374df4605
+2025-10-05 06:04:52,259 - mongodb_utils - INFO - Found existing project: 68e1bcdd4e56a93374df4605
+2025-10-05 06:04:52,275 - mongodb_utils - INFO - Updated project 68e1bcdd4e56a93374df4605 with Cloudinary URL: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759624489/freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_060446.zip
+2025-10-05 06:04:52,318 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 06:04:52] "POST /process HTTP/1.1" 200 -
+2025-10-05 06:05:04,024 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 06:05:04] "GET /api/download/project_3757ad3e-8a4f-4824-b8b3-d4c69a6fd211.zip HTTP/1.1" 200 -
+2025-10-05 06:19:45,303 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 06:19:45,305 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 06:20:25,234 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 06:20:25,235 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 06:20:53,064 - __main__ - INFO - Processing request - Project Context: ID=68e1c0e5c6f15638a72df5eb, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 06:20:53,064 - __main__ - INFO - Processing request - Project Context: ID=68e1c0e5c6f15638a72df5eb, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 06:20:53,066 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 06:20:53,066 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 06:20:55,778 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 06:20:55,778 - root - INFO - Auto-detected task type: classification
+2025-10-05 06:20:55,801 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 06:20:55,801 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 06:20:55,802 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 06:20:55,802 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 06:22:04,696 - cloudinary_utils - INFO - Uploading zip to Cloudinary: C:\Users\Vinayak\AppData\Local\Temp\tmpyke5lpom\project_731187ee-3b85-4e6b-ad83-185f92cf6700.zip -> freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_062204
+2025-10-05 06:22:26,031 - cloudinary_utils - INFO - Successfully uploaded to Cloudinary: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759625545/freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_062204.zip
+2025-10-05 06:22:27,183 - mongodb_utils - INFO - Connected to MongoDB: freemind_ai
+2025-10-05 06:22:27,195 - mongodb_utils - INFO - Found project by ID: 68e1c0e5c6f15638a72df5eb
+2025-10-05 06:22:27,196 - mongodb_utils - INFO - Found existing project: 68e1c0e5c6f15638a72df5eb
+2025-10-05 06:22:27,213 - mongodb_utils - INFO - Updated project 68e1c0e5c6f15638a72df5eb with Cloudinary URL: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759625545/freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_062204.zip
+2025-10-05 06:22:27,320 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 06:22:27] "POST /process HTTP/1.1" 200 -
+2025-10-05 06:22:39,046 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 06:22:39] "GET /api/download/project_731187ee-3b85-4e6b-ad83-185f92cf6700.zip HTTP/1.1" 200 -
+2025-10-05 06:37:06,393 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 06:37:06,394 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 06:38:31,361 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 06:38:31,362 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 06:38:59,923 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 06:38:59,923 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 06:39:58,958 - __main__ - INFO - Processing request - Project Context: ID=68e1c55ed9e1f21b89128b3b, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 06:39:58,958 - __main__ - INFO - Processing request - Project Context: ID=68e1c55ed9e1f21b89128b3b, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 06:39:58,960 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 06:39:58,960 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 06:40:02,019 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 06:40:02,020 - root - INFO - Auto-detected task type: classification
+2025-10-05 06:40:02,042 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 06:40:02,042 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 06:40:02,045 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 06:40:02,045 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 06:41:10,605 - cloudinary_utils - INFO - Uploading zip to Cloudinary: C:\Users\Vinayak\AppData\Local\Temp\tmp862c49kt\project_84a395d0-190f-4c6c-ad2b-dce7b9f09679.zip -> freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_064110
+2025-10-05 06:41:16,833 - cloudinary_utils - INFO - Successfully uploaded to Cloudinary: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759626675/freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_064110.zip
+2025-10-05 06:41:17,815 - mongodb_utils - INFO - Connected to MongoDB: freemind_ai
+2025-10-05 06:41:17,829 - mongodb_utils - INFO - Found project by ID: 68e1c55ed9e1f21b89128b3b
+2025-10-05 06:41:17,831 - mongodb_utils - INFO - Found existing project: 68e1c55ed9e1f21b89128b3b
+2025-10-05 06:41:17,907 - mongodb_utils - INFO - Updated project 68e1c55ed9e1f21b89128b3b with Cloudinary URL: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759626675/freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_064110.zip
+2025-10-05 06:41:17,987 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 06:41:17] "POST /process HTTP/1.1" 200 -
+2025-10-05 06:41:27,697 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 06:41:27] "GET /api/download/project_84a395d0-190f-4c6c-ad2b-dce7b9f09679.zip HTTP/1.1" 200 -
+2025-10-05 06:47:22,899 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 06:47:22,900 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 06:47:42,728 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 06:47:42,729 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 06:47:57,236 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 06:47:57,238 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 06:49:25,986 - __main__ - INFO - Processing request - Project Context: ID=68e1c79599f52e4032b15ca6, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 06:49:25,986 - __main__ - INFO - Processing request - Project Context: ID=68e1c79599f52e4032b15ca6, User=68e10772b79cb2e8d2c009e6, Name=Classification Project
+2025-10-05 06:49:25,988 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 06:49:25,988 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 06:49:28,675 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 06:49:28,675 - root - INFO - Auto-detected task type: classification
+2025-10-05 06:49:28,694 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 06:49:28,694 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 06:49:28,696 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 06:49:28,696 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 06:50:34,070 - cloudinary_utils - INFO - Uploading zip to Cloudinary: C:\Users\Vinayak\AppData\Local\Temp\tmprz32wv2u\project_d20880fc-4ea9-4f2b-b42e-14e2273f5b5b.zip -> freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_065034
+2025-10-05 06:50:44,864 - cloudinary_utils - INFO - Successfully uploaded to Cloudinary: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759627244/freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_065034.zip
+2025-10-05 06:50:45,593 - mongodb_utils - INFO - Connected to MongoDB: freemind_ai
+2025-10-05 06:50:45,606 - mongodb_utils - INFO - Found project by ID: 68e1c79599f52e4032b15ca6
+2025-10-05 06:50:45,606 - mongodb_utils - INFO - Found existing project: 68e1c79599f52e4032b15ca6
+2025-10-05 06:50:45,622 - mongodb_utils - INFO - Updated project 68e1c79599f52e4032b15ca6 with Cloudinary URL: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759627244/freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_065034.zip
+2025-10-05 06:50:45,668 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 06:50:45] "POST /process HTTP/1.1" 200 -
+2025-10-05 06:50:54,627 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 06:50:54] "GET /api/download/project_d20880fc-4ea9-4f2b-b42e-14e2273f5b5b.zip HTTP/1.1" 200 -

@@ -260,11 +260,30 @@ def process_ml_job(job_id, task_type, text_prompt, file_info=None, folder_info=N
             # Write requirements file
             write_requirements_file(DOWNLOADS_DIR)
             
-            # Create project ZIP
-            zip_path = create_project_zip(model_file, MODELS_DIR, DOWNLOADS_DIR)
+            # Create project ZIP with Cloudinary upload
+            zip_result = create_project_zip(
+                model_file, 
+                MODELS_DIR, 
+                DOWNLOADS_DIR,
+                project_name=text_prompt[:50] if text_prompt else "ML_Project",  # Limit project name length
+                task_type=task_type
+            )
+            zip_path = zip_result.get('local_path') if isinstance(zip_result, dict) else zip_result
+            
+            # Prepare download info
+            download_url = f'/api/download/{os.path.basename(zip_path)}'
+            cloudinary_info = None
+            
+            # Add Cloudinary info if available
+            if isinstance(zip_result, dict) and zip_result.get('cloudinary'):
+                cloudinary_info = {
+                    'url': zip_result['cloudinary'].get('url'),
+                    'success': zip_result['cloudinary'].get('success', False),
+                    'size': zip_result['cloudinary'].get('size')
+                }
             
             # Return results
-            return jsonify({
+            result_data = {
                 'success': True,
                 'detected_task_type': task_type,  # Add detected task type
                 'model_info': {
@@ -276,8 +295,14 @@ def process_ml_job(job_id, task_type, text_prompt, file_info=None, folder_info=N
                 'visualizations': {
                     'plots': visualizations
                 },
-                'download_url': f'/api/download/{os.path.basename(zip_path)}'
-            })
+                'download_url': download_url
+            }
+            
+            # Add Cloudinary info if available
+            if cloudinary_info:
+                result_data['cloudinary'] = cloudinary_info
+                
+            return jsonify(result_data)
         
         elif dataset_folder is not None:
             # Check for image classification task
@@ -329,11 +354,31 @@ def process_ml_job(job_id, task_type, text_prompt, file_info=None, folder_info=N
                     # Write requirements file
                     write_requirements_file(DOWNLOADS_DIR, is_tensorflow=True)
                     
-                    # Create project ZIP
-                    zip_path = create_project_zip(model_file, MODELS_DIR, DOWNLOADS_DIR, is_image_model=True)
+                    # Create project ZIP with Cloudinary upload
+                    zip_result = create_project_zip(
+                        model_file, 
+                        MODELS_DIR, 
+                        DOWNLOADS_DIR, 
+                        is_image_model=True,
+                        project_name=text_prompt[:50] if text_prompt else "Image_Classification_Project",
+                        task_type="image_classification"
+                    )
+                    zip_path = zip_result.get('local_path') if isinstance(zip_result, dict) else zip_result
+                    
+                    # Prepare download info
+                    download_url = f'/api/download/{os.path.basename(zip_path)}'
+                    cloudinary_info = None
+                    
+                    # Add Cloudinary info if available
+                    if isinstance(zip_result, dict) and zip_result.get('cloudinary'):
+                        cloudinary_info = {
+                            'url': zip_result['cloudinary'].get('url'),
+                            'success': zip_result['cloudinary'].get('success', False),
+                            'size': zip_result['cloudinary'].get('size')
+                        }
                     
                     # Return results with visualizations
-                    return jsonify({
+                    result_data = {
                         'success': True,
                         'detected_task_type': task_type,  # Add detected task type
                         'model_info': {
@@ -345,8 +390,14 @@ def process_ml_job(job_id, task_type, text_prompt, file_info=None, folder_info=N
                         'visualizations': {
                             'plots': visualizations
                         },
-                        'download_url': f'/api/download/{os.path.basename(zip_path)}'
-                    })
+                        'download_url': download_url
+                    }
+                    
+                    # Add Cloudinary info if available
+                    if cloudinary_info:
+                        result_data['cloudinary'] = cloudinary_info
+                        
+                    return jsonify(result_data)
                 except Exception as e:
                     import traceback
                     traceback.print_exc()
@@ -385,11 +436,31 @@ def process_ml_job(job_id, task_type, text_prompt, file_info=None, folder_info=N
                     # Write requirements file
                     write_requirements_file(DOWNLOADS_DIR, is_yolo=True)
                     
-                    # Create project ZIP
-                    zip_path = create_project_zip(model_file, MODELS_DIR, DOWNLOADS_DIR, is_object_detection=True)
+                    # Create project ZIP with Cloudinary upload
+                    zip_result = create_project_zip(
+                        model_file, 
+                        MODELS_DIR, 
+                        DOWNLOADS_DIR, 
+                        is_object_detection=True,
+                        project_name=text_prompt[:50] if text_prompt else "Object_Detection_Project",
+                        task_type="object_detection"
+                    )
+                    zip_path = zip_result.get('local_path') if isinstance(zip_result, dict) else zip_result
+                    
+                    # Prepare download info
+                    download_url = f'/api/download/{os.path.basename(zip_path)}'
+                    cloudinary_info = None
+                    
+                    # Add Cloudinary info if available
+                    if isinstance(zip_result, dict) and zip_result.get('cloudinary'):
+                        cloudinary_info = {
+                            'url': zip_result['cloudinary'].get('url'),
+                            'success': zip_result['cloudinary'].get('success', False),
+                            'size': zip_result['cloudinary'].get('size')
+                        }
                     
                     # Return results with enhanced model info
-                    return jsonify({
+                    result_data = {
                         'success': True,
                         'detected_task_type': task_type,  # Add detected task type
                         'model_info': {
@@ -404,8 +475,14 @@ def process_ml_job(job_id, task_type, text_prompt, file_info=None, folder_info=N
                         'visualizations': {
                             'plots': visualizations
                         },
-                        'download_url': f'/api/download/{os.path.basename(zip_path)}'
-                    })
+                        'download_url': download_url
+                    }
+                    
+                    # Add Cloudinary info if available
+                    if cloudinary_info:
+                        result_data['cloudinary'] = cloudinary_info
+                        
+                    return jsonify(result_data)
                 except Exception as e:
                     import traceback
                     traceback.print_exc()

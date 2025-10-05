@@ -61,9 +61,9 @@ export default function Dashboard() {
             duration: 3000
         });
 
-        // Redirect to ML page for project development
+        // Redirect to ML page for project development with project context
         setTimeout(() => {
-            router.push('/ml');
+            router.push(`/ml?project=${projectData.id}`);
         }, 1000);
     };
 
@@ -105,7 +105,7 @@ export default function Dashboard() {
 
     const handleOpenProject = (projectId) => {
         console.log(`Opening project ${projectId}`);
-        router.push('/ml');
+        router.push(`/ml?project=${projectId}`);
     };
 
     return (

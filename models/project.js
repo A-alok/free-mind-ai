@@ -80,11 +80,13 @@ const projectSchema = new mongoose.Schema({
     taskType: {
         type: String,
         enum: [
+            'classification',        // Add this - it's the main one from frontend
+            'regression',
+            'nlp',
             'image_classification',
             'object_detection', 
             'text_classification',
             'sentiment_analysis',
-            'regression',
             'clustering',
             'time_series'
         ],
