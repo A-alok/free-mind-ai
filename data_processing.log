@@ -1577,3 +1577,30 @@
 2025-10-05 06:50:45,622 - mongodb_utils - INFO - Updated project 68e1c79599f52e4032b15ca6 with Cloudinary URL: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759627244/freemind-ml-projects/68e10772b79cb2e8d2c009e6/classification/Classification_Project_20251005_065034.zip
 2025-10-05 06:50:45,668 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 06:50:45] "POST /process HTTP/1.1" 200 -
 2025-10-05 06:50:54,627 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 06:50:54] "GET /api/download/project_d20880fc-4ea9-4f2b-b42e-14e2273f5b5b.zip HTTP/1.1" 200 -
+2025-10-05 06:56:21,168 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 06:56:21,169 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 06:58:05,878 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 06:58:05,879 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 07:05:38,745 - __main__ - INFO - Processing request - Project Context: ID=68e1cb62cb135bfdd1d48fbd, User=68e1ca20cb135bfdd1d48f9e, Name=Classification Project
+2025-10-05 07:05:38,745 - __main__ - INFO - Processing request - Project Context: ID=68e1cb62cb135bfdd1d48fbd, User=68e1ca20cb135bfdd1d48f9e, Name=Classification Project
+2025-10-05 07:05:38,749 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 07:05:38,749 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 07:05:41,331 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 07:05:41,332 - root - INFO - Auto-detected task type: classification
+2025-10-05 07:05:41,352 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 07:05:41,352 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-10-05 07:05:41,353 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 07:05:41,353 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-10-05 07:06:20,082 - cloudinary_utils - INFO - Uploading zip to Cloudinary: C:\Users\Vinayak\AppData\Local\Temp\tmpk9jpn_tv\project_4e2c0ed4-3f52-4066-8eb7-487cb5de20d5.zip -> freemind-ml-projects/68e1ca20cb135bfdd1d48f9e/classification/Classification_Project_20251005_070620
+2025-10-05 07:06:24,603 - cloudinary_utils - INFO - Successfully uploaded to Cloudinary: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759628183/freemind-ml-projects/68e1ca20cb135bfdd1d48f9e/classification/Classification_Project_20251005_070620.zip
+2025-10-05 07:06:24,623 - mongodb_utils - INFO - Found project by ID: 68e1cb62cb135bfdd1d48fbd
+2025-10-05 07:06:24,624 - mongodb_utils - INFO - Found existing project: 68e1cb62cb135bfdd1d48fbd
+2025-10-05 07:06:24,643 - mongodb_utils - INFO - Updated project 68e1cb62cb135bfdd1d48fbd with Cloudinary URL: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759628183/freemind-ml-projects/68e1ca20cb135bfdd1d48f9e/classification/Classification_Project_20251005_070620.zip
+2025-10-05 07:06:24,688 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 07:06:24] "POST /process HTTP/1.1" 200 -
+2025-10-05 07:06:45,955 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 07:06:45] "GET /api/download/project_4e2c0ed4-3f52-4066-8eb7-487cb5de20d5.zip HTTP/1.1" 200 -
