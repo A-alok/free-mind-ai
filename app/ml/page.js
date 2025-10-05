@@ -3,6 +3,7 @@
 import MLSystem from "@/components/ml-system";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import FloatingControls from "@/components/FloatingControls";
+import Navbar from "@/components/Navbar";
 import { useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
@@ -55,6 +56,7 @@ export default function MLPage() {
   return (
     <ProtectedRoute>
       <>
+        <Navbar />
         <FloatingControls backHref="/main" />
         <MLSystem project={project} />
       </>

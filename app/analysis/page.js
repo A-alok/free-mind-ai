@@ -1,16 +1,14 @@
 import Analysis from "@/components/analysis";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import Navbar from "@/components/Navbar";
 
 export default function AnalysisPage() {
     return (
         <ProtectedRoute>
-            <div>
+            <>
                 <Navbar />
                 <Analysis />
-                <Footer />
-            </div>
+            </>
         </ProtectedRoute>
     );
 }

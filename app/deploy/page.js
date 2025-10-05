@@ -1,7 +1,6 @@
 import Deployment from "@/components/deploy"
-import Navbar from "@/components/Navbar"
-import Footer from "@/components/Footer"
 import ProtectedRoute from "@/components/ProtectedRoute"
+import Navbar from "@/components/Navbar"
 
 export default function Deploy ()
 {
@@ -10,7 +9,6 @@ export default function Deploy ()
             <div>
                 <Navbar />
                 <Deployment />
-                <Footer />
             </div>
         </ProtectedRoute>
     );
