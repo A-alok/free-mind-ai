@@ -1345,3 +1345,38 @@
 2025-10-05 05:12:33,911 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 05:12:33] "GET /health HTTP/1.1" 200 -
 2025-10-05 05:12:34,874 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 05:12:34] "GET /api/datasets HTTP/1.1" 200 -
 2025-10-05 05:12:35,185 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 05:12:35] "GET /api/datasets HTTP/1.1" 200 -
+2025-10-05 06:10:47,337 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.142.97:5000
+2025-10-05 06:10:47,337 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 06:13:41,783 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 06:13:41,783 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 06:18:42,439 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.142.97:5000
+2025-10-05 06:18:42,440 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 06:19:56,348 - __main__ - INFO - Processing request - Task Type: image_classification
+2025-10-05 06:19:56,348 - __main__ - INFO - Processing request - Task Type: image_classification
+2025-10-05 06:20:26,445 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 06:20:26] "POST /process HTTP/1.1" 200 -
+2025-10-05 06:21:27,516 - __main__ - INFO - Processing request - Task Type: object_detection
+2025-10-05 06:21:27,516 - __main__ - INFO - Processing request - Task Type: object_detection
+2025-10-05 06:21:56,073 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 06:21:56] "POST /process HTTP/1.1" 200 -
+2025-10-05 06:22:45,282 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.142.97:5000
+2025-10-05 06:22:45,283 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 06:23:12,535 - __main__ - INFO - Processing request - Task Type: image_classification
+2025-10-05 06:23:12,535 - __main__ - INFO - Processing request - Task Type: image_classification
+2025-10-05 06:23:39,130 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 06:23:39] "POST /process HTTP/1.1" 200 -
+2025-10-05 07:40:43,763 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.142.97:5000
+2025-10-05 07:40:43,765 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 07:51:05,085 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 07:51:05] "GET /health HTTP/1.1" 200 -
+2025-10-05 07:51:05,338 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 07:51:05] "GET /health HTTP/1.1" 200 -
+2025-10-05 07:51:22,078 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 07:51:22] "GET /api/datasets HTTP/1.1" 200 -
+2025-10-05 07:51:22,389 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 07:51:22] "GET /api/datasets HTTP/1.1" 200 -

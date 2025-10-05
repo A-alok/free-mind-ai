@@ -1,6 +1,7 @@
 "use client"
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
 import { User, LogOut, ChevronDown, Calendar } from "lucide-react"
 import { AnimatePresence, motion } from 'framer-motion'
@@ -28,6 +29,9 @@ export default function Navbar() {
     { name: "Alter & Expand", path: "/alter_expand" },
     { name: "Deploy", path: "/deploy" }
   ]
+
+  // Hide "New Project" when already on /ml so only ML Builder is shown/highlighted
+  const displayedNavItems = navItems.filter(item => !(pathname === '/ml' && item.name === 'New Project'))
   
   // Handle scroll effect
   useEffect(() => {
@@ -125,14 +129,21 @@ export default function Navbar() {
       <div className="container mx-auto px-5">
         <div aria-hidden className="h-2" />
         <div className="flex justify-between items-center h-16">
-          <Link href="/main" className="flex items-center gap-2 text-xl font-bold">
-            <img src="/images/LOGO.svg" alt="FreeMindAi" className="w-24 h-8" />
+          <Link href="/main" className="flex items-center gap-2 text-xl font-bold text-gray-900">
+            <Image
+              src="/images/freemindlogo.png"
+              alt="FreeMindAi Logo"
+              width={40}
+              height={40}
+              className="object-contain"
+            />
+            <span>FreeMindAi</span>
           </Link>
           
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center">
             <ul className="flex gap-8">
-              {navItems.map((item) => (
+              {displayedNavItems.map((item) => (
                 <li key={item.name}>
                   <Link
                     href={item.path}
@@ -188,11 +199,6 @@ export default function Navbar() {
                       <span>My Profile</span>
                     </Link>
                     
-                    <Link href="/registered-events" className="flex items-center px-4 py-2 text-sm text-gray-800 hover:bg-violet-50 hover:text-[#9340FF]">
-                      <Calendar size={16} className="mr-2" />
-                      <span>Registered Events</span>
-                    </Link>
-                    
                     <button 
                       onClick={handleLogout}
                       className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-800 hover:bg-red-50 hover:text-red-600"
@@ -234,7 +240,7 @@ export default function Navbar() {
           <div className="fixed inset-0 top-16 z-40 bg-white/95 backdrop-blur-md lg:hidden overflow-y-auto border-t border-gray-200">
             <div className="container mx-auto px-5 py-6">
               <ul className="flex flex-col">
-                {navItems.map((item) => (
+                {displayedNavItems.map((item) => (
                   <li key={item.name} className="py-3 border-b border-gray-800">
                     <Link
                       href={item.path}
@@ -276,15 +282,6 @@ export default function Navbar() {
                   >
                     <User size={16} className="mr-2" />
                     My Profile
-                  </Link>
-                  
-                  <Link 
-                    href="/registered-events" 
-                    className="w-full bg-gray-800 hover:bg-gray-700 text-white px-4 py-3 rounded-md text-center transition-all duration-300 font-medium mb-3 flex items-center justify-center"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <Calendar size={16} className="mr-2" />
-                    Registered Events
                   </Link>
                   
                   <button 
