@@ -1604,3 +1604,41 @@
 2025-10-05 07:06:24,643 - mongodb_utils - INFO - Updated project 68e1cb62cb135bfdd1d48fbd with Cloudinary URL: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759628183/freemind-ml-projects/68e1ca20cb135bfdd1d48f9e/classification/Classification_Project_20251005_070620.zip
 2025-10-05 07:06:24,688 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 07:06:24] "POST /process HTTP/1.1" 200 -
 2025-10-05 07:06:45,955 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 07:06:45] "GET /api/download/project_4e2c0ed4-3f52-4066-8eb7-487cb5de20d5.zip HTTP/1.1" 200 -
+2025-10-05 10:20:57,089 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.86.32.171:5000
+2025-10-05 10:20:57,091 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 10:32:10,069 - __main__ - INFO - Processing request - Project Context: ID=68e1fbc9700441dc92f13c13, User=68e1f940700441dc92f13bfd, Name=Classification Project
+2025-10-05 10:32:10,069 - __main__ - INFO - Processing request - Project Context: ID=68e1fbc9700441dc92f13c13, User=68e1f940700441dc92f13bfd, Name=Classification Project
+2025-10-05 10:32:10,070 - __main__ - INFO - All form data received: {'text_prompt': '', 'task_type': 'classification', 'project_id': '68e1fbc9700441dc92f13c13', 'user_id': '68e1f940700441dc92f13bfd', 'project_name': 'Classification Project'}
+2025-10-05 10:32:10,070 - __main__ - INFO - All form data received: {'text_prompt': '', 'task_type': 'classification', 'project_id': '68e1fbc9700441dc92f13c13', 'user_id': '68e1f940700441dc92f13bfd', 'project_name': 'Classification Project'}
+2025-10-05 10:32:10,072 - __main__ - INFO - All headers received: {'Host': '127.0.0.1:5000', 'Connection': 'keep-alive', 'Content-Type': 'multipart/form-data; boundary=----formdata-undici-094092530030', 'Accept': '*/*', 'Accept-Language': '*', 'Sec-Fetch-Mode': 'cors', 'User-Agent': 'node', 'Accept-Encoding': 'gzip, deflate', 'Content-Length': '1149'}
+2025-10-05 10:32:10,072 - __main__ - INFO - All headers received: {'Host': '127.0.0.1:5000', 'Connection': 'keep-alive', 'Content-Type': 'multipart/form-data; boundary=----formdata-undici-094092530030', 'Accept': '*/*', 'Accept-Language': '*', 'Sec-Fetch-Mode': 'cors', 'User-Agent': 'node', 'Accept-Encoding': 'gzip, deflate', 'Content-Length': '1149'}
+2025-10-05 10:32:10,074 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 10:32:10,074 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 10:32:10,245 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-10-05 10:32:10,245 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-10-05 10:32:24,700 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 10:32:24] "POST /process HTTP/1.1" 200 -
+2025-10-05 14:25:00,498 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.137.20:5000
+2025-10-05 14:25:00,499 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-05 14:28:28,606 - __main__ - INFO - Processing request - Project Context: ID=68e233306ed728a30424a63d, User=68e1f940700441dc92f13bfd, Name=Classification Project
+2025-10-05 14:28:28,606 - __main__ - INFO - Processing request - Project Context: ID=68e233306ed728a30424a63d, User=68e1f940700441dc92f13bfd, Name=Classification Project
+2025-10-05 14:28:28,607 - __main__ - INFO - All form data received: {'text_prompt': '', 'task_type': 'classification', 'project_id': '68e233306ed728a30424a63d', 'user_id': '68e1f940700441dc92f13bfd', 'project_name': 'Classification Project'}
+2025-10-05 14:28:28,607 - __main__ - INFO - All form data received: {'text_prompt': '', 'task_type': 'classification', 'project_id': '68e233306ed728a30424a63d', 'user_id': '68e1f940700441dc92f13bfd', 'project_name': 'Classification Project'}
+2025-10-05 14:28:28,608 - __main__ - INFO - All headers received: {'Host': '127.0.0.1:5000', 'Connection': 'keep-alive', 'Content-Type': 'multipart/form-data; boundary=----formdata-undici-027220577332', 'Accept': '*/*', 'Accept-Language': '*', 'Sec-Fetch-Mode': 'cors', 'User-Agent': 'node', 'Accept-Encoding': 'gzip, deflate', 'Content-Length': '150753'}
+2025-10-05 14:28:28,608 - __main__ - INFO - All headers received: {'Host': '127.0.0.1:5000', 'Connection': 'keep-alive', 'Content-Type': 'multipart/form-data; boundary=----formdata-undici-027220577332', 'Accept': '*/*', 'Accept-Language': '*', 'Sec-Fetch-Mode': 'cors', 'User-Agent': 'node', 'Accept-Encoding': 'gzip, deflate', 'Content-Length': '150753'}
+2025-10-05 14:28:28,611 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 14:28:28,611 - __main__ - INFO - Processing request - Task Type: classification
+2025-10-05 14:28:28,689 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-10-05 14:28:28,689 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-10-05 14:28:58,101 - cloudinary_utils - INFO - Uploading zip to Cloudinary: C:\Users\Vinayak\AppData\Local\Temp\tmpevqf664g\project_349b81bb-4ef2-492f-92a4-3c62d5fa9dc2.zip -> freemind-ml-projects/68e1f940700441dc92f13bfd/classification/Classification_Project_20251005_142858
+2025-10-05 14:29:02,280 - cloudinary_utils - INFO - Successfully uploaded to Cloudinary: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759654741/freemind-ml-projects/68e1f940700441dc92f13bfd/classification/Classification_Project_20251005_142858.zip
+2025-10-05 14:29:03,306 - mongodb_utils - INFO - Connected to MongoDB: freemind_ai
+2025-10-05 14:29:03,322 - mongodb_utils - INFO - Found project by ID: 68e233306ed728a30424a63d
+2025-10-05 14:29:03,322 - mongodb_utils - INFO - Found existing project: 68e233306ed728a30424a63d
+2025-10-05 14:29:03,339 - mongodb_utils - INFO - Updated project 68e233306ed728a30424a63d with Cloudinary URL: https://res.cloudinary.com/dyd7mdyar/raw/upload/v1759654741/freemind-ml-projects/68e1f940700441dc92f13bfd/classification/Classification_Project_20251005_142858.zip
+2025-10-05 14:29:03,365 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 14:29:03] "POST /process HTTP/1.1" 200 -
