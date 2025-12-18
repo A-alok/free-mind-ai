@@ -46,12 +46,46 @@ CORS(app)  # Enable CORS for all routes
 db_fs = apply_patches()
 
 # Configure Gemini API
-api_key = os.getenv("GOOGLE_API_KEY")
+# Configure Gemini API
+# Configure Gemini API
+# Support both GEMINI_API_KEY (preferred by some new docs) and GOOGLE_API_KEY
+api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+
+print(f"DEBUG: Checking API Key configuration...")
 if api_key:
+    # Mask key for safety in logs
+    masked_key = f"{api_key[:5]}...{api_key[-5:]}" if len(api_key) > 10 else "***"
+    print(f"DEBUG: Found API Key: {masked_key} (Length: {len(api_key)})")
+    
+    # Check for quotes
+    if api_key.startswith('"') or api_key.startswith("'") or api_key.endswith('"') or api_key.endswith("'"):
+        print("DEBUG: WARNING: API Key appears to be quoted! Trimming quotes...")
+        api_key = api_key.strip("'\"")
+    
+    # Configure the library
     genai.configure(api_key=api_key)
+        
     print(f"Gemini API configured successfully")
+    
+    # Perform a startup test
+    print("DEBUG: Running Gemini startup test...")
+    try:
+        # Try to use a standard stable model for connection test
+        # Allow user to configure model via env, default to 1.5-flash
+        model_name = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+        model = genai.GenerativeModel(model_name)
+        # Generate a simple response to verify connectivity
+        test_resp = model.generate_content("Ping")
+        if test_resp and test_resp.text:
+             print("DEBUG: Gemini Startup Test PASSED. Response received.")
+        else:
+             print("DEBUG: Gemini Startup Test: No text received.")
+    except Exception as e:
+        print(f"DEBUG: Gemini Startup Test FAILED: {e}")
+        # Only print full trace if it helps
+        # print(f"DEBUG: Error details: {traceback.format_exc()}")
 else:
-    print("Warning: GOOGLE_API_KEY not found in environment variables")
+    print("Warning: GEMINI_API_KEY or GOOGLE_API_KEY not found in environment variables")
 
 # Create directories in the specified path
 BASE_DIR = "ml_system"
@@ -123,7 +157,7 @@ class DataExpander:
             self.provider = provider
         # Ensure a reasonable default model when using Gemini
         if self.provider == "gemini" and not str(self.model_name).startswith("gemini"):
-            self.model_name = os.getenv("GEMINI_MODEL", "gemini-1.5-flash-8b-latest")
+            self.model_name = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-8b-latest")
 
     def generate_with_openrouter(self, prompt, system_prompt=None):
         """Generate response using OpenRouter API"""
@@ -162,10 +196,10 @@ class DataExpander:
         if str(self.model_name).startswith("gemini"):
             requested.append(self.model_name)
         requested += [
-            "gemini-1.5-flash-8b-latest",
-            "gemini-1.5-flash-latest",
+            "gemini-2.5-flash-8b-latest",
+            "gemini-2.5-flash-latest",
             "gemini-1.5-pro-latest",
-            "gemini-1.5-flash",
+            "gemini-2.5-flash",
             "gemini-1.5-pro",
         ]
         # Query available models to filter invalid ones
@@ -1400,7 +1434,8 @@ def chat_with_csv(df, query):
         """
         
         # Initialize Gemini model
-        model = genai.GenerativeModel('gemini-2.0-flash-exp')
+        model_name = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+        model = genai.GenerativeModel(model_name)
         
         # Get response from Gemini
         response = model.generate_content(prompt)

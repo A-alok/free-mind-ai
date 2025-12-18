@@ -27,17 +27,22 @@ try:
     
     GEMINI_AVAILABLE = True
     
-    # Load environment variables from .env.local file
-    load_dotenv('.env.local')
+    # Load environment variables from .env and .env.local
+    load_dotenv('.env')
+    load_dotenv('.env.local', override=True)
     
     # Configure Gemini API with key from environment variables
     api_key = os.getenv('GOOGLE_API_KEY')
     if not api_key:
-        raise ValueError("GOOGLE_API_KEY not found in .env.local file")
-    
-    genai.configure(api_key=api_key)
+        print("WARNING: GOOGLE_API_KEY not found. Gemini features will be disabled.")
+        GEMINI_AVAILABLE = False
+    else:
+        genai.configure(api_key=api_key)
     
 except ImportError:
+    GEMINI_AVAILABLE = False
+except Exception as e:
+    print(f"Warning: Failed to initialize Gemini in visualization_object.py: {e}")
     GEMINI_AVAILABLE = False
 # Define modern purple theme colors (matching the main visualization module)
 PURPLE_DARK = '#2D1B55'  # Dark purple background
@@ -132,7 +137,8 @@ def get_gemini_explanation(data, prompt):
     """Get AI-generated explanation for visualizations using Gemini model"""
     if GEMINI_AVAILABLE:
         try:
-            model = genai.GenerativeModel('gemini-2.0-flash')
+            model_name = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+            model = genai.GenerativeModel(model_name)
             response = model.generate_content(prompt)
             return response.text
         except Exception as e:

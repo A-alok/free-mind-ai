@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import random
 import yaml
-from kaggle.api.kaggle_api_extended import KaggleApi
+# from kaggle.api.kaggle_api_extended import KaggleApi # Lazy import to avoid startup crash
 import logging
 from scipy import stats
 import tempfile
@@ -23,15 +23,17 @@ try:
     
     GEMINI_AVAILABLE = True
     
-    # Load environment variables from .env.local file
-    load_dotenv('.env.local')
+    # Load environment variables from .env and .env.local
+    load_dotenv('.env')
+    load_dotenv('.env.local', override=True)
     
     # Configure Gemini API with key from environment variables
     api_key = os.getenv('GOOGLE_API_KEY')
     if not api_key:
-        raise ValueError("GOOGLE_API_KEY not found in .env.local file")
-    
-    genai.configure(api_key=api_key)
+        print("WARNING: GOOGLE_API_KEY not found. Gemini features will be disabled.")
+        GEMINI_AVAILABLE = False
+    else:
+        genai.configure(api_key=api_key)
     
 except ImportError:
     GEMINI_AVAILABLE = False
@@ -39,7 +41,13 @@ except ImportError:
 def download_kaggle_dataset(query, datasets_dir):
     """Download a dataset from Kaggle based on a query, then auto-detect task type"""
     try:
-        # Initialize the Kaggle API
+        # Initialize the Kaggle API (Lazy import)
+        try:
+            from kaggle.api.kaggle_api_extended import KaggleApi
+        except ImportError:
+            print("Error: kaggle package not installed.")
+            return "Error: kaggle package not installed."
+
         api = KaggleApi()
         api.authenticate()
         
@@ -379,7 +387,7 @@ def get_gemini_task_type_opinion(df, query):
         Only respond with one of these exact words: "regression", "classification", or "nlp".
         """
         
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-2.5-flash')
         response = model.generate_content(prompt)
         response_text = response.text.strip().lower()
         
@@ -416,7 +424,7 @@ def generate_dataset_from_text(text):
     """Generate a synthetic dataset based on text description"""
     if GEMINI_AVAILABLE:
         try:
-            model = genai.GenerativeModel(model_name="gemini-1.5-flash")
+            model = genai.GenerativeModel(model_name="gemini-2.5-flash")
             response = model.generate_content([
                 f"Generate a dataset in CSV format based on the following text without explanation, "
                 f"just data and I want 200 rows and 5 columns, avoid repeating data both numeric as well as "

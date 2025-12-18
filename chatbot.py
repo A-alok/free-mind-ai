@@ -4,17 +4,22 @@ import google.generativeai as genai
 import os
 from dotenv import load_dotenv
 
-load_dotenv('.env.local')
+# Load environment variables
+load_dotenv() # Load .env (added)
+load_dotenv('.env.local', override=True)
+
 app = Flask(__name__)
 CORS(app)
 
 # Get API key
-api_key = os.getenv("GOOGLE_API_KEY")
+api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
 
+print(f"DEBUG: chatbot.py checking API Key...")
 if not api_key:
-    print("WARNING: API key not found")
+    print("WARNING: API key not found (checked GEMINI_API_KEY and GOOGLE_API_KEY)")
 else:
-    print("API key loaded successfully")
+    masked_key = f"{api_key[:5]}...{api_key[-5:]}" if len(api_key) > 10 else "***"
+    print(f"API key loaded successfully: {masked_key} (Len: {len(api_key)})")
 
 # Configure Google Generative AI
 genai.configure(api_key=api_key)
@@ -46,7 +51,8 @@ def get_data_science_response(user_question, conversation_history=""):
         """
         
         # Use Gemini model
-        model = genai.GenerativeModel("gemini-1.5-flash")
+        model_name = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+        model = genai.GenerativeModel(model_name)
         response = model.generate_content(prompt)
         
         return response.text

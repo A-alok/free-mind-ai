@@ -67,7 +67,7 @@ class DataExpander:
         else:
             self.provider = provider
         if self.provider == "gemini" and not str(self.model_name).startswith("gemini"):
-            self.model_name = os.getenv("GEMINI_MODEL", "gemini-1.5-flash-8b-latest")
+            self.model_name = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-8b-latest")
 
     def generate_with_openrouter(self, prompt, system_prompt=None):
         """Generate response using OpenRouter API"""
@@ -104,10 +104,10 @@ class DataExpander:
         if str(self.model_name).startswith("gemini"):
             requested.append(self.model_name)
         requested += [
-            "gemini-1.5-flash-8b-latest",
-            "gemini-1.5-flash-latest",
+            "gemini-2.5-flash-8b-latest",
+            "gemini-2.5-flash-latest",
             "gemini-1.5-pro-latest",
-            "gemini-1.5-flash",
+            "gemini-2.5-flash",
             "gemini-1.5-pro",
         ]
         available = set()

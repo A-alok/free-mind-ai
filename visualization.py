@@ -22,67 +22,31 @@ try:
     
     GEMINI_AVAILABLE = True
     
-    # Load environment variables from .env.local file
-    load_dotenv('.env.local')
+    # Load environment variables from .env and .env.local
+    load_dotenv('.env')
+    load_dotenv('.env.local', override=True)
     
     # Configure Gemini API with key from environment variables
     api_key = os.getenv('GOOGLE_API_KEY')
     if not api_key:
-        raise ValueError("GOOGLE_API_KEY not found in .env.local file")
-    
-    genai.configure(api_key=api_key)
+        print("WARNING: GOOGLE_API_KEY not found. Gemini features will be disabled.")
+        GEMINI_AVAILABLE = False
+    else:
+        genai.configure(api_key=api_key)
     
 except ImportError:
     GEMINI_AVAILABLE = False
-# Define modern purple theme colors
-PURPLE_DARK = '#2D1B55'  # Dark purple background
-PURPLE_PRIMARY = '#9C27B0'  # Main purple 
-PURPLE_SECONDARY = '#BA68C8'  # Medium purple
-PURPLE_ACCENT = '#E040FB'  # Bright accent purple
-PURPLE_LIGHT = '#E1BEE7'  # Light purple
-PURPLE_BG = '#13111C'  # Very dark purple/black background
+except Exception as e:
+    print(f"Warning: Failed to initialize Gemini in visualization.py: {e}")
+    GEMINI_AVAILABLE = False
 
-# Create custom purple color maps
-purple_cmap = LinearSegmentedColormap.from_list('custom_purple', 
-                                              [PURPLE_BG, PURPLE_DARK, PURPLE_PRIMARY, PURPLE_ACCENT], 
-                                              N=256)
-diverging_purple = LinearSegmentedColormap.from_list('diverging_purple',
-                                                   ['#6A1B9A', '#9C27B0', '#CE93D8', '#F3E5F5'], 
-                                                   N=256)
-
-def apply_modern_style():
-    """Apply modern styling to all matplotlib plots"""
-    plt.style.use('dark_background')
-    
-    # Set custom styling for all plots
-    plt.rcParams['figure.facecolor'] = PURPLE_BG
-    plt.rcParams['axes.facecolor'] = PURPLE_BG
-    plt.rcParams['axes.edgecolor'] = PURPLE_SECONDARY
-    plt.rcParams['axes.labelcolor'] = PURPLE_LIGHT
-    plt.rcParams['xtick.color'] = PURPLE_LIGHT
-    plt.rcParams['ytick.color'] = PURPLE_LIGHT
-    plt.rcParams['text.color'] = PURPLE_LIGHT
-    plt.rcParams['grid.color'] = PURPLE_DARK
-    plt.rcParams['grid.linestyle'] = '--'
-    plt.rcParams['grid.linewidth'] = 0.5
-    plt.rcParams['figure.figsize'] = (10, 6)
-    plt.rcParams['font.family'] = 'sans-serif'
-    plt.rcParams['font.size'] = 12
-    
-    # Set Seaborn style
-    sns.set_style("darkgrid", {
-        'axes.facecolor': PURPLE_BG,
-        'axes.edgecolor': PURPLE_SECONDARY,
-        'axes.grid': True,
-        'grid.color': PURPLE_DARK,
-        'grid.linestyle': '--',
-    })
+# ... (lines 38-80 unchanged)
 
 def get_gemini_explanation(data, prompt):
     """Get AI-generated explanation for visualizations using Gemini model"""
     if GEMINI_AVAILABLE:
         try:
-            model = genai.GenerativeModel('gemini-2.0-flash')
+            model = genai.GenerativeModel('gemini-pro')
             response = model.generate_content(prompt)
             return response.text
         except Exception as e:

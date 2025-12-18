@@ -1380,3 +1380,148 @@
 2025-10-05 07:51:05,338 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 07:51:05] "GET /health HTTP/1.1" 200 -
 2025-10-05 07:51:22,078 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 07:51:22] "GET /api/datasets HTTP/1.1" 200 -
 2025-10-05 07:51:22,389 - werkzeug - INFO - 127.0.0.1 - - [05/Oct/2025 07:51:22] "GET /api/datasets HTTP/1.1" 200 -
+2025-12-17 18:59:50,730 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.104:5000
+2025-12-17 18:59:50,731 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-17 19:03:38,664 - __main__ - INFO - Processing request - Task Type: classification
+2025-12-17 19:03:38,664 - __main__ - INFO - Processing request - Task Type: classification
+2025-12-17 19:03:46,583 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\pesticides.csv
+2025-12-17 19:03:46,583 - root - INFO - Auto-detected task type: regression
+2025-12-17 19:03:46,613 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\pesticides.csv
+2025-12-17 19:03:46,613 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\pesticides.csv
+2025-12-17 19:03:46,614 - __main__ - INFO - Auto-detected task type for Kaggle dataset: regression
+2025-12-17 19:03:46,614 - __main__ - INFO - Auto-detected task type for Kaggle dataset: regression
+2025-12-17 19:03:46,616 - __main__ - INFO - Changing task type from classification to regression based on dataset analysis
+2025-12-17 19:03:46,616 - __main__ - INFO - Changing task type from classification to regression based on dataset analysis
+2025-12-17 19:04:42,137 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 19:04:42] "POST /process HTTP/1.1" 200 -
+2025-12-17 19:05:41,124 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 19:05:41] "GET /api/download/project_65739a8e-05d1-4d76-a525-bf3e15e3132a.zip HTTP/1.1" 200 -
+2025-12-17 19:05:51,581 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 19:05:51] "GET /health HTTP/1.1" 200 -
+2025-12-17 19:05:51,870 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 19:05:51] "GET /health HTTP/1.1" 200 -
+2025-12-17 19:07:22,329 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 19:07:22] "POST /upload HTTP/1.1" 200 -
+2025-12-17 19:07:44,171 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 19:07:44] "OPTIONS /query HTTP/1.1" 200 -
+2025-12-17 19:07:44,765 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 19:07:44] "POST /query HTTP/1.1" 200 -
+2025-12-17 19:16:16,824 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.104:5000
+2025-12-17 19:16:16,824 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-17 19:16:46,295 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 19:16:46] "OPTIONS /query HTTP/1.1" 200 -
+2025-12-17 19:16:46,554 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 19:16:46] "POST /query HTTP/1.1" 200 -
+2025-12-17 19:17:01,212 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 19:17:01] "GET /health HTTP/1.1" 200 -
+2025-12-17 19:17:01,527 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 19:17:01] "GET /health HTTP/1.1" 200 -
+2025-12-17 19:17:09,865 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 19:17:09] "POST /upload HTTP/1.1" 200 -
+2025-12-17 19:17:20,189 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 19:17:20] "OPTIONS /query HTTP/1.1" 200 -
+2025-12-17 19:17:21,364 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 19:17:21] "POST /query HTTP/1.1" 200 -
+2025-12-17 19:18:56,190 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 19:18:56] "OPTIONS /query HTTP/1.1" 200 -
+2025-12-17 19:18:56,685 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 19:18:56] "POST /query HTTP/1.1" 200 -
+2025-12-17 23:56:36,260 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.104:5000
+2025-12-17 23:56:36,260 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-17 23:56:43,037 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 23:56:43] "GET /health HTTP/1.1" 200 -
+2025-12-17 23:56:43,291 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 23:56:43] "GET /health HTTP/1.1" 200 -
+2025-12-17 23:56:49,165 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 23:56:49] "POST /upload HTTP/1.1" 200 -
+2025-12-17 23:57:00,049 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 23:57:00] "OPTIONS /query HTTP/1.1" 200 -
+2025-12-17 23:57:00,759 - werkzeug - INFO - 127.0.0.1 - - [17/Dec/2025 23:57:00] "POST /query HTTP/1.1" 200 -
+2025-12-18 00:04:13,388 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.104:5000
+2025-12-18 00:04:13,389 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-18 00:04:22,798 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:04:22] "OPTIONS /query HTTP/1.1" 200 -
+2025-12-18 00:04:23,058 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:04:23] "POST /query HTTP/1.1" 200 -
+2025-12-18 00:04:29,783 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:04:29] "OPTIONS /query HTTP/1.1" 200 -
+2025-12-18 00:04:30,106 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:04:30] "POST /query HTTP/1.1" 200 -
+2025-12-18 00:04:34,593 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:04:34] "GET /health HTTP/1.1" 200 -
+2025-12-18 00:04:34,905 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:04:34] "GET /health HTTP/1.1" 200 -
+2025-12-18 00:04:39,099 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:04:39] "POST /upload HTTP/1.1" 200 -
+2025-12-18 00:04:50,441 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:04:50] "OPTIONS /query HTTP/1.1" 200 -
+2025-12-18 00:04:51,392 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:04:51] "POST /query HTTP/1.1" 200 -
+2025-12-18 00:07:13,793 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.104:5000
+2025-12-18 00:07:13,794 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-18 00:07:28,007 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:07:28] "GET /health HTTP/1.1" 200 -
+2025-12-18 00:07:28,266 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:07:28] "GET /health HTTP/1.1" 200 -
+2025-12-18 00:07:32,785 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:07:32] "POST /upload HTTP/1.1" 200 -
+2025-12-18 00:07:44,443 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:07:44] "OPTIONS /query HTTP/1.1" 200 -
+2025-12-18 00:07:45,066 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:07:45] "POST /query HTTP/1.1" 200 -
+2025-12-18 00:10:47,987 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.104:5000
+2025-12-18 00:10:47,987 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-18 00:11:42,722 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:11:42] "GET /health HTTP/1.1" 200 -
+2025-12-18 00:11:42,967 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:11:42] "GET /health HTTP/1.1" 200 -
+2025-12-18 00:11:46,044 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:11:46] "POST /upload HTTP/1.1" 200 -
+2025-12-18 00:11:53,738 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:11:53] "OPTIONS /query HTTP/1.1" 200 -
+2025-12-18 00:11:54,304 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:11:54] "POST /query HTTP/1.1" 200 -
+2025-12-18 00:15:44,539 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.104:5000
+2025-12-18 00:15:44,540 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-18 00:18:12,815 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.104:5000
+2025-12-18 00:18:12,817 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-18 00:22:11,456 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.104:5000
+2025-12-18 00:22:11,457 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-18 00:22:26,961 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:22:26] "GET /health HTTP/1.1" 200 -
+2025-12-18 00:22:27,236 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:22:27] "GET /health HTTP/1.1" 200 -
+2025-12-18 00:22:31,164 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:22:31] "POST /upload HTTP/1.1" 200 -
+2025-12-18 00:22:46,382 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:22:46] "OPTIONS /query HTTP/1.1" 200 -
+2025-12-18 00:22:46,837 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:22:46] "POST /query HTTP/1.1" 200 -
+2025-12-18 00:27:22,175 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.104:5000
+2025-12-18 00:27:22,175 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-18 00:27:31,308 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:27:31] "GET /health HTTP/1.1" 200 -
+2025-12-18 00:27:31,572 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:27:31] "GET /health HTTP/1.1" 200 -
+2025-12-18 00:27:36,529 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:27:36] "POST /upload HTTP/1.1" 200 -
+2025-12-18 00:27:46,458 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:27:46] "OPTIONS /query HTTP/1.1" 200 -
+2025-12-18 00:27:46,920 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:27:46] "POST /query HTTP/1.1" 200 -
+2025-12-18 00:29:26,590 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.104:5000
+2025-12-18 00:29:26,590 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-18 00:29:35,183 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:29:35] "GET /health HTTP/1.1" 200 -
+2025-12-18 00:29:35,434 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:29:35] "GET /health HTTP/1.1" 200 -
+2025-12-18 00:29:38,254 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:29:38] "POST /upload HTTP/1.1" 200 -
+2025-12-18 00:29:46,116 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:29:46] "OPTIONS /query HTTP/1.1" 200 -
+2025-12-18 00:29:46,555 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:29:46] "POST /query HTTP/1.1" 200 -
+2025-12-18 00:41:46,341 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.104:5000
+2025-12-18 00:41:46,342 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-18 00:41:57,042 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:41:57] "GET /health HTTP/1.1" 200 -
+2025-12-18 00:41:57,306 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:41:57] "GET /health HTTP/1.1" 200 -
+2025-12-18 00:42:00,647 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:42:00] "POST /upload HTTP/1.1" 200 -
+2025-12-18 00:42:08,829 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:42:08] "OPTIONS /query HTTP/1.1" 200 -
+2025-12-18 00:42:11,086 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:42:11] "POST /query HTTP/1.1" 200 -
+2025-12-18 00:43:04,683 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:43:04] "GET /api/datasets HTTP/1.1" 200 -
+2025-12-18 00:43:05,000 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:43:05] "GET /api/datasets HTTP/1.1" 200 -
+2025-12-18 00:43:21,239 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:43:21] "OPTIONS /api/preview-dataset HTTP/1.1" 200 -
+2025-12-18 00:43:21,620 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:43:21] "POST /api/preview-dataset HTTP/1.1" 200 -
+2025-12-18 00:44:07,532 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:44:07] "OPTIONS /api/alter-dataset HTTP/1.1" 200 -
+2025-12-18 00:44:14,895 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:44:14] "POST /api/alter-dataset HTTP/1.1" 200 -
+2025-12-18 00:44:14,929 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:44:14] "GET /api/datasets HTTP/1.1" 200 -
+2025-12-18 00:45:51,864 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:45:51] "OPTIONS /api/expand-dataset HTTP/1.1" 200 -
+2025-12-18 00:45:52,649 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:45:52] "POST /api/expand-dataset HTTP/1.1" 200 -
+2025-12-18 00:45:52,680 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:45:52] "GET /api/datasets HTTP/1.1" 200 -
+2025-12-18 00:46:19,703 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:46:19] "OPTIONS /api/preview-dataset HTTP/1.1" 200 -
+2025-12-18 00:46:20,033 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:46:20] "POST /api/preview-dataset HTTP/1.1" 200 -
+2025-12-18 00:46:20,629 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:46:20] "POST /api/preview-dataset HTTP/1.1" 200 -
+2025-12-18 00:46:23,474 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:46:23] "POST /api/preview-dataset HTTP/1.1" 200 -
+2025-12-18 00:46:23,956 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:46:23] "POST /api/preview-dataset HTTP/1.1" 200 -
