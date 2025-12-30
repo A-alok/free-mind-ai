@@ -1525,3 +1525,85 @@
 2025-12-18 00:46:20,629 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:46:20] "POST /api/preview-dataset HTTP/1.1" 200 -
 2025-12-18 00:46:23,474 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:46:23] "POST /api/preview-dataset HTTP/1.1" 200 -
 2025-12-18 00:46:23,956 - werkzeug - INFO - 127.0.0.1 - - [18/Dec/2025 00:46:23] "POST /api/preview-dataset HTTP/1.1" 200 -
+2025-12-20 18:43:52,842 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.104:5000
+2025-12-20 18:43:52,843 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-20 18:47:33,052 - __main__ - INFO - Processing request - Task Type: classification
+2025-12-20 18:47:33,052 - __main__ - INFO - Processing request - Task Type: classification
+2025-12-20 18:48:25,894 - __main__ - INFO - Generated synthetic dataset from text prompt
+2025-12-20 18:48:25,894 - __main__ - INFO - Generated synthetic dataset from text prompt
+2025-12-20 18:48:25,897 - __main__ - INFO - Auto-detected task type for generated dataset: classification
+2025-12-20 18:48:25,897 - __main__ - INFO - Auto-detected task type for generated dataset: classification
+2025-12-20 18:48:54,864 - werkzeug - INFO - 127.0.0.1 - - [20/Dec/2025 18:48:54] "POST /process HTTP/1.1" 200 -
+2025-12-20 18:51:10,761 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.104:5000
+2025-12-20 18:51:10,769 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-20 18:51:35,252 - __main__ - INFO - Processing request - Task Type: classification
+2025-12-20 18:51:35,252 - __main__ - INFO - Processing request - Task Type: classification
+2025-12-20 18:51:35,426 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-12-20 18:51:35,426 - __main__ - INFO - Auto-detected task type for uploaded file: classification
+2025-12-20 18:52:10,418 - werkzeug - INFO - 127.0.0.1 - - [20/Dec/2025 18:52:10] "POST /process HTTP/1.1" 200 -
+2025-12-20 18:52:48,760 - werkzeug - INFO - 127.0.0.1 - - [20/Dec/2025 18:52:48] "GET /health HTTP/1.1" 200 -
+2025-12-20 18:52:49,007 - werkzeug - INFO - 127.0.0.1 - - [20/Dec/2025 18:52:49] "GET /health HTTP/1.1" 200 -
+2025-12-20 18:53:45,301 - werkzeug - INFO - 127.0.0.1 - - [20/Dec/2025 18:53:45] "GET /health HTTP/1.1" 200 -
+2025-12-20 18:53:45,612 - werkzeug - INFO - 127.0.0.1 - - [20/Dec/2025 18:53:45] "GET /health HTTP/1.1" 200 -
+2025-12-20 18:54:00,148 - werkzeug - INFO - 127.0.0.1 - - [20/Dec/2025 18:54:00] "GET /api/datasets HTTP/1.1" 200 -
+2025-12-20 18:54:00,397 - werkzeug - INFO - 127.0.0.1 - - [20/Dec/2025 18:54:00] "GET /api/datasets HTTP/1.1" 200 -
+2025-12-31 02:20:38,883 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.106:5000
+2025-12-31 02:20:38,883 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-31 02:20:57,683 - __main__ - INFO - Processing request - Task Type: classification
+2025-12-31 02:20:57,683 - __main__ - INFO - Processing request - Task Type: classification
+2025-12-31 02:21:04,718 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-12-31 02:21:04,718 - root - INFO - Auto-detected task type: classification
+2025-12-31 02:21:04,722 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-12-31 02:21:04,722 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-12-31 02:21:04,722 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-12-31 02:21:04,722 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-12-31 02:21:28,530 - werkzeug - INFO - 127.0.0.1 - - [31/Dec/2025 02:21:28] "POST /process HTTP/1.1" 200 -
+2025-12-31 02:28:52,513 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.106:5000
+2025-12-31 02:28:52,513 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-31 02:29:21,209 - __main__ - INFO - Processing request - Task Type: classification
+2025-12-31 02:29:21,209 - __main__ - INFO - Processing request - Task Type: classification
+2025-12-31 02:29:30,371 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-12-31 02:29:30,372 - root - INFO - Auto-detected task type: classification
+2025-12-31 02:29:30,390 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-12-31 02:29:30,390 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_recommendation.csv
+2025-12-31 02:29:30,391 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-12-31 02:29:30,391 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-12-31 02:31:19,105 - werkzeug - INFO - 127.0.0.1 - - [31/Dec/2025 02:31:19] "POST /process HTTP/1.1" 200 -
+2025-12-31 02:32:05,526 - werkzeug - INFO - 127.0.0.1 - - [31/Dec/2025 02:32:05] "GET /api/download/project_4d97468a-6541-411a-b5c7-cf6d21743d78.zip HTTP/1.1" 200 -
+2025-12-31 02:39:42,013 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.106:5000
+2025-12-31 02:39:42,013 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-31 02:43:07,418 - __main__ - INFO - Processing request - Task Type: classification
+2025-12-31 02:43:07,418 - __main__ - INFO - Processing request - Task Type: classification
+2025-12-31 02:43:12,937 - root - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_Recommendation.csv
+2025-12-31 02:43:12,937 - root - INFO - Auto-detected task type: classification
+2025-12-31 02:43:12,942 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_Recommendation.csv
+2025-12-31 02:43:12,942 - __main__ - INFO - Dataset downloaded from Kaggle: ml_system\datasets\Crop_Recommendation.csv
+2025-12-31 02:43:12,943 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-12-31 02:43:12,943 - __main__ - INFO - Auto-detected task type for Kaggle dataset: classification
+2025-12-31 02:43:37,478 - werkzeug - INFO - 127.0.0.1 - - [31/Dec/2025 02:43:37] "POST /process HTTP/1.1" 200 -
+2025-12-31 02:43:50,735 - werkzeug - INFO - 127.0.0.1 - - [31/Dec/2025 02:43:50] "GET /api/download/project_143cfdb1-6b08-411b-841c-f839c6625626.zip HTTP/1.1" 200 -
+2025-12-31 02:46:25,791 - werkzeug - INFO - 127.0.0.1 - - [31/Dec/2025 02:46:25] "GET /health HTTP/1.1" 200 -
+2025-12-31 02:46:26,041 - werkzeug - INFO - 127.0.0.1 - - [31/Dec/2025 02:46:26] "GET /health HTTP/1.1" 200 -
+2025-12-31 02:46:32,063 - werkzeug - INFO - 127.0.0.1 - - [31/Dec/2025 02:46:32] "POST /upload HTTP/1.1" 200 -
+2025-12-31 02:46:48,923 - werkzeug - INFO - 127.0.0.1 - - [31/Dec/2025 02:46:48] "OPTIONS /query HTTP/1.1" 200 -
+2025-12-31 02:46:51,573 - werkzeug - INFO - 127.0.0.1 - - [31/Dec/2025 02:46:51] "POST /query HTTP/1.1" 200 -
+2025-12-31 02:47:05,715 - werkzeug - INFO - 127.0.0.1 - - [31/Dec/2025 02:47:05] "GET /api/datasets HTTP/1.1" 200 -
+2025-12-31 02:47:06,035 - werkzeug - INFO - 127.0.0.1 - - [31/Dec/2025 02:47:06] "GET /api/datasets HTTP/1.1" 200 -
+2025-12-31 02:47:32,494 - werkzeug - INFO - 127.0.0.1 - - [31/Dec/2025 02:47:32] "POST /api/upload-dataset HTTP/1.1" 200 -
+2025-12-31 02:47:32,717 - werkzeug - INFO - 127.0.0.1 - - [31/Dec/2025 02:47:32] "GET /api/datasets HTTP/1.1" 200 -
+2025-12-31 02:47:34,141 - werkzeug - INFO - 127.0.0.1 - - [31/Dec/2025 02:47:34] "OPTIONS /api/alter-dataset HTTP/1.1" 200 -

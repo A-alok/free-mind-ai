@@ -15,6 +15,38 @@ import matplotlib.patheffects as path_effects
 from matplotlib.colors import LinearSegmentedColormap
 import itertools  # Added missing import
 
+# ===============================
+# Modern Purple-themed Color Palette
+# ===============================
+PURPLE_BG = '#1a1a2e'
+PURPLE_DARK = '#16213e'
+PURPLE_SECONDARY = '#4a4e69'
+PURPLE_ACCENT = '#9d4edd'
+PURPLE_LIGHT = '#e0aaff'
+
+# Custom colormap for heatmaps
+purple_cmap = LinearSegmentedColormap.from_list('purple_theme', 
+    [PURPLE_BG, PURPLE_DARK, PURPLE_ACCENT, PURPLE_LIGHT])
+
+def apply_modern_style():
+    """Apply a modern dark purple theme to all matplotlib plots"""
+    plt.style.use('dark_background')
+    plt.rcParams.update({
+        'figure.facecolor': PURPLE_BG,
+        'axes.facecolor': PURPLE_DARK,
+        'axes.edgecolor': PURPLE_SECONDARY,
+        'axes.labelcolor': PURPLE_LIGHT,
+        'text.color': PURPLE_LIGHT,
+        'xtick.color': PURPLE_LIGHT,
+        'ytick.color': PURPLE_LIGHT,
+        'grid.color': PURPLE_SECONDARY,
+        'grid.alpha': 0.3,
+        'font.family': 'sans-serif',
+        'font.size': 12,
+        'axes.titlesize': 16,
+        'axes.labelsize': 14,
+    })
+
 try:
     import google.generativeai as genai
     import os

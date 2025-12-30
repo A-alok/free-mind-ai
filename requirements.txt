@@ -1,21 +1,33 @@
+# Core Flask dependencies
 flask
+flask-cors
+requests
+gunicorn
+python-dotenv
+
+# Data processing
 pandas
 numpy
-matplotlib
-seaborn
-scikit-learn
-tensorflow
-ultralytics>=8.0.0
-torch>=1.10.0
-torchvision>=0.11.0
-opencv-python>=4.5.0
-pillow
-nltk
-python-dotenv
-google-generativeai
-kaggle
 scipy
 pyyaml
-streamlit
-weasyprint
+
+# Visualization
+matplotlib
+seaborn
+
+# ML (core only - no TensorFlow/PyTorch for fast build)
+scikit-learn
+
+# Image processing (lightweight)
+pillow
+opencv-python-headless>=4.5.0
+
+# NLP
+nltk
+
+# AI APIs
+google-generativeai
+kaggle
+
+# PDF generation
 reportlab
