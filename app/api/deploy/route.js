@@ -15,7 +15,7 @@ export const config = {
 };
 
 // Allow longer execution for this route (useful on platforms that respect it)
-export const maxDuration = 900; // 15 minutes in seconds
+export const maxDuration = 300; // 5 minutes (Vercel free plan limit)
 
 export async function POST(req) {
   try {
@@ -36,10 +36,10 @@ export async function POST(req) {
     // Get GitHub credentials from environment
     const githubToken = process.env.GITHUB_TOKEN;
     const githubUsername = process.env.GITHUB_USERNAME;
-    
+
     if (!githubToken || !githubUsername) {
-      return NextResponse.json({ 
-        error: 'GitHub credentials not configured. Please set GITHUB_TOKEN and GITHUB_USERNAME in environment variables.' 
+      return NextResponse.json({
+        error: 'GitHub credentials not configured. Please set GITHUB_TOKEN and GITHUB_USERNAME in environment variables.'
       }, { status: 500 });
     }
 
@@ -52,26 +52,26 @@ export async function POST(req) {
       // Process the model ZIP for deployment
       const modelBuffer = Buffer.from(await modelZip.arrayBuffer());
       const modelSizeMB = modelBuffer.length / (1024 * 1024);
-      
+
       // Create a unique repository name
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
       const repoName = `ml-model-${timestamp}`;
-      
+
       // Step 1: Extract ZIP contents
       const zip = new AdmZip(modelBuffer);
       const zipEntries = zip.getEntries();
-      
+
       // Validate ZIP contains required files
       const requiredFiles = ['load_model.py', 'requirements.txt'];
       const zipFileNames = zipEntries.map(entry => entry.entryName);
-      
-      const missingFiles = requiredFiles.filter(file => 
+
+      const missingFiles = requiredFiles.filter(file =>
         !zipFileNames.some(zipFile => zipFile.includes(file))
       );
-      
+
       if (missingFiles.length > 0) {
-        return NextResponse.json({ 
-          error: `Missing required files in ZIP: ${missingFiles.join(', ')}. Please ensure your ZIP contains load_model.py and requirements.txt.` 
+        return NextResponse.json({
+          error: `Missing required files in ZIP: ${missingFiles.join(', ')}. Please ensure your ZIP contains load_model.py and requirements.txt.`
         }, { status: 400 });
       }
 
@@ -94,7 +94,7 @@ export async function POST(req) {
 
       // Give GitHub a moment to initialize default branch
       await sleep(800);
-      
+
       // Step 3: Build full commit using Git Data API (avoids per-file 409/422)
       // Collect files from ZIP into a map
       const filesMap = new Map();
@@ -146,26 +146,26 @@ export async function POST(req) {
         files_uploaded: zipFileNames.length,
         message: `Successfully created GitHub repository '${repoName}' with ${zipFileNames.length} files from your ML model ZIP.`
       });
-      
-      
+
+
     } catch (githubError) {
       console.error('GitHub API Error:', githubError);
-      
+
       // Handle specific GitHub API errors
       if (githubError.status === 401) {
-        return NextResponse.json({ 
-          error: 'GitHub authentication failed. Please check your GITHUB_TOKEN.' 
+        return NextResponse.json({
+          error: 'GitHub authentication failed. Please check your GITHUB_TOKEN.'
         }, { status: 401 });
       }
-      
+
       if (githubError.status === 422) {
-        return NextResponse.json({ 
-          error: 'Repository name already exists or is invalid. Please try again.' 
+        return NextResponse.json({
+          error: 'Repository name already exists or is invalid. Please try again.'
         }, { status: 422 });
       }
-      
-      return NextResponse.json({ 
-        error: `GitHub deployment failed: ${githubError.message}` 
+
+      return NextResponse.json({
+        error: `GitHub deployment failed: ${githubError.message}`
       }, { status: 500 });
     }
   } catch (error) {
